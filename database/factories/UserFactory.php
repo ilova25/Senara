@@ -24,12 +24,50 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            // database/factories/adminFactory.php
+
+            'username' => $this->faker->unique()->userName,
+            'email' => $this->faker->email(),
+            'password' => Hash::make('123'),
+            'role' => 'tamu'
+
         ];
+    }
+
+    public function dataadmin1() 
+    { 
+        return $this->state([ 
+            'username' => 'owner', 
+            'email' => 'owner@gmail.com',
+            'password' => Hash::make('owner'), 
+            'role' => 'owner', 
+            'alamat' => 'Jl. Surabaya', 
+            'no_hp' => '1234567890', 
+        ]); 
+    } 
+
+    public function dataadmin2() 
+    { 
+        return $this->state([ 
+            'username' => 'resepsionis', 
+            'email' => 'resepsionis@gmail.com',
+            'password' => Hash::make('resepsionis'), 
+            'role' => 'resepsionis',
+            'alamat' => 'Jl. Jakarta', 
+            'no_hp' => '1234567890',  
+        ]); 
+    }
+
+    public function dataadmin3() 
+    { 
+        return $this->state([ 
+            'username' => 'tamu', 
+            'email' => 'tamu@gmail.com',
+            'password' => Hash::make('tamu'), 
+            'role' => 'tamu',
+            'alamat' => 'Jl. Bandung', 
+            'no_hp' => '1234567890',  
+        ]); 
     }
 
     /**

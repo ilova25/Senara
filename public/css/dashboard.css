@@ -1,0 +1,73 @@
+.hover-card {
+    transition: 0.3s ease-in-out;
+    border-radius: 0.75rem;
+}
+.hover-card:hover {
+    background-color: #795548;
+    color: #fff;
+    transform: scale(1.05);
+}
+.hover-card:hover .text-coklat,
+.hover-card:hover .text-dark {
+    color: #fff !important;
+}
+
+.text-coklat {
+    color: #543310 !important;
+}
+
+#mini-calendar {
+    max-width: 100%;
+    margin: 0 auto;
+    font-size: 12px;
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+    margin-bottom: 5px;
+}
+
+.fc-daygrid-day-number {
+    font-size: 11px;
+    padding: 2px;
+}
+
+/* supaya event tampil rapi */
+.fc-daygrid-day-events {
+    margin-top: 2px;
+    max-height: 60px; /* batasi tinggi event dalam cell */
+    overflow-y: auto; /* kalau event banyak jadi scroll kecil */
+}
+
+.fc-event {
+    font-size: 10px;
+    padding: 2px 4px;
+    border-radius: 4px;
+    white-space: normal !important; /* biar teks turun ke bawah, ga kepotong */
+}
+
+/* file: public/css/custom.css */
+.bg-gradient-brown {
+    background: linear-gradient(180deg, #74512D 100%, #543310 50%);
+    background-size: cover;
+}
+
+.btn-coklat {
+    background-color: #74512D !important;
+    border: 1px solid #74512D !important;
+    color: #fff !important;
+}
+
+.btn-coklat:hover {
+    background-color: #543310 !important;
+    border-color: #543310 !important;
+    color: #fff !important;
+}
+
+/* Biar menu aktif jadi putih semua */
+.sidebar .nav-item.active .nav-link,
+.sidebar .nav-item.active .nav-link i {
+    color: #ffffff !important;
+    font-weight: bold;
+}
+
+
