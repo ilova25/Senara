@@ -29,8 +29,11 @@
       border-bottom: 1px solid #ccc;
     }
 
-    header nav {
-  margin-left: 950px;
+   header nav {
+  display: flex;
+  align-items: center;
+  gap: 5px; /* jarak antar menu */
+  margin-left: auto; /* otomatis dorong nav ke kanan */
 }
 
     nav a {
@@ -46,17 +49,22 @@
     }
 
     .profile-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #5A3B1F;
-  transition: transform 0.3s ease;
-}
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #5A3B1F;
+      transition: transform 0.3s ease;
+    }
 
-.profile-avatar:hover {
-  transform: scale(1.1);
-}
+    .profile-avatar:hover {
+      transform: scale(1.1);
+    }
+
+    .profile-wrapper {
+      margin-left: 30px;
+      /* atur sesuai kebutuhan */
+    }
 
     .banner {
       width: 100%;
@@ -179,15 +187,11 @@
     <a href="{{ route('facilities2') }}">Facilities</a>
     <a href="{{ route('booking') }}">Booking</a>
   </nav>
-   @if (session('user'))
-  <a href="{{ route('profile') }}">
-    <img src="{{ asset('images/profile.jpg') }}" alt="Profile" class="profile-avatar">
-  </a>
-@else
-  <a href="{{ route('profile') }}">
-    <img src="{{ asset('images/profile.jpg') }}" alt="Profile" class="profile-avatar">
-  </a>
-@endif
+  <div class="profile-wrapper">
+      <a href="{{ route('profile') }}">
+        <img src="{{ asset('images/profile.jpg') }}" alt="Profile" class="profile-avatar">
+      </a>
+    </div>
 </header>
 
 <h1 class="page-title">OUR ROOM</h1>
