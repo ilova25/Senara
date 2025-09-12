@@ -1,14 +1,6 @@
 @extends('layout.app')
 
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Booking - Senara Guest House</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -305,25 +297,6 @@
       }
     }
   </style>
-</head>
-
-<body>
-
-  <header>
-    <div>Senara Guest House</div>
-    <nav>
-      <a href="{{ route('home2') }}">Home</a>
-      <a href="{{ route('rooms2') }}">Rooms</a>
-      <a href="{{ route('facilities2') }}">Facilities</a>
-      <a href="{{ route('booking') }}" class="active">Booking</a>
-    </nav>
-    <div class="profile-wrapper">
-      <a href="{{ route('profile') }}">
-        <img src="{{ asset('images/profile.jpg') }}" alt="Profile" class="profile-avatar">
-      </a>
-    </div>
-  </header>
-
 
   <h1 class="page-title">Booking</h1>
   <img src="{{ asset('images/banner-fasilitas.png') }}" alt="Booking Banner" class="banner">
@@ -436,12 +409,9 @@
 
 @endsection
 
-  <div class="footer">
-    Copyright &copy; RPL Grafika 2025
-  </div>
 
 
-  <script>
+  {{-- <script>
     document.getElementById('roomSelect').addEventListener('change', function() {
       const priceInput = document.getElementById('priceInput');
       const roomPrices = {
@@ -459,8 +429,4 @@
         priceInput.value = '';
       }
     });
-  </script>
-
-</body>
-
-</html>
+  </script> --}}

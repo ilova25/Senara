@@ -128,12 +128,10 @@
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
         <p class="price">Price : <strong>Rp 450.000</strong> / Night</p>
         <p>Available : 2 Adult | 1 Child</p>
-        <a href="{{ route('register') }}" class="book-btn">Book Now</a>
+        <a href="{{ route('booking') }}" class="book-btn">Book Now</a>
       </div>
     </div>
-  @endfor
+    @endfor
   </div>
 @endsection
-
-
 

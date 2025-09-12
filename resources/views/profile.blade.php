@@ -405,9 +405,9 @@
     <header>
         <div>Senara Guest House</div>
         <nav>
-            <a href="{{ route('home2') }}">Home</a>
-            <a href="{{ route('rooms2') }}">Rooms</a>
-            <a href="{{ route('facilities2') }}">Facilities</a>
+            <a href="{{ route('home') }}">Home</a>
+            <a href="{{ route('rooms') }}">Rooms</a>
+            <a href="{{ route('facilities') }}">Facilities</a>
             <a href="{{ route('booking') }}">Booking</a>
         </nav>
         <div class="profile-wrapper">

@@ -107,6 +107,41 @@
         CKEDITOR.replace('deskripsi');
     </script>
 
+            <script>
+            function showPopup() {
+                document.getElementById('termsPopup').classList.add('show');
+            }
+
+            function hidePopup() {
+                document.getElementById('termsPopup').classList.remove('show');
+            }
+
+            function toggleApplyButton() {
+                const checkbox = document.getElementById('agreeTerms');
+                const applyBtn = document.getElementById('applyBtn');
+
+                if (checkbox.checked) {
+                    applyBtn.classList.add('enabled');
+                } else {
+                    applyBtn.classList.remove('enabled');
+                }
+            }
+
+            function acceptTerms() {
+                const checkbox = document.getElementById('agreeTerms');
+                if (checkbox.checked) {
+                    hidePopup();
+                    window.location.href = "{{ route('payment') }}";
+                }
+            }
+
+            document.getElementById('termsPopup').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    hidePopup();
+                }
+            });
+        </script>
+
     @stack('scripts')
 
 </body>

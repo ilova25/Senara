@@ -6,6 +6,7 @@
       padding: 20px 10%;
       border-bottom: 1px solid #ccc;
     }
+    
     .login-btn {
       background-color: #5A3B1F;
       color: white;
@@ -14,9 +15,13 @@
       transition: all 0.3s ease;
     }
 
-    .login-btn:hover {
-      background-color: #AF8F6F;
-      color: white;
+    header nav {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      /* jarak antar menu */
+      margin-left: auto;
+      /* otomatis dorong nav ke kanan */
     }
 
     header nav a {
@@ -30,16 +35,21 @@
     }
 
     .profile-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid #5A3B1F;
-        transition: transform 0.3s ease;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #5A3B1F;
+      transition: transform 0.3s ease;
     }
 
     .profile-avatar:hover {
-        transform: scale(1.1);
+      transform: scale(1.1);
+    }
+
+    .profile-wrapper {
+      margin-left: 30px;
+      /* atur sesuai kebutuhan */
     }
 </style>
 
@@ -53,10 +63,17 @@
     @if (Auth::check())
     <a href="{{ route('booking') }}">Booking</a>
 
-    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+    {{-- <form action="{{ route('logout') }}" method="POST" style="display: inline;">
         @csrf
         <button type="submit" class="login-btn">Logout</button>
-    </form>
+    </form> --}}
+
+    <div class="profile-wrapper">
+      <a href="{{ route('profile') }}">
+        <img src="{{ asset('images/profile.jpg') }}" alt="Profile" class="profile-avatar">
+      </a>
+    </div>
+    
     @else
         <a href="{{ route('login') }}" class="login-btn">Login</a>
     @endif

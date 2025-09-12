@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layout.app')
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Payment - Senara Guest House</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+@section('content')
     <style>
         * {
             margin: 0;
@@ -17,52 +12,6 @@
             font-family: 'Poppins', sans-serif;
             background-color: #fff;
             color: #333;
-        }
-
-        /* ==== NAVBAR ==== */
-        header {
-            padding: 20px 10%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #ccc;
-        }
-
-        header nav {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            margin-left: auto;
-        }
-
-        nav a {
-            margin-left: 20px;
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-        }
-
-        nav a:hover,
-        nav .active {
-            color: #AF8F6F;
-        }
-
-        .profile-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #5A3B1F;
-            transition: transform 0.3s ease;
-        }
-
-        .profile-avatar:hover {
-            transform: scale(1.1);
-        }
-
-        .profile-wrapper {
-            margin-left: 30px;
-            /* atur sesuai kebutuhan */
         }
 
         /* ==== PAYMENT PAGE ==== */
@@ -338,35 +287,7 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(92, 61, 46, 0.3);
         }
-
-        footer {
-            text-align: center;
-            font-size: 14px;
-            font-style: italic;
-            margin-top: 20px;
-            padding: 10px;
-            border-top: 1px solid #ccc;
-        }
     </style>
-</head>
-
-<body>
-
-    <!-- ==== NAVBAR ==== -->
-    <header>
-        <div>Senara Guest House</div>
-        <nav>
-            <a href="{{ route('home2') }}">Home</a>
-            <a href="{{ route('rooms2') }}">Rooms</a>
-            <a href="{{ route('facilities2') }}">Facilities</a>
-            <a href="{{ route('booking') }}" class="active">Booking</a>
-        </nav>
-        <div class="profile-wrapper">
-            <a href="{{ route('profile') }}">
-                <img src="{{ asset('images/profile.jpg') }}" alt="Profile" class="profile-avatar">
-            </a>
-        </div>
-    </header>
 
     <!-- ==== MAIN CONTENT ==== -->
     <div class="container">
@@ -447,45 +368,7 @@
             </div>
         </div>
 
-        <script>
-            function showPopup() {
-                document.getElementById('termsPopup').classList.add('show');
-            }
-
-            function hidePopup() {
-                document.getElementById('termsPopup').classList.remove('show');
-            }
-
-            function toggleApplyButton() {
-                const checkbox = document.getElementById('agreeTerms');
-                const applyBtn = document.getElementById('applyBtn');
-
-                if (checkbox.checked) {
-                    applyBtn.classList.add('enabled');
-                } else {
-                    applyBtn.classList.remove('enabled');
-                }
-            }
-
-            function acceptTerms() {
-                const checkbox = document.getElementById('agreeTerms');
-                if (checkbox.checked) {
-                    hidePopup();
-                    window.location.href = "{{ route('payment2') }}";
-                }
-            }
-
-            document.getElementById('termsPopup').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    hidePopup();
-                }
-            });
-        </script>
-
         <button class="btn-book" onclick="showPopup()">Next</button>
-        <footer> Copyright &copy; RPL Grafika 2025 </footer>
     </div>
 
-</body>
-
-</html>
+@endsection
