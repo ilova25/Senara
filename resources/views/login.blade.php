@@ -121,19 +121,25 @@
       <p>Sign in to our account</p>
       
       <!-- GUNAKAN ROUTE LARAVEL -->
-      <form action="{{ route('home2') }}" method="get">
+      <form method="POST" action="{{ route('login.post') }}">
+        @csrf
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="Username" required />
+        </div>
+
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="text" id="email" name="email" required />
+          <input type="email" id="email" name="email" placeholder="Email" required />
         </div>
 
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" id="password" name="password" required />
+          <input type="password" id="password" name="password" placeholder="Password" required />
         </div>
 
         <div class="register-link">
-          Don't have account? <a href="{{ route('register') }}">Register</a>
+          Don't have an account? <a href="{{ route('register') }}">Register</a>
         </div>
 
         <button type="submit">Sign in</button>

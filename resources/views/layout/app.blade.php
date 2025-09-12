@@ -9,21 +9,16 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Senara Dashboard</title>
+    <title>Senara Guesthouse</title>
 
-
-    <!--CSS dashboard-->
-    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('template/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-
-
-    <!-- Custom styles for this template-->
-    <link href="{{ asset('template/css/sb-admin-2.min.css') }}" rel="stylesheet">
 
 </head>
 
@@ -32,19 +27,15 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <!-- Sidebar -->
-        @include('admin.layout.sidebar')
-        <!-- End of Sidebar -->
-        
+        <!-- navbar -->
+        @include('layout.navbar')
+        <!-- navbar -->
+
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
             <!-- Main Content -->
             <div id="content">
-
-                <!-- Topbar -->
-                @include('admin.layout.navbar')
-                <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -57,23 +48,15 @@
             </div>
             <!-- End of Main Content -->
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; RPL Grafika 2025</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-
         </div>
         <!-- End of Content Wrapper -->
+
+        @include('layout.footer')
 
     </div>
     <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
+    {{-- <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
@@ -100,7 +83,7 @@
         </div>
         </div>
     </div>
-    </div>
+    </div> --}}
 
 
     <!-- Bootstrap core JavaScript-->

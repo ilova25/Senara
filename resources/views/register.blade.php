@@ -101,21 +101,27 @@
     <div class="form-section">
       <h2>Sign up</h2>
       <p>Create your account</p>
-      <form action="/login" method="get">
-        <label for="nama">Nama</label>
-        <input type="text" id="nama" name="nama" required />
+
+      @if(session('errors'))
+        <p style="color:red">{{ session('errors') }}</p>
+      @endif 
+
+      <form method="POST" action="{{ route('register.post') }}">
+        @csrf
+        <label for="name">Nama</label>
+        <input type="text" id="name" name="username" placeholder="Nama" required />
 
         <label for="email">Email</label>
-        <input type="email" id="email" name="email" required />
+        <input type="email" id="email" name="email" placeholder="Email" required />
 
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" required />
+        <input type="password" id="password" name="password" placeholder="Password" required />
 
         <label for="alamat">Alamat</label>
-        <textarea id="alamat" name="alamat" rows="3" required></textarea>
+        <input type="text" id="alamat" name="alamat" placeholder="Alamat" required />
 
-        <label for="telepon">No. Telepon</label>
-        <input type="text" id="telepon" name="telepon" required />
+        <label for="no_hp">No. Telepon</label>
+        <input type="text" id="no_hp" name="no_hp" placeholder="No. Telepon" required />
 
         <button type="submit">Sign up</button>
       </form>

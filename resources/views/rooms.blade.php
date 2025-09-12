@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Our Room - Senara Guest House</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+@extends('layout.app')
+
+@section('content')
   <style>
     * {
       margin: 0;
@@ -15,44 +11,6 @@
       background-color: #fff;
       color: #333;
       font-family: 'Poppins', sans-serif;
-    }
-
-    nav {
-      font-family: sans-serif;
-    }
-
-    .login-btn {
-  background-color: #5A3B1F;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 10px;
-  transition: all 0.3s ease;
-}
-
-.login-btn:hover {
-  background-color: #AF8F6F;
-  color: white;
-}
-
-
-    header {
-      padding: 20px 10%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #ccc;
-    }
-
-    nav a {
-      margin-left: 20px;
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-    }
-
-    nav a:hover,
-    nav .active {
-      color: #AF8F6F;
     }
 
     .banner {
@@ -145,14 +103,6 @@
       background-color: #AF8F6F;
     }
 
-    .footer {
-      text-align: center;
-      padding: 20px;
-      border-top: 1px solid #ccc;
-      font-size: 14px;
-      font-style: italic;
-    }
-
     @media (max-width: 768px) {
       .room-card {
         flex-direction: column !important;
@@ -165,45 +115,25 @@
       }
     }
   </style>
-</head>
-<body>
 
-<header>
-  <div>Senara Guest House</div>
-  <nav>
-    <a href="{{ route('home') }}">Home</a>
-    <a href="{{ route('rooms') }}" class="active">Rooms</a>
-    <a href="{{ route('facilities') }}">Facilities</a>
+  <h1 class="page-title">OUR ROOM</h1>
+  <img src="{{ asset('images/kamar.png') }}" alt="Room Banner" class="banner">
 
-    @if (session('user'))
-      <a href="/logout" class="login-btn">Logout</a>
-    @else
-      <a href="{{ route('register') }}" class="login-btn">Login</a>
-    @endif
-  </nav>
-</header>
-
-<h1 class="page-title">OUR ROOM</h1>
-<img src="{{ asset('images/kamar.png') }}" alt="Room Banner" class="banner">
-
-<div class="room-list">
-  @for ($i = 0; $i < 4; $i++)
-  <div class="room-card {{ $i % 2 == 1 ? 'reverse' : '' }}">
-    <img src="{{ asset('images/room.png') }}" alt="Deluxe Room">
-    <div class="room-info">
-      <h3>Deluxe Room</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
-      <p class="price">Price : <strong>Rp 450.000</strong> / Night</p>
-      <p>Available : 2 Adult | 1 Child</p>
-      <a href="{{ route('register') }}" class="book-btn">Book Now</a>
+  <div class="room-list">
+    @for ($i = 0; $i < 4; $i++)
+    <div class="room-card {{ $i % 2 == 1 ? 'reverse' : '' }}">
+      <img src="{{ asset('images/room.png') }}" alt="Deluxe Room">
+      <div class="room-info">
+        <h3>Deluxe Room</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+        <p class="price">Price : <strong>Rp 450.000</strong> / Night</p>
+        <p>Available : 2 Adult | 1 Child</p>
+        <a href="{{ route('register') }}" class="book-btn">Book Now</a>
+      </div>
     </div>
+  @endfor
   </div>
-@endfor
-</div>
+@endsection
 
-<div class="footer">
-  Copyright &copy; RPL Grafika 2025
-</div>
 
-</body>
-</html>
+
