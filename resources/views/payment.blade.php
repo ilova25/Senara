@@ -29,7 +29,10 @@
         }
 
         header nav {
-            margin-left: 950px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-left: auto;
         }
 
         nav a {
@@ -55,6 +58,11 @@
 
         .profile-avatar:hover {
             transform: scale(1.1);
+        }
+
+        .profile-wrapper {
+            margin-left: 30px;
+            /* atur sesuai kebutuhan */
         }
 
         /* ==== PAYMENT PAGE ==== */
@@ -126,7 +134,7 @@
             background: #f8f8f8;
             border-radius: 8px;
             overflow: hidden;
-            width: 100%; /* full width sejajar order-details */
+            width: 100%;
         }
 
         .promo-input {
@@ -166,23 +174,33 @@
 
         .payment-option {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
             padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
             margin-bottom: 10px;
             cursor: pointer;
-            transition: border-color 0.3s;
+            border-radius: 8px;
+            transition: background-color 0.3s;
         }
 
         .payment-option:hover {
-            border-color: #5C3D2E;
+            background-color: #f8f6f5;
+            /* highlight lembut */
         }
 
-        .payment-option img {
-            height: 24px;
+        .payment-option input[type="radio"] {
+            margin-top: 4px;
+            accent-color: #5C3D2E;
+            /* warna radio button */
         }
+
+        .payment-title {
+            font-weight: 500;
+            /* medium */
+            font-size: 15px;
+            color: #333;
+        }
+
 
         .btn-book {
             width: 100%;
@@ -198,6 +216,127 @@
 
         .btn-book:hover {
             background-color: #4b3224;
+        }
+
+        /* ==== POPUP ==== */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup-overlay.show {
+            display: flex;
+        }
+
+        .popup-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 100vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: popupSlideIn 0.3s ease-out;
+            margin: auto;
+        }
+
+        @keyframes popupSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .popup-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #5C3D2E;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .terms-content {
+            margin-bottom: 25px;
+        }
+
+        .terms-content ul {
+            list-style-position: inside;
+            margin: 15px 0;
+        }
+
+        .terms-content li {
+            margin: 8px 0;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: flex-start;
+            margin: 20px 0;
+            gap: 12px;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            accent-color: #5C3D2E;
+        }
+
+        .checkbox-container label {
+            line-height: 1.5;
+            color: #333;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .popup-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .apply-btn {
+            background: linear-gradient(135deg, #5C3D2E 0%, #4b3224 100%);
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .apply-btn.enabled {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .apply-btn.enabled:hover {
+            background: linear-gradient(135deg, #AF8F6F 0%, #8f6f4f 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(92, 61, 46, 0.3);
         }
 
         footer {
@@ -222,15 +361,11 @@
             <a href="{{ route('facilities2') }}">Facilities</a>
             <a href="{{ route('booking') }}" class="active">Booking</a>
         </nav>
-        @if (session('user'))
-        <a href="{{ route('profile') }}">
-            <img src="{{ asset('images/profile.jpg') }}" alt="Profile" class="profile-avatar">
-        </a>
-        @else
-        <a href="{{ route('profile') }}">
-            <img src="{{ asset('images/profile.jpg') }}" alt="Profile" class="profile-avatar">
-        </a>
-        @endif
+        <div class="profile-wrapper">
+            <a href="{{ route('profile') }}">
+                <img src="{{ asset('images/profile.jpg') }}" alt="Profile" class="profile-avatar">
+            </a>
+        </div>
     </header>
 
     <!-- ==== MAIN CONTENT ==== -->
@@ -266,16 +401,88 @@
             </div>
         </div>
 
+        <!-- Payment Method sesuai gambar -->
         <div class="payment-method">
             <h3>Payment Method</h3>
-            <div class="payment-option"> <img src="{{ asset('images/dana.jpg') }}" alt="Dana"> Dana <span></span> </div>
-            <div class="payment-option"> <img src="{{ asset('images/ovo.jpeg') }}" alt="OVO"> OVO <span></span> </div>
-            <div class="payment-option" style="border: 1px solid orange;"> <img src="{{ asset('images/shopepay.jpeg') }}" alt="Shopee Pay"> Shopee Pay <span>›</span> </div>
-            <div class="payment-option"> <img src="{{ asset('images/atm.jpeg') }}" alt="ATM"> ATM Card <span></span> </div>
-            <div class="payment-option"> <img src="{{ asset('images/visa.jpeg') }}" alt="Visa"> International payments <span></span> </div>
+
+            <label class="payment-option">
+                <input type="radio" name="payment" value="arrival">
+                <div>
+                    <span class="payment-title">Pay on Arrival</span><br>
+                    <small>Pay with cash on arrival</small>
+                </div>
+            </label>
+
+            <label class="payment-option">
+                <input type="radio" name="payment" value="bank">
+                <div>
+                    <span class="payment-title">Direct Bank Transfer</span><br>
+                    <small>Make your payment directly into our bank account.
+                        Please use your Booking ID as the payment reference</small>
+                </div>
+            </label>
         </div>
 
-        <button class="btn-book">Booking</button>
+
+        <div class="popup-overlay" id="termsPopup">
+            <div class="popup-content">
+                <h2 class="popup-title">Syarat dan Ketentuan</h2>
+
+                <div class="terms-content">
+                    <ul>
+                        <li>Check in bisa dilakukan mulai pukul 13.00</li>
+                        <li>Check out bisa dilakukan pukul 12.00</li>
+                        <li>Jika tamu lebih dari 6 akan dikenakan denda sebesar Rp50.000 per orang.</li>
+                    </ul>
+                </div>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="agreeTerms" onchange="toggleApplyButton()">
+                    <label for="agreeTerms">Saya menyetujui syarat dan ketentuan yang berlaku</label>
+                </div>
+
+                <div class="popup-buttons">
+                    <button class="apply-btn" id="applyBtn" onclick="acceptTerms()">Apply</button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function showPopup() {
+                document.getElementById('termsPopup').classList.add('show');
+            }
+
+            function hidePopup() {
+                document.getElementById('termsPopup').classList.remove('show');
+            }
+
+            function toggleApplyButton() {
+                const checkbox = document.getElementById('agreeTerms');
+                const applyBtn = document.getElementById('applyBtn');
+
+                if (checkbox.checked) {
+                    applyBtn.classList.add('enabled');
+                } else {
+                    applyBtn.classList.remove('enabled');
+                }
+            }
+
+            function acceptTerms() {
+                const checkbox = document.getElementById('agreeTerms');
+                if (checkbox.checked) {
+                    hidePopup();
+                    window.location.href = "{{ route('payment2') }}";
+                }
+            }
+
+            document.getElementById('termsPopup').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    hidePopup();
+                }
+            });
+        </script>
+
+        <button class="btn-book" onclick="showPopup()">Next</button>
         <footer> Copyright &copy; RPL Grafika 2025 </footer>
     </div>
 
