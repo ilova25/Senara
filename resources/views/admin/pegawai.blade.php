@@ -43,7 +43,6 @@
                                         <td>{{ $item->no_hp }}</td>
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center gap-2">
-                                                <a href="{{ route('pegawai.show', $item->id) }}" class="btn btn-sm btn-secondary">Show</a>
                                                 <a href="{{ route('pegawai.edit', $item->id) }}" class="btn btn-sm btn-primary">Edit</a>
                                                 <form onsubmit="return confirm('Apakah Anda Yakin ?');" 
                                                     action="{{ route('pegawai.destroy', $item->id) }}" 

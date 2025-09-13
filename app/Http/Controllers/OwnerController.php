@@ -79,4 +79,11 @@ class OwnerController extends Controller
         return redirect()->route('pegawai.index')->with(['success' => 'Data Berhasil Diubah!']);
     }
 
+    public function destroy($id): RedirectResponse
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+        return redirect()->route('pegawai.index')->with(['success' => 'Data Berhasil dihapus']);
+    }
+
 }

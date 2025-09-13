@@ -5,18 +5,24 @@ use App\Http\Controllers\FasilitasController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\SesiController;
 use App\Http\Controllers\UnitController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 // Redirect root ke home
 Route::get('/', function () {
-    return redirect()->route('home');
-});
+    return view('home');
+})->name('home');
 
 // Halaman publik
-Route::view('/home', 'home')->name('home');
 Route::view('/rooms', 'rooms')->name('rooms');
 Route::view('/facilities', 'facilities')->name('facilities');
-Route::view('/payment', 'payment')->name('payment');
+
+// Payment (GET untuk halaman, POST untuk submit form)
+Route::get('/payment', function () {
+    return view('payment');
+})->name('payment');
+// Route::post('/payment', [PaymentController::class, 'store'])->name('payment.store');
+
 Route::view('/profile', 'profile')->name('profile');
 
 // Halaman tambahan (footer link)
@@ -28,7 +34,7 @@ Route::view('/cancellation', 'cancellation')->name('cancellation');
 // Newsletter subscribe
 Route::post('/newsletter/subscribe', function (\Illuminate\Http\Request $request) {
     $request->validate(['email' => 'required|email']);
-    // simpan ke database atau kirim notifikasi
+    // TODO: simpan ke database atau kirim notifikasi
     return back()->with('newsletter_success', 'Terima kasih sudah berlangganan!');
 })->name('newsletter.subscribe');
 

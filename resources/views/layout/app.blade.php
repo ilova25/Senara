@@ -11,6 +11,9 @@
 
     <title>Senara Guesthouse</title>
 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
     
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 
@@ -59,7 +62,7 @@
     {{-- <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
-    </a>
+    </a> --}}
     
     <!-- Logout Modal -->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
@@ -83,7 +86,7 @@
         </div>
         </div>
     </div>
-    </div> --}}
+    </div>
 
 
     <!-- Bootstrap core JavaScript-->

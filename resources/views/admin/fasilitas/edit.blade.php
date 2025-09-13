@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>CRUD LARAVEL 12</title>
+    <title>Edit Fasilitas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
@@ -21,11 +21,22 @@
                             @csrf
                             @method('PUT')
 
+                            <!-- GAMBAR -->
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">GAMBAR</label>
+
+                                <!-- Preview gambar lama -->
+                                @if($fasilitas->gambar)
+                                    <div class="mb-2">
+                                        <img src="{{ asset('storage/fasilitas/'.$fasilitas->gambar) }}" 
+                                             alt="Gambar Fasilitas" 
+                                             class="rounded" style="width: 150px">
+                                    </div>
+                                @endif
+
+                                <!-- Input file baru -->
                                 <input type="file" class="form-control @error('gambar') is-invalid @enderror" name="gambar">
 
-                                <!-- error message untuk image -->
                                 @error('gambar')
                                 <div class="alert alert-danger mt-2">
                                     {{ $message }}
@@ -33,11 +44,15 @@
                                 @enderror
                             </div>
 
+                            <!-- NAMA -->
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">NAMA</label>
-                                <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" value="{{ old('nama', $fasilitas->nama) }}" placeholder="Masukkan Judul Product">
+                                <input type="text" 
+                                       class="form-control @error('nama') is-invalid @enderror" 
+                                       name="nama" 
+                                       value="{{ old('nama', $fasilitas->nama) }}" 
+                                       placeholder="Masukkan Nama Fasilitas">
 
-                                <!-- error message untuk title -->
                                 @error('nama')
                                 <div class="alert alert-danger mt-2">
                                     {{ $message }}
@@ -45,11 +60,13 @@
                                 @enderror
                             </div>
 
+                            <!-- DESKRIPSI -->
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">DESKRIPSI</label>
-                                <textarea class="form-control @error('deskripsi') is-invalid @enderror" name="deskripsi" rows="5" placeholder="Masukkan Description Product">{{ old('deskripsi', $fasilitas->deskripsi) }}</textarea>
+                                <textarea class="form-control @error('deskripsi') is-invalid @enderror" 
+                                          name="deskripsi" rows="5" 
+                                          placeholder="Masukkan Deskripsi Fasilitas">{{ old('deskripsi', $fasilitas->deskripsi) }}</textarea>
 
-                                <!-- error message untuk description -->
                                 @error('deskripsi')
                                 <div class="alert alert-danger mt-2">
                                     {{ $message }}
@@ -57,13 +74,17 @@
                                 @enderror
                             </div>
 
+                            <!-- JUMLAH -->
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group mb-3">
                                         <label class="font-weight-bold">Jumlah</label>
-                                        <input type="number" class="form-control @error('jumlah') is-invalid @enderror" name="jumlah" value="{{ old('jumlah', $fasilitas->jumlah) }}" placeholder="Masukkan Jumlah Fasilitas">
+                                        <input type="number" 
+                                               class="form-control @error('jumlah') is-invalid @enderror" 
+                                               name="jumlah" 
+                                               value="{{ old('jumlah', $fasilitas->jumlah) }}" 
+                                               placeholder="Masukkan Jumlah Fasilitas">
 
-                                        <!-- error message untuk stock -->
                                         @error('jumlah')
                                         <div class="alert alert-danger mt-2">
                                             {{ $message }}

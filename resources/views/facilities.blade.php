@@ -298,10 +298,6 @@
     </div>
   </div>
 
-  <div class="footer">
-    Copyright &copy; RPL Grafika 2025
-  </div>
-
 
 @endsection
   

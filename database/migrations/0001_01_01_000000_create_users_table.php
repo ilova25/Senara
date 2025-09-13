@@ -20,7 +20,7 @@ return new class extends Migration
             $table->enum('role',['tamu', 'resepsionis','owner'])
             ->default('tamu');
             $table->string('alamat');
-            $table->integer('no_hp');
+            $table->string('no_hp');
             $table->rememberToken();
             $table->timestamps();
         });

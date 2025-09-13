@@ -276,132 +276,74 @@
     }
 </style>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <footer class="footer">
     <div class="container">
-      <div class="footer-content">
-        <!-- Tentang Hotel -->
-        <div class="footer-section">
-          <h3>Tentang Kami</h3>
-          <p>{{ config('hotel.description', 'Grand Hotel Elysium adalah hotel bintang 4 yang berlokasi strategis di pusat kota Jakarta. Kami menawarkan pelayanan terbaik dengan fasilitas modern untuk kenyamanan Anda.') }}</p>
+        <div class="footer-content">
+            <!-- Kolom 1 -->
+            <div class="footer-section">
+                <h3>Tentang Kami</h3>
+                <p>Senara Guest House adalah penginapan nyaman dengan fasilitas modern dan layanan terbaik.</p>
+            </div>
 
-          <div class="social-links">
-            <a href="{{ config('hotel.social.facebook', '#') }}" class="social-link" title="Facebook" target="_blank">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="{{ config('hotel.social.instagram', '#') }}" class="social-link" title="Instagram" target="_blank">
-              <i class="fab fa-instagram"></i>
-            </a>
-            <a href="{{ config('hotel.social.twitter', '#') }}" class="social-link" title="Twitter" target="_blank">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="{{ config('hotel.social.tiktok', '#') }}" class="social-link" title="TikTok" target="_blank">
-              <i class="fab fa-tiktok"></i>
-            </a>
-          </div>
+            <!-- Kolom 2 -->
+            <div class="footer-section">
+                <h3>Navigasi</h3>
+                <ul>
+                    <li><a href="{{ route('home') }}">Home</a></li>
+                    <li><a href="{{ route('rooms') }}">Room</a></li>
+                    <li><a href="{{ route('facilities') }}">Facility</a></li>
+                    @auth
+                        <li><a href="{{ route('booking') }}">Reservasi Online</a></li>
+                    @else
+                        <li><a href="{{ route('login') }}">Reservasi Online</a></li>
+                    @endauth
+                </ul>
+            </div>
+
+            <!-- Kolom 3 -->
+            <div class="footer-section">
+                <h3>Kontak</h3>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>Jl. Mawar No. 123, Jakarta</div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <div>+62 812-3456-7890</div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>info@senaraguesthouse.com</div>
+                </div>
+            </div>
+
+            <!-- Kolom 4 -->
+            <div class="footer-section">
+                <h3>Ikuti Kami</h3>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                </div>
+
+                <h3>Newsletter</h3>
+                <form class="newsletter-form" method="POST" action="{{ route('newsletter.subscribe') }}">
+                    @csrf
+                    <input type="email" name="email" class="newsletter-input"
+                           placeholder="Email Anda" value="{{ old('email') }}" required>
+                    <button type="submit" class="newsletter-btn">Subscribe</button>
+                </form>
+
+                @if(session('newsletter_success'))
+                    <p class="newsletter-success">{{ session('newsletter_success') }}</p>
+                @endif
+            </div>
         </div>
 
-        <!-- Fasilitas -->
-        <div class="footer-section">
-          <h3>Fasilitas</h3>
-          <ul>
-            <li><a href="{{ route('facilities', []) ?? '#' }}"><i class="fas fa-utensils"></i>Restaurant</a></li>
-            <li><a href="{{ route('facilities', []) ?? '#' }}"><i class="fas fa-swimming-pool"></i>Kolam Renang</a></li>
-            <li><a href="{{ route('facilities', []) ?? '#' }}"><i class="fas fa-spa"></i>Spa & Wellness</a></li>
-            <li><a href="{{ route('facilities', []) ?? '#' }}"><i class="fas fa-dumbbell"></i>Fitness Center</a></li>
-            <li><a href="{{ route('facilities', []) ?? '#' }}"><i class="fas fa-users"></i>Meeting Room</a></li>
-            <li><a href="{{ route('facilities', []) ?? '#' }}"><i class="fas fa-car"></i>Parkir Gratis</a></li>
-            <li><a href="{{ route('facilities', []) ?? '#' }}"><i class="fas fa-wifi"></i>WiFi Gratis</a></li>
-          </ul>
+        <div class="footer-bottom">
+            <p>&copy; {{ date('Y') }} Senara Guest House. All rights reserved.</p>
         </div>
-
-        <!-- Layanan -->
-        <div class="footer-section">
-          <h3>Layanan</h3>
-          <ul>
-            <li><a href="{{ route('booking', []) ?? '#' }}">Reservasi Online</a></li>
-            <li><a href="{{ route('rooms', []) ?? '#' }}">Room Service</a></li>
-            <li><a href="{{ route('facilities', []) ?? '#' }}">Laundry Service</a></li>
-            <li><a href="{{ route('payment', []) ?? '#' }}">Airport Transfer</a></li>
-            <li><a href="{{ route('facilities', []) ?? '#' }}">Concierge</a></li>
-            <li><a href="{{ route('facilities', []) ?? '#' }}">Event & Meeting</a></li>
-            <li><a href="{{ route('facilities', []) ?? '#' }}">Tour & Travel</a></li>
-          </ul>
-
-          <!-- Newsletter -->
-          <div style="margin-top: 25px;">
-            <h4 style="color: #AF8F6F; font-size: 18px; margin-bottom: 10px;">Newsletter</h4>
-            <p style="font-size: 15px; margin-bottom: 10px;">Dapatkan penawaran terbaru</p>
-
-            @if(session('newsletter_success'))
-            <div style="background: #4CAF50; color: white; padding: 10px; border-radius: 5px; margin-bottom: 10px; font-size: 14px;">
-              {{ session('newsletter_success') }}
-            </div>
-            @endif
-
-            @if($errors->has('email'))
-            <div style="background: #f44336; color: white; padding: 10px; border-radius: 5px; margin-bottom: 10px; font-size: 14px;">
-              {{ $errors->first('email') }}
-            </div>
-            @endif
-
-            <form class="newsletter-form" method="POST" action="{{ route('booking', []) ?? '#' }}">
-              @csrf
-              <input type="email" name="email" class="newsletter-input" placeholder="Email Anda" value="{{ old('email') }}" required>
-              <button type="submit" class="newsletter-btn">Subscribe</button>
-            </form>
-          </div>
-        </div>
-
-        <!-- Kontak & Maps -->
-        <div class="footer-section">
-          <h3>Kontak & Lokasi</h3>
-
-          <div class="contact-item">
-            <i class="fas fa-map-marker-alt"></i>
-            <div>
-              <h4>Alamat</h4>
-              <p>{{ config('hotel.address', 'Jl. Sudirman Kav. 88') }}<br>{{ config('hotel.city', 'Jakarta Pusat, 10220') }}</p>
-            </div>
-          </div>
-
-          <div class="contact-item">
-            <i class="fas fa-phone"></i>
-            <div>
-              <h4>Telepon</h4>
-              <p>{{ config('hotel.phone', '+62 21 2345 6789') }}</p>
-            </div>
-          </div>
-
-          <div class="contact-item">
-            <i class="fas fa-envelope"></i>
-            <div>
-              <h4>Email</h4>
-              <p>{{ config('hotel.email', 'info@grandelysium.com') }}</p>
-            </div>
-          </div>
-
-          <div class="maps-section">
-            <h4 style="color: #AF8F6F; font-size: 18px; margin-bottom: 10px;">Lokasi Kami</h4>
-            <div class="map-container">
-              <iframe
-                src="{{ config('hotel.maps_embed', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521260322283!2d106.8195613!3d-6.1944901!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5d2e764b12d%3A0x3d2ad6e1e0e9bcc8!2sJl.%20Jenderal%20Sudirman%2C%20Jakarta!5e0!3m2!1sen!2sid!4v1703123456789!5m2!1sen!2sid') }}"
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade">
-              </iframe>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer Bottom -->
-      <div class="footer-bottom">
-        <p>&copy; {{ date('Y') }} {{ config('hotel.name', 'Grand Hotel Elysium') }}. All rights reserved.</p>
-        <div class="footer-links">
-          <a href="{{ route('facilities', []) ?? '#' }}">Privacy Policy</a>
-          <a href="{{ route('facilities', []) ?? '#' }}">Terms & Conditions</a>
-          <a href="{{ route('facilities', []) ?? '#' }}">Cancellation Policy</a>
-          <a href="{{ route('facilities', []) ?? '#' }}">FAQ</a>
-        </div>
-      </div>
     </div>
-  </footer>
+</footer>

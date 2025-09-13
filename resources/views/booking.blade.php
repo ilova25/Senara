@@ -300,8 +300,6 @@
 
   <h1 class="page-title">Booking</h1>
   <img src="{{ asset('images/banner-fasilitas.png') }}" alt="Booking Banner" class="banner">
-  <h1 class="page-title">Booking</h1>
-  <img src="{{ asset('images/banner-fasilitas.png') }}" alt="Booking Banner" class="banner">
 
   <form class="booking-form" action="{{ route('payment') }}" method="POST">
     @csrf
@@ -347,65 +345,8 @@
       <label>Price</label>
       <input type="text" name="promo">
     </div>
-  <div class="booking-container">
-    <form class="booking-form" action="{{ route('payment') }}" method="POST">
-      @csrf
-      <div class="form-title">Booking Your Perfect Stay</div>
-
-      <div class="form-group">
-        <label>Name</label>
-        <input type="text" name="name">
-      </div>
-
-      <div class="form-group">
-        <label>Guests</label>
-        <div class="guests-wrapper">
-          <select name="adults">
-            <option>1 Adult</option>
-            <option>2 Adults</option>
-            <option>3 Adults</option>
-          </select>
-          <select name="children">
-            <option>1 Child</option>
-            <option>2 Children</option>
-            <option>3 Children</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>Check In</label>
-        <input type="date" name="checkin">
-      </div>
-
-      <div class="form-group">
-        <label>Check Out</label>
-        <input type="date" name="checkout">
-      </div>
-
-      <div class="form-group">
-        <label>Room</label>
-        <select name="room" id="roomSelect">
-          <option value="">Select Room</option>
-          <option value="unit1">Unit 1 - Deluxe Room</option>
-          <option value="unit2">Unit 2 - Deluxe Room</option>
-          <option value="unit3">Unit 3 - Deluxe Room</option>
-          <option value="unit4">Unit 4 - Deluxe Room</option>
-          <option value="unit5">Unit 5 - Deluxe Room</option>
-          <option value="unit6">Unit 6 - Deluxe Room</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Price</label>
-        <input type="text" name="promo" id="priceInput" readonly>
-      </div>
-
-    <button type="submit" class="btn-book">Booking</button>
-  </form>
       <button type="submit" class="btn-book">Booking</button>
-    </form>
-  </div>
+  </form>
 
 @endsection
 

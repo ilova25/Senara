@@ -44,19 +44,19 @@ class UnitController extends Controller
         return redirect()->route('unit.index')->with(['success' => 'Data Berhasil Disimpan!']);
     }
 
-    public function show(string $id): View
+    public function show(string $id_unit): View
     {
-        $unit = unit::findOrFail($id);
+        $unit = unit::findOrFail($id_unit);
         return view('admin.unit.show', compact('unit'));
     }
 
-    public function edit(string $id): View
+    public function edit(string $id_unit): View
     {
-        $unit = unit::findOrFail($id);
+        $unit = unit::findOrFail($id_unit);
         return view('admin.unit.edit', compact('unit'));
     }
 
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request, $id_unit): RedirectResponse
     {
         //validate form
         $request->validate([
@@ -67,7 +67,7 @@ class UnitController extends Controller
         ]);
 
         //get product by ID
-        $unit = unit::findOrFail($id);
+        $unit = unit::findOrFail($id_unit);
 
         //check if image is uploaded
         if ($request->hasFile('gambar')) {
@@ -100,9 +100,9 @@ class UnitController extends Controller
         return redirect()->route('unit.index')->with(['success' => 'Data Berhasil Diubah!']);
     }
 
-    public function destroy($id): RedirectResponse
+    public function destroy($id_unit): RedirectResponse
     {
-        $unit = unit::findOrFail($id);
+        $unit = unit::findOrFail($id_unit);
         Storage::delete('/unit' . $unit->gambar);
         $unit->delete();
         return redirect()->route('unit.index')->with(['success' => 'Data Berhasil dihapus']);
