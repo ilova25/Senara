@@ -169,7 +169,7 @@
         </div>
         <div class="phone">
           <small>Phone</small>
-          <p>081234567891</p>
+          <p>{{$booking->user->no_hp}}</p>
         </div>
         <div class="email">
           <small>Email</small>
@@ -177,7 +177,7 @@
         </div>
         <div class="booking-number">
           <small>Booking Number</small>
-          <p>#1234567890</p>
+          <p>{{$booking->kode_booking}}</p>
         </div>
       </div>
     </div>
@@ -203,7 +203,7 @@
 
   <!-- UPLOAD SECTION -->
   <div class="upload-section">
-    <a href="{{ route('payment_upload')}}" class="upload-btn">
+    <a href="{{ route('payment.create', $booking->id)}}" class="upload-btn">
       Upload Bukti Pembayaran
     </a>
   </div>

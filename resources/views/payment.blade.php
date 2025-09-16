@@ -301,7 +301,7 @@
             <img src="{{ asset('storage/unit/'.$booking->unit->gambar) }}" alt="Room">
             <div class="room-info">
                 <h2>{{ $booking->unit->nama_unit }}</h2>
-                <p>👤 {{ $booking->nama }}</p>
+                <p>👤 {{ $booking->user->username }}</p>
                 <p>👥 {{$booking->adult}} Adult & {{$booking->children}} Child</p>
                 <p>📅 {{$booking->checkin}} - {{$booking->checkout}}</p>
             </div>

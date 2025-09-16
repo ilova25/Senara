@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Admin;
+use App\Models\unit;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -24,5 +25,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->dataadmin1()->create();
         User::factory()->dataadmin2()->create();
         User::factory()->dataadmin3()->create();
+
+        // unit::factory()->count(5)->create();
     }
 }

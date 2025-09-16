@@ -30,6 +30,7 @@
     }
 
     .form-group input[type="text"],
+    .form-group input[type="email"],
     .form-group input[type="tel"] {
       width: 100%;
       padding: 12px 15px;
@@ -42,6 +43,7 @@
     }
 
     .form-group input[type="text"]:focus,
+    .form-group input[type="email"]:focus,
     .form-group input[type="tel"]:focus {
       outline: none;
       border-color: #5A3B1F;
@@ -106,22 +108,22 @@
     @csrf
     <div class="form-group">
       <label for="nama">Nama</label>
-      <input type="text" id="nama" name="nama" required>
+      <input type="text" id="nama" name="nama" value="{{ $booking->user->username }}" required>
     </div>
 
     <div class="form-group">
-      <label for="telepon">No. Telepon</label>
-      <input type="tel" id="telepon" name="telepon" required>
+      <label for="telepon">Email</label>
+      <input type="email" id="email" name="email" value="{{ $booking->user->email}}" required>
     </div>
 
     <div class="form-group">
       <label for="kodeBooking">Kode Booking</label>
-      <input type="text" id="kodeBooking" name="kodeBooking" required>
+      <input type="text" id="kodeBooking" name="kodeBooking" value="{{ $booking->kode_booking }}" required>
     </div>
 
     <div class="form-group">
       <label for="fileInput">Upload Bukti</label>
-      <input type="file" id="fileInput" name="bukti" accept="image/*,.pdf" required>
+      <input type="file" id="fileInput" name="bukti" required>
     </div>
 
     <button type="submit" class="submit-btn">Upload</button>

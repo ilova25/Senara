@@ -6,6 +6,7 @@ use App\Models\booking;
 use App\Models\unit;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
@@ -33,7 +34,10 @@ class BookingController extends Controller
 
         $total_harga = $days * $unit->harga;
 
+        $kode_booking = 'BK-' . date('Ymd') . '-' . rand(1000, 9999);
+
         $booking = booking::create([
+            'id_user' => Auth::id(),
             'nama' => $request->nama,
             'email' => $request->email,
             'id_unit' => $request->id_unit,
@@ -41,7 +45,8 @@ class BookingController extends Controller
             'checkout' => $request->checkout,
             'total_harga' => $total_harga,
             'adult' => $request->adult,
-            'children' => $request->children
+            'children' => $request->children,
+            'kode_booking' => $kode_booking,
         ]);
 
         return redirect()->route('payment', $booking->id)->with('success', 'Booking berhasil!');
@@ -54,13 +59,15 @@ class BookingController extends Controller
 
     public function payment($id): View
     {
-        $booking = booking::with('unit')->findOrFail($id);
+        $booking = booking::with('unit', 'user')->findOrFail($id);
         return view('payment', compact('booking'));
     }
 
     public function detail($id): View
     {
-        $booking = booking::with('unit')->findOrFail($id);
+        $booking = booking::with('unit', 'user')->findOrFail($id);
         return view('detil', compact('booking'));
     }
+
+    
 }

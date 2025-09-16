@@ -248,12 +248,12 @@
     @csrf
     <div class="form-group">
         <label>Name</label>
-        <input type="text" name="nama" id="name">
+        <input type="text" name="nama" id="name" value="{{ old('nama', Auth::user()->username) }}" required>
     </div>
 
     <div class="form-group">
         <label>Email</label>
-        <input type="email" name="email" id="email">
+        <input type="email" name="email" id="email" value="{{ old('email', Auth::user()->email) }}" required>
     </div>
 
     <div class="form-group">

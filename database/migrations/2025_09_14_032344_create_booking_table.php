@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('booking', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_user');
             $table->string('nama');
             $table->string('email');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->date('checkin');
             $table->date('checkout');
             $table->decimal('total_harga', 12, 2)->nullable();
@@ -22,6 +24,7 @@ return new class extends Migration
             $table->foreign('id_unit')->references('id_unit')->on('unit')->onDelete('cascade');
             $table->integer('adult')->default(1);
             $table->integer('children')->default(0);
+            $table->string('kode_booking')->unique();
             $table->timestamps();
         });
     }

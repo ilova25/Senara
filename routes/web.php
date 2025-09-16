@@ -15,9 +15,9 @@ Route::get('/', [SesiController::class, 'home'])->name('home');
 // Halaman publik
 Route::get('/unit', [UnitController::class, 'UnitUser'])->name('unit');
 Route::get('/facilities', [FasilitasController::class, 'FasilitasUser'])->name('facilities');
-Route::get('/payment_upload', function(){
-    return view('payment_upload');
-})->name('payment_upload');
+Route::get('/barqode', function(){
+    return view('bar_qode');
+})->name('barqode');
 
 // Halaman tambahan (footer link)
 Route::view('/profile', 'profile')->name('profile');
@@ -53,6 +53,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/booking', [BookingController::class, 'admin'])->name('booking.admin');
     Route::get('/payment/{id}', [BookingController::class, 'payment'])->name('payment');
     Route::get('/detail_booking/{id}', [BookingController::class, 'detail'])->name('detil');
+
+    // payment
+    Route::get('/payment_upload/{id}', [PaymentController::class, 'create'])->name('payment.create');
+    Route::post('payment_upload/{id}', [PaymentController::class, 'store'])->name('payment.store');
 
     // Fasilitas (CRUD)
     Route::resource('/admin/fasilitas', FasilitasController::class);
