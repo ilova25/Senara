@@ -30,7 +30,7 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Menu Booking:</h6>
-                <a class="collapse-item" href="buttons.html">Lihat Booking</a>
+                <a class="collapse-item" href="{{route('booking.admin')}}">Lihat Booking</a>
                 <a class="collapse-item" href="cards.html">Kalender</a>
             </div>
         </div>

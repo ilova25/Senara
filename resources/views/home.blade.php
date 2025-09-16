@@ -274,7 +274,7 @@
     </h1>
     <div class="hero-row">
       <p>Welcome to Senara Guest House, a destination of elegance, comfort, and refined living.</p>
-      <a href="{{ route('booking') }}">
+      <a href="{{ route('booking.create') }}">
         <button>Book Now</button>
       </a>
     </div>
@@ -288,51 +288,23 @@
     <p style="text-align: left; font-size: 22px; color: #AF8F6F; margin-left: 30px; transform: translateX(600px);">Room</p>
     <h2>Our Exclusive Room</h2>
     <div class="rooms">
-      <div class="card">
-        <img src="{{ asset('images/room.png') }}" alt="Room">
-        <div class="info">
-          <h3>Deluxe Room</h3>
-          <p>Lorem ipsum dolor sit amet</p>
-          <div class="button-group">
-            <a href="{{ route('rooms') }}">
-              <button class="see-detail-btn">See Detail</button>
-            </a>
-            <a href="{{ route('booking') }}">
-              <button>Book Now</button>
-            </a>
+      @foreach ($unit as $item)
+        <div class="card">
+          <img src="{{ asset('storage/unit/'.$item->gambar) }}" alt="Room">
+          <div class="info">
+            <h3>{{$item->nama_unit}}</h3>
+            <p>{{strip_tags($item->deskripsi)}}</p>
+            <div class="button-group">
+              <a href="{{ route('unit') }}">
+                <button class="see-detail-btn">See Detail</button>
+              </a>
+              <a href="{{ route('booking.create') }}">
+                <button>Book Now</button>
+              </a>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="card">
-        <img src="{{ asset('images/room.png')}}" alt="Room">
-        <div class="info">
-          <h3>Deluxe Room</h3>
-          <p>Lorem ipsum dolor sit amet</p>
-          <div class="button-group">
-            <a href="{{ route('rooms') }}">
-              <button class="see-detail-btn">See Detail</button>
-            </a>
-            <a href="{{ route('booking') }}">
-              <button>Book Now</button>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <img src="{{ asset('images/room.png') }}" alt="Room">
-        <div class="info">
-          <h3>Deluxe Room</h3>
-          <p>Lorem ipsum dolor sit amet</p>
-          <div class="button-group">
-            <a href="{{ route('rooms') }}">
-              <button class="see-detail-btn">See Detail</button>
-            </a>
-            <a href="{{ route('booking') }}">
-              <button>Book Now</button>
-            </a>
-          </div>
-        </div>
-      </div>
+      @endforeach
     </div>
   </section>
 

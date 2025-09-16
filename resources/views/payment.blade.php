@@ -161,6 +161,7 @@
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
+            margin-bottom: 30px;
         }
 
         .btn-book:hover {
@@ -287,18 +288,22 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(92, 61, 46, 0.3);
         }
+
+        .popup-overlay.show {
+            display: flex;
+        }
     </style>
 
     <!-- ==== MAIN CONTENT ==== -->
     <div class="container">
         <h1>Payment</h1>
         <div class="room-card">
-            <img src="{{ asset('images/room.png') }}" alt="Room">
+            <img src="{{ asset('storage/unit/'.$booking->unit->gambar) }}" alt="Room">
             <div class="room-info">
-                <h2>Deluxe Room</h2>
-                <p>👤 Username</p>
-                <p>👥 2 Adult & 1 Child</p>
-                <p>📅 19/08/2025 - 20/08/2025</p>
+                <h2>{{ $booking->unit->nama_unit }}</h2>
+                <p>👤 {{ $booking->nama }}</p>
+                <p>👥 {{$booking->adult}} Adult & {{$booking->children}} Child</p>
+                <p>📅 {{$booking->checkin}} - {{$booking->checkout}}</p>
             </div>
         </div>
 
@@ -310,7 +315,7 @@
             </div>
             <div style="text-align:right;">
                 <p>1234456678910</p>
-                <strong>IDR 1.125.000</strong>
+                <strong>IDR {{ number_format($booking->total_harga, 0, ',', '.') }}</strong>
             </div>
         </div>
 
@@ -372,3 +377,34 @@
     </div>
 
 @endsection
+
+@push('scripts')
+    <script>
+        function showPopup() {
+            document.getElementById('termsPopup').classList.add('show');
+        }
+
+        function hidePopup() {
+            document.getElementById('termsPopup').classList.remove('show');
+        }
+
+        function toggleApplyButton() {
+            const checkbox = document.getElementById('agreeTerms');
+            const applyBtn = document.getElementById('applyBtn');
+            if (checkbox.checked) {
+                applyBtn.classList.add('enabled');
+            } else {
+                applyBtn.classList.remove('enabled');
+            }
+        }
+
+        function acceptTerms() {
+            const checkbox = document.getElementById('agreeTerms');
+            if (checkbox.checked) {
+                hidePopup();
+                window.location.href = "{{ route('detil', $booking->id) }}";
+            }
+        }
+
+    </script>
+@endpush

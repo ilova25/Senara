@@ -9,10 +9,10 @@ class booking extends Model
 {
     use HasFactory;
     protected $table = 'booking';
-    protected $fillable = ['username','email','check_in','check_out','id_unit'];
-    protected $primaryKey = 'id_booking';
+    protected $fillable = ['nama','email','checkin','checkout','id_unit','total_harga','adult','children'];
+    protected $primaryKey = 'id';
 
     public function unit() {
-        return $this->belongsTo(unit::class);
+        return $this->belongsTo(unit::class, 'id_unit', 'id_unit');
     }
 }

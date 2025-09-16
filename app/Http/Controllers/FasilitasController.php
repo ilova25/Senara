@@ -16,6 +16,12 @@ class FasilitasController extends Controller
         return view('admin.fasilitas', compact('fasilitas'));
     }
 
+    public function FasilitasUser(): View
+    {
+        $fasilitas = fasilitas::latest()->paginate(5);
+        return view('facilities', compact('fasilitas'));
+    }
+
     public function create(): View
     {
         return view('admin.fasilitas.create');

@@ -2,64 +2,16 @@
 
 @section('content')
   <style>
-    * {
+    /* * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-    }
+    } */
 
     body {
       background-color: #fff;
       font-family: 'Poppins', sans-serif;
       color: #333;
-    }
-    
-
-    header {
-      padding: 20px 10%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #ccc;
-    }
-
-    header nav {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      /* jarak antar menu */
-      margin-left: auto;
-      /* otomatis dorong nav ke kanan */
-    }
-
-    nav a {
-      margin-left: 20px;
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-    }
-
-    nav a:hover,
-    nav .active {
-      color: #AF8F6F;
-    }
-
-    .profile-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #5A3B1F;
-      transition: transform 0.3s ease;
-    }
-
-    .profile-avatar:hover {
-      transform: scale(1.1);
-    }
-
-    .profile-wrapper {
-      margin-left: 30px;
-      /* atur sesuai kebutuhan */
     }
 
     .page-title {
@@ -265,15 +217,6 @@
       width: 100%;
     }
 
-    
-    .footer {
-      text-align: center;
-      padding: 20px;
-      border-top: 1px solid #ccc;
-      font-size: 14px;
-      font-style: italic;
-    }
-
     /* Responsive Design */
     @media (max-width: 768px) {
       .booking-form {
@@ -299,75 +242,90 @@
   </style>
 
   <h1 class="page-title">Booking</h1>
-  <img src="{{ asset('images/banner-fasilitas.png') }}" alt="Booking Banner" class="banner">
+<img src="{{ asset('images/banner-fasilitas.png') }}" alt="Booking Banner" class="banner">
 
-  <form class="booking-form" action="{{ route('payment') }}" method="POST">
+<form class="booking-form" action="{{ route('booking.store') }}" method="POST">
     @csrf
     <div class="form-group">
-      <label>Name</label>
-      <input type="text" name="name">
+        <label>Name</label>
+        <input type="text" name="nama" id="name">
     </div>
-    <div class="form-group">
-      <label>Guests</label>
-      <div class="guests-wrapper">
-        <select name="adults">
-          <option>1 Adult</option>
-          <option>2 Adults</option>
-          <option>3 Adults</option>
-        </select>
-        <select name="children">
-          <option>1 Child</option>
-          <option>2 Children</option>
-          <option>3 Children</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Check in</label>
-      <input type="date" name="checkin">
-    </div>
-    <div class="form-group">
-      <label>Check out</label>
-      <input type="date" name="checkout">
-    </div>
-    <div class="form-group">
-      <label>Room</label>
-      <select name="room">
-        <option>Unit 1</option>
-        <option>Unit 2</option>
-        <option>Unit 3</option>
-        <option>Unit 4</option>
-        <option>Unit 5</option>
-        <option>Unit 6</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Price</label>
-      <input type="text" name="promo">
-    </div>
-      <button type="submit" class="btn-book">Booking</button>
-  </form>
 
+    <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" id="email">
+    </div>
+
+    <div class="form-group">
+        <label>Guests</label>
+        <div class="guests-wrapper">
+            <select name="adult" id="adults">
+                <option value="1">1 Adult</option>
+                <option value="2">2 Adults</option>
+                <option value="3">3 Adults</option>
+            </select>
+            <select name="children" id="children">
+                <option value="1">1 Child</option>
+                <option value="2">2 Children</option>
+                <option value="3">3 Children</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Check in</label>
+        <input type="date" name="checkin" id="checkin">
+    </div>
+
+    <div class="form-group">
+        <label>Check out</label>
+        <input type="date" name="checkout" id="checkout">
+    </div>
+
+    <div class="form-group">
+        <label>Unit</label>
+        <select name="id_unit" id="room_id">
+            <option value="">-- Pilih unit --</option>
+            @foreach ($unit as $item)
+                <option value="{{ $item->id_unit }}" data-price="{{ $item->harga }}">
+                    {{ $item->nama_unit }} - Rp {{ number_format($item->harga, 0, ',', '.') }} / malam
+                </option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Total Harga</label>
+        <p id="total_harga">Rp 0</p>
+    </div>
+
+    <button type="submit" class="btn-book">Booking</button>
+</form>
+
+<script>
+const roomSelect = document.getElementById('room_id');
+const checkinInput = document.getElementById('checkin');
+const checkoutInput = document.getElementById('checkout');
+const totalHargaEl = document.getElementById('total_harga');
+
+function calculateTotal() {
+    const roomOption = roomSelect.options[roomSelect.selectedIndex];
+    const price = parseFloat(roomOption.getAttribute('data-price')) || 0;
+
+    const checkin = new Date(checkinInput.value);
+    const checkout = new Date(checkoutInput.value);
+
+    let days = 0;
+    if (checkin && checkout && checkout > checkin) {
+        days = (checkout - checkin) / (1000 * 60 * 60 * 24);
+    }
+
+    const total = price * days;
+    totalHargaEl.textContent = "Rp " + total.toLocaleString('id-ID');
+}
+
+roomSelect.addEventListener('change', calculateTotal);
+checkinInput.addEventListener('change', calculateTotal);
+checkoutInput.addEventListener('change', calculateTotal);
+</script>
 @endsection
-
-
-
-  {{-- <script>
-    document.getElementById('roomSelect').addEventListener('change', function() {
-      const priceInput = document.getElementById('priceInput');
-      const roomPrices = {
-        'unit1': 'Rp 500,000',
-        'unit2': 'Rp 450,000',
-        'unit3': 'Rp 550,000',
-        'unit4': 'Rp 600,000',
-        'unit5': 'Rp 475,000',
-        'unit6': 'Rp 525,000'
-      };
-      
-      if (this.value && roomPrices[this.value]) {
-        priceInput.value = roomPrices[this.value];
-      } else {
-        priceInput.value = '';
-      }
-    });
-  </script> --}}

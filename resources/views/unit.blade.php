@@ -120,18 +120,18 @@
   <img src="{{ asset('images/kamar.png') }}" alt="Room Banner" class="banner">
 
   <div class="room-list">
-    @for ($i = 0; $i < 4; $i++)
-    <div class="room-card {{ $i % 2 == 1 ? 'reverse' : '' }}">
-      <img src="{{ asset('images/room.png') }}" alt="Deluxe Room">
-      <div class="room-info">
-        <h3>Deluxe Room</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
-        <p class="price">Price : <strong>Rp 450.000</strong> / Night</p>
-        <p>Available : 2 Adult | 1 Child</p>
-        <a href="{{ route('booking') }}" class="book-btn">Book Now</a>
-      </div>
-    </div>
-    @endfor
+    @foreach ($unit as $item)
+      <div class="room-card">
+        <img src="{{ asset('storage/unit/'.$item->gambar) }}" alt="Deluxe Room">
+        <div class="room-info">
+          <h3>{{ $item->nama_unit }}</h3>
+          <p>{{strip_tags($item->deskripsi)}}</p>
+          <p class="price">Price : <strong>{{$item->harga}}</strong> / Night</p>
+          <p>Available For : {{$item->available}}</p>
+          <a href="{{ route('booking.create') }}" class="book-btn">Book Now</a>
+        </div>
+      </div> 
+    @endforeach
   </div>
 @endsection
 

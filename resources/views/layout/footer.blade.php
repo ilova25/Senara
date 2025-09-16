@@ -292,10 +292,10 @@
                 <h3>Navigasi</h3>
                 <ul>
                     <li><a href="{{ route('home') }}">Home</a></li>
-                    <li><a href="{{ route('rooms') }}">Room</a></li>
+                    <li><a href="{{ route('unit') }}">Unit</a></li>
                     <li><a href="{{ route('facilities') }}">Facility</a></li>
                     @auth
-                        <li><a href="{{ route('booking') }}">Reservasi Online</a></li>
+                        <li><a href="{{ route('booking.create') }}">Reservasi Online</a></li>
                     @else
                         <li><a href="{{ route('login') }}">Reservasi Online</a></li>
                     @endauth

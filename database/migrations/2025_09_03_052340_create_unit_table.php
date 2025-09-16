@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('gambar');
             $table->text('deskripsi');
             $table->bigInteger('harga');
+            $table->string('available');
             $table->timestamps();
         });
     }

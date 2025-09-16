@@ -12,9 +12,6 @@
     <title>Senara Guesthouse</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-
-    
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 
     <!-- Custom fonts for this template-->
@@ -43,8 +40,6 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     @yield('content')
-                    
-
                 </div>
                 <!-- /.container-fluid -->
 
@@ -59,35 +54,29 @@
     </div>
     <!-- End of Page Wrapper -->
 
-    {{-- <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a> --}}
-    
     <!-- Logout Modal -->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content border-0 shadow-lg rounded">
-        <div class="modal-header bg-danger text-white">
-            <h5 class="modal-title" id="logoutModalLabel">Konfirmasi Logout</h5>
-            <button class="close text-white" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-            </button>
-        </div>
-        <div class="modal-body text-dark">
-            Apakah Anda yakin ingin keluar dari aplikasi?
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-inline">
-                @csrf
-                <button type="submit" class="btn btn-danger">Logout</button>
-            </form>
-        </div>
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content border-0 shadow-lg rounded">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="logoutModalLabel">Konfirmasi Logout</h5>
+                    <button class="close text-white" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body text-dark">
+                    Apakah Anda yakin ingin keluar dari aplikasi?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-danger">Logout</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-    </div>
-
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('template/vendor/jquery/jquery.min.js') }}"></script>
@@ -110,43 +99,7 @@
         CKEDITOR.replace('deskripsi');
     </script>
 
-            <script>
-            function showPopup() {
-                document.getElementById('termsPopup').classList.add('show');
-            }
-
-            function hidePopup() {
-                document.getElementById('termsPopup').classList.remove('show');
-            }
-
-            function toggleApplyButton() {
-                const checkbox = document.getElementById('agreeTerms');
-                const applyBtn = document.getElementById('applyBtn');
-
-                if (checkbox.checked) {
-                    applyBtn.classList.add('enabled');
-                } else {
-                    applyBtn.classList.remove('enabled');
-                }
-            }
-
-            function acceptTerms() {
-                const checkbox = document.getElementById('agreeTerms');
-                if (checkbox.checked) {
-                    hidePopup();
-                    window.location.href = "{{ route('payment') }}";
-                }
-            }
-
-            document.getElementById('termsPopup').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    hidePopup();
-                }
-            });
-        </script>
-
     @stack('scripts')
 
 </body>
-
 </html>

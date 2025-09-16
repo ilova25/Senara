@@ -78,11 +78,11 @@
   <nav>
     <ul>
       <li><a href="{{ route('home') }}">Home</a></li>
-      <li><a href="{{ route('rooms') }}">Rooms</a></li>
+      <li><a href="{{ route('unit') }}">Unit</a></li>
       <li><a href="{{ route('facilities') }}">Facilities</a></li>
 
       @if (Auth::check())
-        <li><a href="{{ route('booking') }}">Booking</a></li>
+        <li><a href="{{ route('booking.create') }}">Booking</a></li>
 
         <!-- Dropdown User -->
         <li class="nav-item dropdown">

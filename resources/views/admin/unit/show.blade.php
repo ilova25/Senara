@@ -29,6 +29,8 @@
                             <p>{!! $unit->deskripsi !!}</p>
                         </code>
                         <hr />
+                        <p>tersedia untuk : {{ $unit->available }}</p>
+                        <hr />
                         <p>{{ "Rp " . number_format($unit->harga,2,',','.') }}</p>
                         <hr />
                         <a href="{{ route('unit.index') }}">Kembali</a>

@@ -15,7 +15,7 @@
 
                     @if ($unit->isEmpty())
                         <div class="alert alert-danger">
-                            Data fasilitas belum ada.
+                            Data unit belum ada.
                         </div>
                     @else
                         <table class="table table-bordered">
@@ -25,6 +25,7 @@
                                     <th scope="col">Nama</th>
                                     <th scope="col">Harga</th>
                                     <th scope="col">Deskripsi</th>
+                                    <th scope="col">Available</th>
                                     <th scope="col" style="width: 20%">Aksi</th>
                                 </tr>
                             </thead>
@@ -37,10 +38,11 @@
                                         <td>{{ $item->nama_unit }}</td>
                                         <td>{{ "Rp " . number_format($item->harga,2,',','.') }}</td>
                                         <td>{{ strip_tags($item->deskripsi) }}</td>
+                                        <td>{{ ($item->available) }}</td>
                                         <td class="text-center">
-                                            <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('unit.destroy', $item->id) }}" method="POST">
-                                                <a href="{{ route('unit.show', $item->id) }}" class="btn btn-sm btn-dark">SHOW</a>
-                                                <a href="{{ route('unit.edit', $item->id) }}" class="btn btn-sm btn-primary">EDIT</a>
+                                            <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('unit.destroy', $item->id_unit) }}" method="POST">
+                                                <a href="{{ route('unit.show', $item->id_unit) }}" class="btn btn-sm btn-dark">SHOW</a>
+                                                <a href="{{ route('unit.edit', $item->id_unit) }}" class="btn btn-sm btn-primary">EDIT</a>
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-danger">HAPUS</button>

@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\unit;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,7 +12,8 @@ class SesiController extends Controller
 {
     public function home()
     {
-        return view('home');
+        $unit = unit::take(3)->get();
+        return view('home', compact('unit'));
     }
 
     public function dashboard()

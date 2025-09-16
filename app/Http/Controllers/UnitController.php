@@ -16,6 +16,12 @@ class UnitController extends Controller
         return view('admin.unit', compact('unit'));
     }
 
+    public function UnitUser(): View
+    {
+        $unit = unit::latest()->paginate(5);
+        return view('unit', compact('unit'));
+    }
+
     public function create(): View
     {
         return view('admin.unit.create');
@@ -27,7 +33,8 @@ class UnitController extends Controller
             'gambar'      => 'required|image|mimes:jpeg,jpg,png|max:2048',
             'nama'        => 'required|min:5',
             'deskripsi'   => 'required|min:10',
-            'harga'      => 'required|numeric'
+            'harga'      => 'required|numeric',
+            'available' => 'required|string'
         ]);
 
         $gambar = $request->file('gambar');
@@ -37,7 +44,8 @@ class UnitController extends Controller
             'gambar'      => $gambar->hashName(),
             'nama_unit'        => $request->nama,
             'deskripsi'   => $request->deskripsi,
-            'harga'      => $request->harga
+            'harga'      => $request->harga,
+            'available' => $request->available
         ]);
 
         //redirect to index
@@ -63,7 +71,8 @@ class UnitController extends Controller
             'gambar'      => 'image|mimes:jpeg,jpg,png|max:2048',
             'nama'        => 'required|min:5',
             'deskripsi'   => 'required|min:10',
-            'harga'      => 'required|numeric'
+            'harga'      => 'required|numeric',
+            'available' => 'required|string'
         ]);
 
         //get product by ID
@@ -82,15 +91,16 @@ class UnitController extends Controller
             //update product with new image
             $unit->update([
                 'gambar'         => $gambar->hashName(),
-                'nama'         => $request->nama,
+                'nama_unit'         => $request->nama,
                 'deskripsi'   => $request->deskripsi,
-                'harga'         => $request->harga
+                'harga'         => $request->harga,
+                'available' => $request->available
             ]);
         } else {
 
             //update product without image
             $unit->update([
-                'nama'         => $request->nama,
+                'nama_unit'         => $request->nama,
                 'deskripsi'   => $request->deskripsi,
                 'harga'         => $request->harga
             ]);
@@ -100,12 +110,12 @@ class UnitController extends Controller
         return redirect()->route('unit.index')->with(['success' => 'Data Berhasil Diubah!']);
     }
 
-    public function destroy($id_unit): RedirectResponse
+    public function destroy(unit $unit): RedirectResponse
     {
-        $unit = unit::findOrFail($id_unit);
-        Storage::delete('/unit' . $unit->gambar);
+        Storage::delete('unit/' . $unit->gambar);
         $unit->delete();
         return redirect()->route('unit.index')->with(['success' => 'Data Berhasil dihapus']);
     }
+
 
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FasilitasController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\SesiController;
@@ -9,23 +10,17 @@ use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 // Redirect root ke home
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', [SesiController::class, 'home'])->name('home');
 
 // Halaman publik
-Route::view('/rooms', 'rooms')->name('rooms');
-Route::view('/facilities', 'facilities')->name('facilities');
-
-// Payment (GET untuk halaman, POST untuk submit form)
-Route::get('/payment', function () {
-    return view('payment');
-})->name('payment');
-// Route::post('/payment', [PaymentController::class, 'store'])->name('payment.store');
-
-Route::view('/profile', 'profile')->name('profile');
+Route::get('/unit', [UnitController::class, 'UnitUser'])->name('unit');
+Route::get('/facilities', [FasilitasController::class, 'FasilitasUser'])->name('facilities');
+Route::get('/payment_upload', function(){
+    return view('payment_upload');
+})->name('payment_upload');
 
 // Halaman tambahan (footer link)
+Route::view('/profile', 'profile')->name('profile');
 Route::view('/privacy', 'privacy')->name('privacy');
 Route::view('/terms', 'terms')->name('terms');
 Route::view('/faq', 'faq')->name('faq');
@@ -52,16 +47,20 @@ Route::middleware('auth')->group(function () {
     // Dashboard
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
-    // Booking
-    Route::get('/booking', [SesiController::class, 'booking'])->name('booking');
+    // Booking dan Payment
+    Route::get('/booking', [BookingController::class, 'create'])->name('booking.create'); // untuk form booking
+    Route::post('/booking', [BookingController::class, 'store'])->name('booking.store'); // untuk submit booking
+    Route::get('/admin/booking', [BookingController::class, 'admin'])->name('booking.admin');
+    Route::get('/payment/{id}', [BookingController::class, 'payment'])->name('payment');
+    Route::get('/detail_booking/{id}', [BookingController::class, 'detail'])->name('detil');
 
-    // Fasilitas
+    // Fasilitas (CRUD)
     Route::resource('/admin/fasilitas', FasilitasController::class);
 
-    // Unit
+    // Unit (CRUD)
     Route::resource('/admin/unit', UnitController::class);
 
-    // Pegawai
+    // Pegawai (CRUD)
     Route::resource('/admin/pegawai', OwnerController::class);
 
     // Logout

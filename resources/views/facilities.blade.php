@@ -219,20 +219,23 @@
   <img src="{{ asset('images/banner-fasilitas.png') }}" alt="Facilities Banner" class="banner">
 
   <div class="facility-list">
-    <div class="facility-card">
-      <img src="{{ asset('images/fasilitas.png') }}" alt="Swimming Pool">
-      <div class="facility-card-content">
-        <h3 class="facility-title">Infinity Swimming Pool</h3>
-        <p class="facility-description">Dive into luxury with our stunning infinity pool offering breathtaking panoramic views. Perfect for morning laps or evening relaxation.</p>
-        <div class="facility-features">
-          <span class="feature-tag">Heated Pool</span>
-          <span class="feature-tag">24/7 Access</span>
-          <span class="feature-tag">Pool Bar</span>
+    @foreach ($fasilitas as $item)
+      <div class="facility-card">
+        <img src="{{ asset('storage/fasilitas/'.$item->gambar) }}" alt="Swimming Pool">
+        <div class="facility-card-content">
+          <h3 class="facility-title">{{ $item->nama }}</h3>
+          <p class="facility-description">{{ strip_tags($item->deskripsi) }}</p>
+          <div class="facility-features">
+            <span class="feature-tag">Heated Pool</span>
+            <span class="feature-tag">24/7 Access</span>
+            <span class="feature-tag">Pool Bar</span>
+          </div>
         </div>
       </div>
-    </div>
+    @endforeach
+  </div>
 
-    <div class="facility-card">
+    {{-- <div class="facility-card">
       <img src="{{ asset('images/fasilitas.png') }}" alt="Spa & Wellness">
       <div class="facility-card-content">
         <h3 class="facility-title">Spa & Wellness Center</h3>
@@ -295,8 +298,7 @@
           <span class="feature-tag">Events Space</span>
         </div>
       </div>
-    </div>
-  </div>
+    </div> --}}
 
 
 @endsection

@@ -10,6 +10,7 @@
 
                             @csrf
 
+                            {{-- gambar --}}
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">GAMBAR</label>
                                 <input type="file" class="form-control @error('gambar') is-invalid @enderror"
@@ -23,6 +24,7 @@
                                 @enderror
                             </div>
 
+                            {{-- nama --}}
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">NAMA</label>
                                 <input type="text" class="form-control @error('nama') is-invalid @enderror"
@@ -36,6 +38,21 @@
                                 @enderror
                             </div>
 
+                            {{-- available --}}
+                            <div class="form-group mb-3">
+                                <label class="font-weight-bold">Available For</label>
+                                <input type="text" class="form-control @error('available') is-invalid @enderror"
+                                    name="available" value="{{ old('available') }}" placeholder="Masukkan ketentuan jumlah customer">
+
+                                <!-- error message untuk nama -->
+                                @error('available')
+                                    <div class="alert alert-danger mt-2">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            {{-- deskripsi --}}
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">DESKRIPSI</label>
                                 <textarea class="form-control @error('deskripsi') is-invalid @enderror" name="deskripsi" rows="5"
@@ -49,13 +66,14 @@
                                 @enderror
                             </div>
 
+                            {{-- harga --}}
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group mb-3">
                                         <label class="font-weight-bold">HARGA</label>
                                         <input type="number" class="form-control @error('harga') is-invalid @enderror"
                                             name="harga" value="{{ old('harga') }}"
-                                            placeholder="Masukkan Harga Mobil">
+                                            placeholder="Masukkan Harga Unit">
 
                                         <!-- error message untuk harga -->
                                         @error('harga')
