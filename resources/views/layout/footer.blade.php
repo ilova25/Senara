@@ -328,12 +328,12 @@
                     <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
                 </div>
 
-                <h3>Newsletter</h3>
-                <form class="newsletter-form" method="POST" action="{{ route('newsletter.subscribe') }}">
+                <h3>Kritik dan Saran</h3>
+                <form class="newsletter-form" method="POST" action="{{ route('masukan.store') }}">
                     @csrf
-                    <input type="email" name="email" class="newsletter-input"
-                           placeholder="Email Anda" value="{{ old('email') }}" required>
-                    <button type="submit" class="newsletter-btn">Subscribe</button>
+                    <input type="text" name="masukan" class="newsletter-input"
+                           placeholder="Masukkan Kritik dan Saran" value="{{ old('masukan') }}" required>
+                    <button type="submit" class="newsletter-btn">Kirim</button>
                 </form>
 
                 @if(session('newsletter_success'))

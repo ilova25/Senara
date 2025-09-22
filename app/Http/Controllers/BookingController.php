@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\booking;
 use App\Models\unit;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -53,7 +54,7 @@ class BookingController extends Controller
     }
 
     public function admin(){
-        $booking = booking::all();
+        $booking = booking::with('unit', 'payment')->get();
         return view('admin.booking', compact('booking'));
     }
 
@@ -69,5 +70,49 @@ class BookingController extends Controller
         return view('detil', compact('booking'));
     }
 
+    public function checkAvailability(Request $request){
+        $request->validate([
+            'id_unit' => 'required|exists:unit,id_unit',
+            'checkin' => 'required|date',
+            'checkout' => 'required|date'
+        ]);
+
+        $exists = booking::where('id_unit', $request->id_unit)
+            ->where(function($query) use ($request) {
+                $query->whereBetween('checkin', [$request->checkin, $request->checkout])
+                    ->orWhereBetween('checkout', [$request->checkin, $request->checkout])
+                    ->orWhere(function($q) use ($request) {
+                        $q->where('checkin', '<=', $request->checkin)
+                            ->where('checkout', '>=', $request->checkout);
+                    });
+            })
+            ->exists();
+
+        return response()->json([
+            'available' => !$exists
+        ]);
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status_pembayaran' => 'required|in:pending,confirmed,canceled'
+        ]);
+
+        $booking = booking::findOrFail($id);
+        $booking->update([
+            'status_pembayaran' => $request->status_pembayaran
+        ]);
+
+        return back()->with('success', 'Status pembayaran diperbarui');
+    }
+
+    public function exportPdf($id)
+    {
+        $booking = booking::with('unit', 'payment')->findOrFail($id);
+
+        $pdf = Pdf::loadView('booking_pdf', compact('booking'));
+        return $pdf->download('booking.pdf');
+    }
     
 }

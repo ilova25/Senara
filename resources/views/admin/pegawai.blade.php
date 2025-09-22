@@ -21,13 +21,13 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th scope="col" style="width: 5%">ID</th>
-                                    <th scope="col" style="width: 20%">Username</th>
-                                    <th scope="col" style="width: 25%">Email</th>
-                                    <th scope="col" style="width: 20%">Password</th>
-                                    <th scope="col" style="width: 20%">Alamat</th>
-                                    <th scope="col" style="width: 20%">No. Telepon</th>
-                                    <th scope="col" style="width: 30%">Aksi</th>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Username</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Password</th>
+                                    <th scope="col">Alamat</th>
+                                    <th scope="col">No. Telepon</th>
+                                    <th scope="col" style="width: 20%">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -42,16 +42,12 @@
                                         <td>{{ $item->alamat }}</td>
                                         <td>{{ $item->no_hp }}</td>
                                         <td class="text-center">
-                                            <div class="d-flex justify-content-center gap-2">
-                                                <a href="{{ route('pegawai.edit', $item->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                                <form onsubmit="return confirm('Apakah Anda Yakin ?');" 
-                                                    action="{{ route('pegawai.destroy', $item->id) }}" 
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
-                                                </form>
-                                            </div>
+                                            <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('pegawai.destroy', $item->id) }}" method="POST">
+                                                <a href="{{ route('pegawai.edit', $item->id) }}" class="btn btn-sm btn-primary"><i class="bi bi-pencil-square"></i></a>
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach

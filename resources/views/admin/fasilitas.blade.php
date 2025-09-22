@@ -39,11 +39,11 @@
                                         <td>{{ strip_tags($item->deskripsi) }}</td>
                                         <td class="text-center">
                                             <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('fasilitas.destroy', $item->id) }}" method="POST">
-                                                <a href="{{ route('fasilitas.show', $item->id) }}" class="btn btn-sm btn-dark">SHOW</a>
-                                                <a href="{{ route('fasilitas.edit', $item->id) }}" class="btn btn-sm btn-primary">EDIT</a>
+                                                <a href="{{ route('fasilitas.show', $item->id) }}" class="btn btn-sm btn-dark"><i class="bi bi-eye"></i></a>
+                                                <a href="{{ route('fasilitas.edit', $item->id) }}" class="btn btn-sm btn-primary"><i class="bi bi-pencil-square"></i></a>
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger">HAPUS</button>
+                                                <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
                                             </form>
                                         </td>
                                     </tr>

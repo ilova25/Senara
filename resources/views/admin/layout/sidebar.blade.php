@@ -31,16 +31,16 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Menu Booking:</h6>
                 <a class="collapse-item" href="{{route('booking.admin')}}">Lihat Booking</a>
-                <a class="collapse-item" href="cards.html">Kalender</a>
+                <a class="collapse-item" href="{{route('admin.kalender')}}">Kalender</a>
             </div>
         </div>
     </li>
 
     <!-- Comment -->
     <li class="nav-item {{ request()->routeIs('comment.*') ? 'active' : '' }}">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{ route('masukan.admin')}}">
             <i class="fas fa-comments"></i>
-            <span>Comment</span>
+            <span>Kritik dan Saran</span>
         </a>
     </li>
 

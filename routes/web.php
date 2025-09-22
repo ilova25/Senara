@@ -3,6 +3,8 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FasilitasController;
+use App\Http\Controllers\KalenderController;
+use App\Http\Controllers\MasukanController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\SesiController;
 use App\Http\Controllers\UnitController;
@@ -51,12 +53,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/booking', [BookingController::class, 'create'])->name('booking.create'); // untuk form booking
     Route::post('/booking', [BookingController::class, 'store'])->name('booking.store'); // untuk submit booking
     Route::get('/admin/booking', [BookingController::class, 'admin'])->name('booking.admin');
+    Route::get('/admin/kalender', [KalenderController::class, 'index'])->name('admin.kalender');
+    Route::get('/admin/kalender/bookings', [KalenderController::class, 'getBookings'])->name('kalender.bookings');
     Route::get('/payment/{id}', [BookingController::class, 'payment'])->name('payment');
     Route::get('/detail_booking/{id}', [BookingController::class, 'detail'])->name('detil');
+    Route::get('/check-availability', [BookingController::class, 'checkAvailability'])->name('check.availability');
+    Route::put('/admin/booking/{id}/status', [BookingController::class, 'updateStatus'])->name('booking.updateStatus');
+    Route::get('/booking/{id}', [BookingController::class, 'exportPdf'])->name('booking.pdf');
 
     // payment
     Route::get('/payment_upload/{id}', [PaymentController::class, 'create'])->name('payment.create');
-    Route::post('payment_upload/{id}', [PaymentController::class, 'store'])->name('payment.store');
+    Route::post('/payment_upload/{id}', [PaymentController::class, 'store'])->name('payment.store');
+
+    // masukan
+    Route::post('/masukan', [MasukanController::class, 'store'])->name('masukan.store');
+    Route::get('/admin/masukan', [MasukanController::class,'admin'])->name('masukan.admin');
 
     // Fasilitas (CRUD)
     Route::resource('/admin/fasilitas', FasilitasController::class);

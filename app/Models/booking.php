@@ -9,7 +9,7 @@ class booking extends Model
 {
     use HasFactory;
     protected $table = 'booking';
-    protected $fillable = ['id_user','nama','email','checkin','checkout','id_unit','total_harga','adult','children','kode_booking'];
+    protected $fillable = ['id_user','nama','email','checkin','checkout','id_unit','total_harga','adult','children','kode_booking','status_pembayaran'];
     protected $primaryKey = 'id';
 
     public function unit() {
@@ -19,4 +19,10 @@ class booking extends Model
     public function user(){
         return $this->belongsTo(user::class, 'id_user','id');
     }
+
+    public function payment()
+    {
+        return $this->hasOne(payment::class, 'booking_id', 'id');
+    }
+
 }

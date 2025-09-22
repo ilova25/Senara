@@ -242,47 +242,47 @@
   </style>
 
   <h1 class="page-title">Booking</h1>
-<img src="{{ asset('images/banner-fasilitas.png') }}" alt="Booking Banner" class="banner">
+  <img src="{{ asset('images/banner-fasilitas.png') }}" alt="Booking Banner" class="banner">
 
-<form class="booking-form" action="{{ route('booking.store') }}" method="POST">
-    @csrf
-    <div class="form-group">
-        <label>Name</label>
-        <input type="text" name="nama" id="name" value="{{ old('nama', Auth::user()->username) }}" required>
-    </div>
+  <form class="booking-form" action="{{ route('booking.store') }}" method="POST">
+      @csrf
+      <div class="form-group">
+          <label>Name</label>
+          <input type="text" name="nama" id="name" value="{{ old('nama', Auth::user()->username) }}" required>
+      </div>
 
-    <div class="form-group">
-        <label>Email</label>
-        <input type="email" name="email" id="email" value="{{ old('email', Auth::user()->email) }}" required>
-    </div>
+      <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" id="email" value="{{ old('email', Auth::user()->email) }}" required>
+      </div>
 
-    <div class="form-group">
-        <label>Guests</label>
-        <div class="guests-wrapper">
-            <select name="adult" id="adults">
-                <option value="1">1 Adult</option>
-                <option value="2">2 Adults</option>
-                <option value="3">3 Adults</option>
-            </select>
-            <select name="children" id="children">
-                <option value="1">1 Child</option>
-                <option value="2">2 Children</option>
-                <option value="3">3 Children</option>
-            </select>
-        </div>
-    </div>
+      <div class="form-group">
+          <label>Guests</label>
+          <div class="guests-wrapper">
+              <select name="adult" id="adults">
+                  <option value="1">1 Adult</option>
+                  <option value="2">2 Adults</option>
+                  <option value="3">3 Adults</option>
+              </select>
+              <select name="children" id="children">
+                  <option value="1">1 Child</option>
+                  <option value="2">2 Children</option>
+                  <option value="3">3 Children</option>
+              </select>
+          </div>
+      </div>
 
-    <div class="form-group">
-        <label>Check in</label>
-        <input type="date" name="checkin" id="checkin">
-    </div>
+      <div class="form-group">
+          <label>Check in</label>
+          <input type="date" name="checkin" id="checkin">
+      </div>
 
-    <div class="form-group">
-        <label>Check out</label>
-        <input type="date" name="checkout" id="checkout">
-    </div>
+      <div class="form-group">
+          <label>Check out</label>
+          <input type="date" name="checkout" id="checkout">
+      </div>
 
-    <div class="form-group">
+      <div class="form-group">
         <label>Unit</label>
         <select name="id_unit" id="room_id">
             <option value="">-- Pilih unit --</option>
@@ -292,40 +292,74 @@
                 </option>
             @endforeach
         </select>
-    </div>
+        <p id="unit_status" style="margin-top:5px;font-weight:bold;"></p>
+      </div>
 
-    <div class="form-group">
-        <label>Total Harga</label>
-        <p id="total_harga">Rp 0</p>
-    </div>
 
-    <button type="submit" class="btn-book">Booking</button>
-</form>
+      <div class="form-group">
+          <label>Total Harga</label>
+          <p id="total_harga">Rp 0</p>
+      </div>
 
-<script>
-const roomSelect = document.getElementById('room_id');
-const checkinInput = document.getElementById('checkin');
-const checkoutInput = document.getElementById('checkout');
-const totalHargaEl = document.getElementById('total_harga');
+      <button type="submit" class="btn-book">Booking</button>
+  </form>
 
-function calculateTotal() {
-    const roomOption = roomSelect.options[roomSelect.selectedIndex];
-    const price = parseFloat(roomOption.getAttribute('data-price')) || 0;
+@endsection
 
-    const checkin = new Date(checkinInput.value);
-    const checkout = new Date(checkoutInput.value);
+@push('scripts')
+  <script>
+    const roomSelect = document.getElementById('room_id');
+    const checkinInput = document.getElementById('checkin');
+    const checkoutInput = document.getElementById('checkout');
+    const totalHargaEl = document.getElementById('total_harga');
+    const statusMsg = document.getElementById('unit_status');
 
-    let days = 0;
-    if (checkin && checkout && checkout > checkin) {
-        days = (checkout - checkin) / (1000 * 60 * 60 * 24);
+    function calculateTotal() {
+        const roomOption = roomSelect.options[roomSelect.selectedIndex];
+        const price = parseFloat(roomOption.getAttribute('data-price')) || 0;
+
+        const checkin = new Date(checkinInput.value);
+        const checkout = new Date(checkoutInput.value);
+
+        let days = 0;
+        if (checkin && checkout && checkout > checkin) {
+            days = (checkout - checkin) / (1000 * 60 * 60 * 24);
+        }
+
+        const total = price * days;
+        totalHargaEl.textContent = "Rp " + total.toLocaleString('id-ID');
     }
 
-    const total = price * days;
-    totalHargaEl.textContent = "Rp " + total.toLocaleString('id-ID');
-}
+    // ✅ Cek ketersediaan unit via AJAX
+    async function checkAvailability() {
+        const id_unit = roomSelect.value;
+        const checkin = checkinInput.value;
+        const checkout = checkoutInput.value;
 
-roomSelect.addEventListener('change', calculateTotal);
-checkinInput.addEventListener('change', calculateTotal);
-checkoutInput.addEventListener('change', calculateTotal);
-</script>
-@endsection
+        if (!id_unit || !checkin || !checkout) {
+            statusMsg.textContent = "";
+            return;
+        }
+
+        try {
+            const response = await fetch(`/check-availability?id_unit=${id_unit}&checkin=${checkin}&checkout=${checkout}`);
+            const data = await response.json();
+
+            if (data.available) {
+                statusMsg.textContent = "Tersedia";
+                statusMsg.style.color = "green";
+            } else {
+                statusMsg.textContent = "Tidak Tersedia";
+                statusMsg.style.color = "red";
+            }
+        } catch (error) {xq
+            console.error(error);
+        }
+    }
+
+    // ✅ Event listener
+    roomSelect.addEventListener('change', () => { calculateTotal(); checkAvailability(); });
+    checkinInput.addEventListener('change', () => { calculateTotal(); checkAvailability(); });
+    checkoutInput.addEventListener('change', () => { calculateTotal(); checkAvailability(); });
+  </script>
+@endpush

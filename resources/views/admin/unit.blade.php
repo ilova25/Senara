@@ -41,11 +41,11 @@
                                         <td>{{ ($item->available) }}</td>
                                         <td class="text-center">
                                             <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('unit.destroy', $item->id_unit) }}" method="POST">
-                                                <a href="{{ route('unit.show', $item->id_unit) }}" class="btn btn-sm btn-dark">SHOW</a>
-                                                <a href="{{ route('unit.edit', $item->id_unit) }}" class="btn btn-sm btn-primary">EDIT</a>
+                                                <a href="{{ route('unit.show', $item->id_unit) }}" class="btn btn-sm btn-dark"><i class="bi bi-eye"></i></a>
+                                                <a href="{{ route('unit.edit', $item->id_unit) }}" class="btn btn-sm btn-primary"><i class="bi bi-pencil-square"></i></a>
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger">HAPUS</button>
+                                                <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
                                             </form>
                                         </td>
                                     </tr>

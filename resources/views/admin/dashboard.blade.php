@@ -61,7 +61,7 @@
     <div class="col-md-8">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Grafik Customer per Bulan</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Grafik Pendapatan per Bulan</h6>
             </div>
             <div class="card-body">
                 <canvas id="customerChart" style="height:300px;"></canvas>

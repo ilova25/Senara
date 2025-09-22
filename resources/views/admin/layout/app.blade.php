@@ -25,6 +25,12 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('template/css/sb-admin-2.min.css') }}" rel="stylesheet">
 
+    {{-- fullcalendar --}}
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+
+    {{-- bootstrap icons --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
 </head>
 
 <body id="page-top">
@@ -80,26 +86,45 @@
     
     <!-- Logout Modal -->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content border-0 shadow-lg rounded">
-        <div class="modal-header bg-danger text-white">
-            <h5 class="modal-title" id="logoutModalLabel">Konfirmasi Logout</h5>
-            <button class="close text-white" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-            </button>
-        </div>
-        <div class="modal-body text-dark">
-            Apakah Anda yakin ingin keluar dari aplikasi?
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-inline">
-                @csrf
-                <button type="submit" class="btn btn-danger">Logout</button>
-            </form>
-        </div>
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content border-0 shadow-lg rounded">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="logoutModalLabel">Konfirmasi Logout</h5>
+                <button class="close text-white" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body text-dark">
+                Apakah Anda yakin ingin keluar dari aplikasi?
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
+            </div>
+            </div>
         </div>
     </div>
+
+    <!-- Modal Global Bukti Pembayaran -->
+    <div class="modal fade" id="buktiModalGlobal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Bukti Pembayaran</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="buktiImage" src="" class="img-fluid rounded" alt="Bukti Pembayaran">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+                </div>
+
+            </div>
+        </div>
     </div>
 
 
@@ -122,6 +147,20 @@
     <script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
     <script>
         CKEDITOR.replace('deskripsi');
+    </script>
+
+    {{-- fullcalender --}}
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+
+    {{-- script modal bukti --}}
+    <script>
+        // Script untuk load gambar dinamis
+        function showBukti(url, nama) {
+            document.getElementById('buktiImage').src = url;
+            document.querySelector('#buktiModalGlobal .modal-title').innerText = 'Bukti Pembayaran - ' + nama;
+            var modal = new bootstrap.Modal(document.getElementById('buktiModalGlobal'));
+            modal.show();
+        }
     </script>
 
     @stack('scripts')

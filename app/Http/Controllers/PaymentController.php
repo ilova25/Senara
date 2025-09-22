@@ -31,6 +31,6 @@ class PaymentController extends Controller
             'batas_pembayaran' => now()->addDays(1),
         ]);
 
-        return redirect()->route('barqode')->with(['success' => 'Data berhasil disimpan']);
+        return redirect()->route('detil', $booking->id)->with(['success' => 'Data berhasil disimpan']);
     }
 }

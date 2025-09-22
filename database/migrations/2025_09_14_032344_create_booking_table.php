@@ -25,6 +25,7 @@ return new class extends Migration
             $table->integer('adult')->default(1);
             $table->integer('children')->default(0);
             $table->string('kode_booking')->unique();
+            $table->enum('status_pembayaran', ['pending','confirmed','canceled'])->default('pending');
             $table->timestamps();
         });
     }
