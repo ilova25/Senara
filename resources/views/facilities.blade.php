@@ -8,6 +8,11 @@
       box-sizing: border-box;
     }
 
+    .container-fluid {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+
     body {
       background-color: #fff;
       color: #333;
@@ -225,11 +230,11 @@
         <div class="facility-card-content">
           <h3 class="facility-title">{{ $item->nama }}</h3>
           <p class="facility-description">{{ strip_tags($item->deskripsi) }}</p>
-          <div class="facility-features">
+          {{-- <div class="facility-features">
             <span class="feature-tag">Heated Pool</span>
             <span class="feature-tag">24/7 Access</span>
             <span class="feature-tag">Pool Bar</span>
-          </div>
+          </div> --}}
         </div>
       </div>
     @endforeach

@@ -18,9 +18,9 @@ class UnitFactory extends Factory
     {
         // daftar gambar yang sudah kamu taruh di storage/app/public/unit
         $images = [
-            'unit/kamar1.jpg',
-            'unit/kamar2.jpg',
-            'unit/kamar3.jpg',
+            'unit 1.jpg',
+            'unit 2.jpg',
+            'unit 3.jpg',
         ];
 
         return [

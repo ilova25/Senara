@@ -38,6 +38,7 @@
 
         .room-card img {
             width: 40%;
+            height: 300px;
             object-fit: cover;
         }
 

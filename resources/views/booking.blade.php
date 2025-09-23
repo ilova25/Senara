@@ -8,6 +8,11 @@
       box-sizing: border-box;
     } */
 
+    .container-fluid {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+
     body {
       background-color: #fff;
       font-family: 'Poppins', sans-serif;

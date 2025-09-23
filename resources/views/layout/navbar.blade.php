@@ -1,11 +1,16 @@
 <style>
   header {
+    border-bottom: 1px solid #ccc;
+    background-color: #fff;
+    padding: 15px 0;
+  }
+
+  .header-container {
+    max-width: 1200px;
+    padding: 15px 20px; /* sama seperti footer */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 10%;
-    border-bottom: 1px solid #ccc;
-    background-color: #fff;
   }
 
   .brand {
@@ -17,6 +22,7 @@
   header nav {
     display: flex;
     align-items: center;
+    /* margin-bottom: 30px; */
   }
 
   header nav ul {
@@ -74,35 +80,37 @@
 </style>
 
 <header>
-  <div class="brand">Senara Guest House</div>
-  <nav>
-    <ul>
-      <li><a href="{{ route('home') }}">Home</a></li>
-      <li><a href="{{ route('unit') }}">Unit</a></li>
-      <li><a href="{{ route('facilities') }}">Facilities</a></li>
+  <div class="container header-container">
+    <div class="brand">Senara Guest House</div>
+    <nav>
+      <ul>
+        <li><a href="{{ route('home') }}">Home</a></li>
+        <li><a href="{{ route('unit') }}">Unit</a></li>
+        <li><a href="{{ route('facilities') }}">Facilities</a></li>
 
-      @if (Auth::check())
-        <li><a href="{{ route('booking.create') }}">Booking</a></li>
+        @if (Auth::check())
+          <li><a href="{{ route('booking.create') }}">Booking</a></li>
 
-        <!-- Dropdown User -->
-        <li class="nav-item dropdown">
-          <a class="nav-link p-0 dropdown-toggle" href="#" id="userDropdown" role="button"
-             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img class="profile-avatar" src="{{ asset('template/img/undraw_profile.svg') }}" alt="profile">
-          </a>
-
-          <div class="dropdown-menu dropdown-menu-right shadow" aria-labelledby="userDropdown">
-            <a class="dropdown-item" href="{{ route('profile', Auth::id()) }}"><i class="fas fa-user fa-sm fa-fw mr-2"></i> Profile</a>
-            <a class="dropdown-item" href="{{ route('booking.history', Auth::id()) }}"><i class="fas fa-cog fa-sm fa-fw mr-2"></i> Riwayat Booking</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-              <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i> Logout
+          <!-- Dropdown User -->
+          <li class="nav-item dropdown">
+            <a class="nav-link p-0 dropdown-toggle" href="#" id="userDropdown" role="button"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img class="profile-avatar" src="{{ asset('template/img/undraw_profile.svg') }}" alt="profile">
             </a>
-          </div>
-        </li>
-      @else
-        <li><a href="{{ route('login') }}" class="login-btn">Login</a></li>
-      @endif
-    </ul>
-  </nav>
+
+            <div class="dropdown-menu dropdown-menu-right shadow" aria-labelledby="userDropdown">
+              <a class="dropdown-item" href="{{ route('profile', Auth::id()) }}"><i class="fas fa-user fa-sm fa-fw mr-2"></i> Profile</a>
+              <a class="dropdown-item" href="{{ route('booking.history', Auth::id()) }}"><i class="fas fa-cog fa-sm fa-fw mr-2"></i> Riwayat Booking</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i> Logout
+              </a>
+            </div>
+          </li>
+        @else
+          <li><a href="{{ route('login') }}" class="login-btn">Login</a></li>
+        @endif
+      </ul>
+    </nav>
+  </div>
 </header>

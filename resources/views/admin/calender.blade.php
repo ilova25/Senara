@@ -3,12 +3,12 @@
 @section('content')
   {{-- Tambahan CSS biar lebih cantik --}}
     <style>
-        body {
+        /* body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f4f6f9;
             margin: 0;
             padding: 20px;
-        }
+        } */
         h2 {
             text-align: center;
             margin-bottom: 20px;
