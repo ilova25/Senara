@@ -14,7 +14,7 @@
 
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">Username</label>
-                                <input type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username', $pegawai->username) }}" placeholder="Masukkan Judul Product">
+                                <input type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username', $pegawai->username) }}" placeholder="Masukkan Nama Pegawai">
 
                                 <!-- error message untuk title -->
                                 @error('username')
@@ -26,7 +26,7 @@
 
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">Email</label>
-                                <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', $pegawai->email) }}" placeholder="Masukkan Judul Product">
+                                <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', $pegawai->email) }}" placeholder="Masukkan Email Pegawai">
 
                                 <!-- error message untuk title -->
                                 @error('email')
@@ -38,7 +38,7 @@
 
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">Password</label>
-                                <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" value="{{ old('password', $pegawai->password) }}" placeholder="Masukkan Judul Product">
+                                <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" value="{{ old('password', $pegawai->password) }}" placeholder="Masukkan Password">
 
                                 <!-- error message untuk title -->
                                 @error('password')
@@ -50,7 +50,7 @@
 
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">Alamat</label>
-                                <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" value="{{ old('alamat', $pegawai->alamat) }}" placeholder="Masukkan Judul Product">
+                                <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" value="{{ old('alamat', $pegawai->alamat) }}" placeholder="Masukkan Alamat Pegawai">
 
                                 <!-- error message untuk title -->
                                 @error('alamat')
@@ -62,7 +62,7 @@
 
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">No Telepon</label>
-                                <input type="text" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" value="{{ old('no_hp', $pegawai->no_hp) }}" placeholder="Masukkan Judul Product">
+                                <input type="text" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" value="{{ old('no_hp', $pegawai->no_hp) }}" placeholder="Masukkan No Telepon Pegawai">
 
                                 <!-- error message untuk title -->
                                 @error('no_hp')

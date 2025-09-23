@@ -18,19 +18,29 @@ class PaymentController extends Controller
             'bukti' => 'required|image|mimes:jpeg,jpg,png|max:2048',
         ]);
 
-        $booking = booking::findOrFail($id);
+        $booking = Booking::with('payment')->findOrFail($id);
 
         $bukti_pembayaran = $request->file('bukti');
         $bukti_pembayaran->storeAs('bukti', $bukti_pembayaran->hashName());
 
-        payment::create([
-            'kode_booking' => $booking->kode_booking,
-            'bukti_pembayaran' => $bukti_pembayaran->hashName(),
-            'booking_id' => $booking->id,
-            'status_pembayaran' => 'pending',
-            'batas_pembayaran' => now()->addDays(1),
-        ]);
+        // update record payment yang sudah ada
+        if ($booking->payment) {
+            $booking->payment->update([
+                'bukti_pembayaran' => $bukti_pembayaran->hashName(),
+                'status_pembayaran' => 'waiting', // ✅ setelah upload jadi waiting
+            ]);
+        } else {
+            // fallback kalau entah kenapa tidak ada payment
+            Payment::create([
+                'booking_id' => $booking->id,
+                'bukti_pembayaran' => $bukti_pembayaran->hashName(),
+                'status_pembayaran' => 'waiting',
+                'batas_pembayaran' => now()->addDay(),
+            ]);
+        }
 
-        return redirect()->route('detil', $booking->id)->with(['success' => 'Data berhasil disimpan']);
+        return redirect()->route('detil', $booking->id)
+                        ->with('success', 'Bukti pembayaran berhasil diupload, menunggu konfirmasi admin.');
     }
+
 }

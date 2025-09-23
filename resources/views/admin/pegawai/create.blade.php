@@ -13,7 +13,7 @@
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">Nama</label>
                                 <input type="text" class="form-control @error('nama') is-invalid @enderror"
-                                    name="username" value="{{ old('nama') }}" placeholder="Masukkan Nama Fasilitas">
+                                    name="username" value="{{ old('nama') }}" placeholder="Masukkan Nama Pegawai">
 
                                 <!-- error message untuk nama -->
                                 @error('nama')
@@ -26,7 +26,7 @@
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">email</label>
                                 <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                    name="email" value="{{ old('email') }}" placeholder="Masukkan Nama Fasilitas">
+                                    name="email" value="{{ old('email') }}" placeholder="Masukkan Email Pegawai">
 
                                 <!-- error message untuk nama -->
                                 @error('email')
@@ -39,7 +39,7 @@
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">Password</label>
                                 <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                    name="password" value="{{ old('password') }}" placeholder="Masukkan Nama Fasilitas">
+                                    name="password" value="{{ old('password') }}" placeholder="Masukkan Password">
 
                                 <!-- error message untuk nama -->
                                 @error('password')
@@ -52,7 +52,7 @@
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">Alamat</label>
                                 <input type="text" class="form-control @error('alamat') is-invalid @enderror"
-                                    name="alamat" value="{{ old('alamat') }}" placeholder="Masukkan Nama Fasilitas">
+                                    name="alamat" value="{{ old('alamat') }}" placeholder="Masukkan Alamat Pegawai">
 
                                 <!-- error message untuk nama -->
                                 @error('alamat')
@@ -65,7 +65,7 @@
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">No. Telepon</label>
                                 <input type="text" class="form-control @error('no_telepon') is-invalid @enderror"
-                                    name="no_hp" value="{{ old('no_hp') }}" placeholder="Masukkan Nama Fasilitas">
+                                    name="no_hp" value="{{ old('no_hp') }}" placeholder="Masukkan No Telepon Pegawai">
 
                                 <!-- error message untuk nama -->
                                 @error('no_telepon')

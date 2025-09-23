@@ -74,7 +74,7 @@ class SesiController extends Controller
             'email'=> 'required|string|email|unique:users,email',
             'password'=> 'required|string|min:8',
             'alamat'=> 'required|string|max:250',
-            'no_hp'=> 'required|integer|min:10'
+            'no_hp'=> 'required|string|max:15'
         ]);
 
         User::create([

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\booking;
-use App\Models\unit;
+use App\Models\Booking;
+use App\Models\Payment;
+use App\Models\Unit;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -11,33 +12,34 @@ use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
-    public function create(){
-        $unit = unit::all();
+    public function create()
+    {
+        $unit = Unit::all();
         return view('booking', compact('unit'));
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $request->validate([
             'nama' => 'required|string|max:50',
             'email' => 'required|email',
             'id_unit' => 'required|exists:unit,id_unit',
             'checkin' => 'required|date',
-            'checkout' => 'required|date',
+            'checkout' => 'required|date|after:checkin',
             'adult' => 'required|integer|min:1',
             'children' => 'required|integer|min:0'
         ]);
 
-        $unit = unit::findOrFail($request->id_unit);
+        $unit = Unit::findOrFail($request->id_unit);
 
         $checkin = new \DateTime($request->checkin);
         $checkout = new \DateTime($request->checkout);
-        $days = $checkin->diff($checkout)->days;
+        $days = $checkin->diff($checkout)->days ?: 1; // minimal 1 hari
 
         $total_harga = $days * $unit->harga;
-
         $kode_booking = 'BK-' . date('Ymd') . '-' . rand(1000, 9999);
 
-        $booking = booking::create([
+        $booking = Booking::create([
             'id_user' => Auth::id(),
             'nama' => $request->nama,
             'email' => $request->email,
@@ -50,41 +52,49 @@ class BookingController extends Controller
             'kode_booking' => $kode_booking,
         ]);
 
+        // otomatis buat payment pending
+        $booking->payment()->create([
+            'status_pembayaran' => 'pending',
+            'batas_pembayaran' => now()->addDay(), // contoh 1 hari
+        ]);
+
         return redirect()->route('payment', $booking->id)->with('success', 'Booking berhasil!');
     }
 
-    public function admin(){
-        $booking = booking::with('unit', 'payment')->get();
+    public function admin()
+    {
+        $booking = Booking::with('unit', 'payment')->get();
         return view('admin.booking', compact('booking'));
     }
 
     public function payment($id): View
     {
-        $booking = booking::with('unit', 'user')->findOrFail($id);
+        $booking = Booking::with('unit', 'user','payment')->findOrFail($id);
         return view('payment', compact('booking'));
     }
 
     public function detail($id): View
     {
-        $booking = booking::with('unit', 'user')->findOrFail($id);
+        $booking = Booking::with('unit', 'user')->findOrFail($id);
         return view('detil', compact('booking'));
     }
 
-    public function checkAvailability(Request $request){
+    public function checkAvailability(Request $request)
+    {
         $request->validate([
             'id_unit' => 'required|exists:unit,id_unit',
             'checkin' => 'required|date',
-            'checkout' => 'required|date'
+            'checkout' => 'required|date|after:checkin'
         ]);
 
-        $exists = booking::where('id_unit', $request->id_unit)
-            ->where(function($query) use ($request) {
+        $exists = Booking::where('id_unit', $request->id_unit)
+            ->where(function ($query) use ($request) {
                 $query->whereBetween('checkin', [$request->checkin, $request->checkout])
-                    ->orWhereBetween('checkout', [$request->checkin, $request->checkout])
-                    ->orWhere(function($q) use ($request) {
-                        $q->where('checkin', '<=', $request->checkin)
+                      ->orWhereBetween('checkout', [$request->checkin, $request->checkout])
+                      ->orWhere(function ($q) use ($request) {
+                          $q->where('checkin', '<=', $request->checkin)
                             ->where('checkout', '>=', $request->checkout);
-                    });
+                      });
             })
             ->exists();
 
@@ -96,23 +106,65 @@ class BookingController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
-            'status_pembayaran' => 'required|in:pending,confirmed,canceled'
+            'status_pembayaran' => 'required|in:pending,paid,canceled'
         ]);
 
-        $booking = booking::findOrFail($id);
-        $booking->update([
-            'status_pembayaran' => $request->status_pembayaran
-        ]);
+        $booking = Booking::with('payment')->findOrFail($id);
+
+        if ($booking->payment) {
+            $booking->payment->update([
+                'status_pembayaran' => $request->status_pembayaran
+            ]);
+        }
 
         return back()->with('success', 'Status pembayaran diperbarui');
     }
 
     public function exportPdf($id)
     {
-        $booking = booking::with('unit', 'payment')->findOrFail($id);
+        $booking = Booking::with('unit', 'payment')->findOrFail($id);
 
         $pdf = Pdf::loadView('booking_pdf', compact('booking'));
         return $pdf->download('booking.pdf');
     }
-    
+
+    public function history()
+    {
+        $booking = Booking::with('unit', 'payment')
+            ->where('id_user', Auth::id())
+            ->get();
+
+        $totalBooking = $booking->count();
+        $totalSpent   = $booking->sum('total_harga');
+        $pending      = $booking->filter(fn($b) => $b->payment && $b->payment->status_pembayaran === 'pending')->count();
+        $booked       = $booking->filter(fn($b) => $b->payment && $b->payment->status_pembayaran === 'confirmed')->count();
+        $completed    = $booking->filter(fn($b) => $b->status_menginap === 'completed')->count();
+        $ongoing      = $booking->filter(fn($b) => $b->status_menginap === 'ongoing')->count();
+        $canceled     = $booking->filter(fn($b) => $b->payment && $b->payment->status_pembayaran === 'canceled')->count();
+
+        return view('booking_history', compact(
+            'booking',
+            'totalBooking',
+            'totalSpent',
+            'pending',
+            'booked',
+            'canceled',
+            'completed','ongoing'
+        ));
+    }
+
+    public function updatePesanan(Request $request, $id)
+    {
+        $request->validate([
+            'status_pemesanan' => 'required|in:ongoing,completed,canceled'
+        ]);
+
+        $booking = Booking::findOrFail($id);
+
+        $booking->update([
+            'status_menginap' => $request->status_pemesanan
+        ]);
+
+        return back()->with('success', 'Status pemesanan diperbarui');
+    }
 }

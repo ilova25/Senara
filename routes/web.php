@@ -9,6 +9,7 @@ use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\SesiController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ProfilController;
 use Illuminate\Support\Facades\Route;
 
 // Redirect root ke home
@@ -17,12 +18,21 @@ Route::get('/', [SesiController::class, 'home'])->name('home');
 // Halaman publik
 Route::get('/unit', [UnitController::class, 'UnitUser'])->name('unit');
 Route::get('/facilities', [FasilitasController::class, 'FasilitasUser'])->name('facilities');
-Route::get('/barqode', function(){
-    return view('bar_qode');
-})->name('barqode');
+
+
+Route::get('/booking/history', function(){
+    return view('booking_history');
+})->name('booking.history');
+
+Route::get('/double/profil2', function(){
+    return view('double.profile2');
+})->name('double.profile2');
+
+Route::get('/booking/detail', function(){
+    return view('detail_booking');
+})->name('detail_booking');
 
 // Halaman tambahan (footer link)
-Route::view('/profile', 'profile')->name('profile');
 Route::view('/privacy', 'privacy')->name('privacy');
 Route::view('/terms', 'terms')->name('terms');
 Route::view('/faq', 'faq')->name('faq');
@@ -46,8 +56,11 @@ Route::middleware('guest')->group(function () {
 
 // Area yang butuh login
 Route::middleware('auth')->group(function () {
-    // Dashboard
+    // Dashboard dan profil
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/profile/{id}', [ProfilController::class, 'show'])->name('profile');
+    Route::put('/profile', [ProfilController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [ProfilController::class, 'updatePassword'])->name('profile.updatePassword');
 
     // Booking dan Payment
     Route::get('/booking', [BookingController::class, 'create'])->name('booking.create'); // untuk form booking
@@ -60,6 +73,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/check-availability', [BookingController::class, 'checkAvailability'])->name('check.availability');
     Route::put('/admin/booking/{id}/status', [BookingController::class, 'updateStatus'])->name('booking.updateStatus');
     Route::get('/booking/{id}', [BookingController::class, 'exportPdf'])->name('booking.pdf');
+    Route::get('/booking/history', [BookingController::class, 'history'])->name('booking.history');
+    Route::put('/admin/booking/{id}/status_pemesanan', [BookingController::class, 'updatePesanan'])->name('booking.updatePesanan');
 
     // payment
     Route::get('/payment_upload/{id}', [PaymentController::class, 'create'])->name('payment.create');

@@ -16,12 +16,20 @@ class UnitFactory extends Factory
      */
     public function definition(): array
     {
+        // daftar gambar yang sudah kamu taruh di storage/app/public/unit
+        $images = [
+            'unit/kamar1.jpg',
+            'unit/kamar2.jpg',
+            'unit/kamar3.jpg',
+        ];
+
         return [
-            'nama_unit' => $this->faker->word(),
-            'gambar' => $this->faker->imageUrl(),
-            'deskripsi' => $this->faker->paragraph(),
+            'nama_unit' => $this->faker->words(2, true),
+            'deskripsi' => $this->faker->sentence(10),
             'harga' => $this->faker->numberBetween(100000, 1000000),
-            'available' => $this->faker->randomElement(['yes', 'no']),
+            'available' => $this->faker->numberBetween(1, 6),
+            'gambar' => $this->faker->randomElement($images), // simpan path di DB
         ];
     }
+
 }

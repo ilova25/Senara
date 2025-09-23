@@ -121,7 +121,7 @@
         <input type="text" id="alamat" name="alamat" placeholder="Alamat" required />
 
         <label for="no_hp">No. Telepon</label>
-        <input type="text" id="no_hp" name="no_hp" placeholder="No. Telepon" required />
+        <input type="number" id="no_hp" name="no_hp" placeholder="No. Telepon" required />
 
         <button type="submit">Sign up</button>
       </form>

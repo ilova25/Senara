@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('payment', function (Blueprint $table) {
             $table->id();
-            $table->string('bukti_pembayaran');
-            $table->enum('status_pembayaran', ['pending','paid','canceled'])->default('pending');
+            $table->string('bukti_pembayaran')->nullable();
+            $table->enum('status_pembayaran', ['pending','waiting','paid','canceled'])->default('pending');
             $table->date('batas_pembayaran');
             $table->unsignedBigInteger('booking_id');
             $table->foreign('booking_id')->references('id')->on('booking')->onDelete('cascade');

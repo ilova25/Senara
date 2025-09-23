@@ -258,14 +258,12 @@
             <!-- Sidebar -->
             <div class="profile-sidebar">
                 <div class="profile-avatar-large">
-                    {{ $initial }}
+                    NP
                     <div class="status-badge">✓</div>
                 </div>
-                <h2 class="profile-name">{{ Auth::user()->username }}</h2>
-                <p class="profile-email">{{ Auth::user()->email }}</p>
-                <p class="profile-member-since">
-                    Member since {{ Auth::user()->created_at->format('F Y') }}
-                </p>
+                <h2 class="profile-name">Nathaniel Poole</h2>
+                <p class="profile-email">nathaniel.poole@gmail.com</p>
+                <p class="profile-member-since">Member since March 2024</p>
 
                 <div class="stats-container">
                     <div class="stats-grid">
@@ -299,63 +297,59 @@
                 </div>
 
                 <div class="form-content">
-                    <!-- Personal Info -->
                     <div id="personal-tab" class="tab-content active">
-                        <form action="{{ route('profile.update') }}" method="POST">
-                            @csrf
-                            @method('PUT')
-
+                        <form>
                             <div class="form-grid">
                                 <div class="form-group">
-                                    <label class="form-label">Username</label>
-                                    <input type="text" name="username" class="form-input" 
-                                        value="{{ old('username', Auth::user()->username) }}" required>
+                                    <label class="form-label">First Name</label>
+                                    <input type="text" class="form-input" placeholder="Enter your first name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Last Name</label>
+                                    <input type="text" class="form-input" placeholder="Enter your last name" required>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Email Address</label>
-                                    <input type="email" name="email" class="form-input" 
-                                        value="{{ old('email', Auth::user()->email) }}" required>
+                                    <input type="email" class="form-input" placeholder="Enter your email" required>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Phone Number</label>
-                                    <input type="tel" name="no_hp" class="form-input" 
-                                        value="{{ old('no_hp', Auth::user()->no_hp) }}" required>
+                                    <input type="tel" class="form-input" placeholder="Enter your phone number" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Date of Birth</label>
+                                    <input type="date" class="form-input">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Address</label>
-                                    <input type="text" name="alamat" class="form-input" 
-                                        value="{{ old('alamat', Auth::user()->alamat) }}">
+                                    <input type="text" class="form-input" placeholder="Enter your full address">
                                 </div>
                             </div>
                             <div class="button-group">
-                                <button type="reset" class="btn btn-secondary">Cancel</button>
+                                <button type="button" class="btn btn-secondary">Cancel</button>
                                 <button type="submit" class="btn btn-primary">Save Changes</button>
                             </div>
                         </form>
                     </div>
 
-                    <!-- Security -->
                     <div id="security-tab" class="tab-content" style="display: none;">
-                        <form action="{{ route('profile.updatePassword') }}" method="POST">
-                            @csrf
-                            @method('PUT')
-
+                        <form>
                             <div class="form-grid">
                                 <div class="form-group">
                                     <label class="form-label">Current Password</label>
-                                    <input type="password" class="form-input" placeholder="Enter current password" name="current_password">
+                                    <input type="password" class="form-input" placeholder="Enter current password">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">New Password</label>
-                                    <input type="password" name="password" class="form-input" required>
+                                    <input type="password" class="form-input" placeholder="Enter new password">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Confirm New Password</label>
-                                    <input type="password" name="password_confirmation" class="form-input" required>
+                                    <input type="password" class="form-input" placeholder="Confirm new password">
                                 </div>
                             </div>
                             <div class="button-group">
-                                <button type="reset" class="btn btn-secondary">Cancel</button>
+                                <button type="button" class="btn btn-secondary">Cancel</button>
                                 <button type="submit" class="btn btn-primary">Update Password</button>
                             </div>
                         </form>
