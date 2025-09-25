@@ -189,6 +189,11 @@
         color: #b45309;
     }
 
+    .status-waiting {
+        background: #feecc7;
+        color: orange;
+    }
+
     .status-paid {
         background: #d1fae5;
         color: green;
@@ -352,6 +357,8 @@
                             <div class="booking-status status-pending">Pending</div>
                         @elseif ($item->payment && $item->payment->status_pembayaran === 'paid')
                             <div class="booking-status status-paid">Paid</div>
+                        @elseif ($item->payment && $item->payment->status_pembayaran === 'waiting')
+                            <div class="booking-status status-waiting">Waiting</div>
                         @else
                             <div class="booking-status status-pending">Pending</div>
                         @endif
@@ -382,11 +389,12 @@
                             <a href="{{ route('payment.create', $item->id) }}" class="action-btn btn-secondary">Bayar</a>
                         @elseif ($item->status_menginap === 'completed')
                             <a href="{{ route('booking.create') }}" class="action-btn btn-primary">Book Lagi</a>
+                            <a href="{{ route('detil', $item->id) }}" class="action-btn btn-primary">Lihat Detail</a>
                         @elseif ($item->payment && $item->payment->status_pembayaran === 'paid')
                             <a href="{{ route('booking.pdf', $item->id) }}" class="action-btn btn-primary">Unduh Invoice</a>
+                        @elseif ($item->payment && $item->payment->status_pembayaran === 'waiting')
+                            <a href="{{ route('detil', $item->id) }}" class="action-btn btn-primary">Lihat Detail</a>
                         @endif
-
-                        <a href="{{ route('detail_booking', $item->id) }}" class="action-btn btn-primary">Lihat Detail</a>
                     </div>
                 </div>
             @empty

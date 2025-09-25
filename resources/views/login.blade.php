@@ -1,20 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login</title>
+  <!-- Ganti Roboto ke Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
-
   <style>
-    :root {
-      --primary: #5A3B1F;
-      --secondary: #EBDDCB;
-      --accent: #C9A66B;
-      --text-dark: #2E2E2E;
-      --white: #FFFFFF;
-    }
-
     * {
       margin: 0;
       padding: 0;
@@ -23,39 +16,47 @@
     }
 
     body {
-      background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c') center/cover no-repeat;
-      position: relative;
+      background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c');
+      background-size: cover;
+      background-position: center;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      position: relative;
+      overflow: hidden;
     }
 
     body::before {
       content: "";
       position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.35);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(8px);
+      /* ini bikin blur background */
+      -webkit-backdrop-filter: blur(8px);
+      /* untuk Safari */
       z-index: 0;
     }
 
     .container {
       display: flex;
-      background-color: var(--white);
+      background-color: #fff;
       border-radius: 15px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
       overflow: hidden;
       max-width: 900px;
       width: 100%;
-      min-height: 550px;
       position: relative;
       z-index: 1;
+      /* biar tetap di atas layer blur */
     }
 
     .image-section {
       flex: 1;
       background: url('/images/login.png') center/cover no-repeat;
-      min-height: 300px;
     }
 
     .form-section {
@@ -68,109 +69,90 @@
 
     .form-section h2 {
       font-size: 32px;
-      margin-bottom: 8px;
-      font-weight: 600;
-      color: var(--text-dark);
+      margin-bottom: 10px;
     }
 
     .form-section p {
-      color: #666;
+      color: #555;
       font-size: 14px;
       margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
     }
 
     label {
       display: block;
       font-weight: 500;
       margin-bottom: 6px;
-      color: var(--text-dark);
+      color: #333;
     }
 
     input {
       width: 100%;
-      padding: 12px 14px;
+      padding: 12px;
       border: 1px solid #ccc;
       border-radius: 10px;
-      font-size: 14px;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 6px rgba(90, 59, 31, 0.3);
-      outline: none;
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      background-color: var(--primary);
-      color: var(--white);
-      font-size: 16px;
-      font-weight: 500;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-top: 20px;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-    button:hover {
-      background-color: var(--accent);
-      color: var(--text-dark);
-      transform: translateY(-2px);
     }
 
     .register-link {
       font-size: 14px;
       margin-top: 10px;
-      color: #444;
     }
 
     .register-link a {
-      color: var(--accent);
+      color: #5a3414;
       text-decoration: none;
-      font-weight: 500;
+      font-weight: bold;
     }
 
     .register-link a:hover {
       text-decoration: underline;
     }
 
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-        max-width: 95%;
-      }
-      .image-section {
-        min-height: 200px;
-      }
-      .form-section {
-        padding: 30px 20px;
-      }
-      .form-section h2 {
-        font-size: 26px;
-      }
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #5a3414;
+      color: #fff;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #3d230c;
     }
   </style>
 </head>
+
 <body>
   <div class="container">
-    <div class="image-section"></div> <!-- Gambar di kiri -->
+    <div class="image-section"></div>
     <div class="form-section">
       <h2>Sign In</h2>
-      <p>Sign in to your account</p>
-      
+      <p>Sign in to our account</p>
+
+      <!-- GUNAKAN ROUTE LARAVEL -->
       <form method="POST" action="{{ route('login.post') }}">
         @csrf
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" placeholder="Enter your username" required />
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="Username" required />
+        </div>
 
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="Enter your email" required />
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="Email" required />
+        </div>
 
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Enter your password" required />
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Password" required />
+        </div>
 
         <div class="register-link">
           Don't have an account? <a href="{{ route('register') }}">Register</a>
@@ -178,7 +160,9 @@
 
         <button type="submit">Sign in</button>
       </form>
+
     </div>
   </div>
 </body>
+
 </html>

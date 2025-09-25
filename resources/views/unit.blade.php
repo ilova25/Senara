@@ -28,11 +28,13 @@
     }
 
     .page-title {
-      text-align: left;
-      font-size: 42px;
-      margin: 40px 10% 20px;
-      font-weight: 400;
-    }
+  text-align: left;
+  font-size: 42px;
+  margin: 40px 0 20px;
+  padding-left: 50px; /* bisa diganti 5% juga */
+  font-weight: 400;
+}
+
 
     .room-list {
       display: flex;

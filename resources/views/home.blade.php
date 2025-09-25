@@ -454,8 +454,8 @@
 
 {{-- ROOMS --}}
 <section class="section">
-  <p style="text-align:left; font-size:22px; color:#AF8F6F; margin-left:20px; transform:translateX(330px);">Room</p>
-  <h2>Our Exclusive Room</h2>
+  <p style="text-align:left; font-size:22px; color:#AF8F6F; margin-left:20px; transform:translateX(330px);">Unit</p>
+  <h2>Our Exclusive Unit</h2>
   <div class="rooms">
     <div class="card">
       <img src="{{ asset('images/room.png') }}" alt="Room">
@@ -546,7 +546,7 @@
 
 {{-- PROMO --}}
 <section class="section">
-  <div style="padding-left:125px;">
+  <div style="padding-left:25px;">
     <p style="text-align:left; font-size:22px; color:#AF8F6F;">Promotion</p>
     <h2 style="text-align:left;">Get Promo for a Cheaper Price</h2>
   </div>

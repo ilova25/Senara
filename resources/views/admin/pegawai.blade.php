@@ -21,10 +21,9 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th scope="col">ID</th>
+                                    <th scope="col">No</th>
                                     <th scope="col">Username</th>
                                     <th scope="col">Email</th>
-                                    <th scope="col">Password</th>
                                     <th scope="col">Alamat</th>
                                     <th scope="col">No. Telepon</th>
                                     <th scope="col" style="width: 20%">Aksi</th>
@@ -36,9 +35,6 @@
                                         <td>{{ $item->id }}</td>
                                         <td>{{ $item->username }}</td>
                                         <td>{{ $item->email }}</td>
-                                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                            {{ $item->password }}
-                                        </td>
                                         <td>{{ $item->alamat }}</td>
                                         <td>{{ $item->no_hp }}</td>
                                         <td class="text-center">
