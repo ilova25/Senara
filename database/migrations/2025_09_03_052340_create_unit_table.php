@@ -14,10 +14,9 @@ return new class extends Migration
         Schema::create('unit', function (Blueprint $table) {
             $table->id('id_unit');
             $table->string('nama_unit');
-            $table->string('gambar');
+            // $table->string('gambar');
             $table->text('deskripsi');
             $table->bigInteger('harga');
-            $table->string('available');
             $table->timestamps();
         });
     }

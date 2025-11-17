@@ -54,10 +54,11 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [SesiController::class, 'prosesRegister'])->name('register.post');
 });
 
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 // Area yang butuh login
 Route::middleware('auth')->group(function () {
     // Dashboard dan profil
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+
     Route::get('/profile/{id}', [ProfilController::class, 'show'])->name('profile');
     Route::put('/profile', [ProfilController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfilController::class, 'updatePassword'])->name('profile.updatePassword');
@@ -65,7 +66,7 @@ Route::middleware('auth')->group(function () {
     // Booking dan Payment
     Route::get('/booking', [BookingController::class, 'create'])->name('booking.create'); // untuk form booking
     Route::post('/booking', [BookingController::class, 'store'])->name('booking.store'); // untuk submit booking
-    Route::get('/admin/booking', [BookingController::class, 'admin'])->name('booking.admin');
+    
     Route::get('/admin/kalender', [KalenderController::class, 'index'])->name('admin.kalender');
     Route::get('/admin/kalender/bookings', [KalenderController::class, 'getBookings'])->name('kalender.bookings');
     Route::get('/payment/{id}', [BookingController::class, 'payment'])->name('payment');
@@ -84,7 +85,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/masukan', [MasukanController::class, 'store'])->name('masukan.store');
     Route::get('/admin/masukan', [MasukanController::class,'admin'])->name('masukan.admin');
 
-    // Fasilitas (CRUD)
+    
+
+    // Logout
+    Route::post('/logout', [SesiController::class, 'logout'])->name('logout');
+});
+
+// Fasilitas (CRUD)
     Route::resource('/admin/fasilitas', FasilitasController::class);
 
     // Unit (CRUD)
@@ -92,7 +99,4 @@ Route::middleware('auth')->group(function () {
 
     // Pegawai (CRUD)
     Route::resource('/admin/pegawai', OwnerController::class);
-
-    // Logout
-    Route::post('/logout', [SesiController::class, 'logout'])->name('logout');
-});
+Route::get('/admin/booking', [BookingController::class, 'admin'])->name('booking.admin');

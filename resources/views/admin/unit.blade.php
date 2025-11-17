@@ -15,37 +15,42 @@
 
                     @if ($unit->isEmpty())
                         <div class="alert alert-danger">
-                            Data unit belum ada.
+                            Data fasilitas belum ada.
                         </div>
                     @else
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th scope="col">Gambar</th>
+                                    {{-- <th scope="col">Gambar</th> --}}
                                     <th scope="col">Nama</th>
                                     <th scope="col">Harga</th>
                                     <th scope="col">Deskripsi</th>
-                                    <th scope="col">Available</th>
+                                    <th scope="col">Fasilitas</th>
                                     <th scope="col" style="width: 20%">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($unit as $item)
                                     <tr>
-                                        <td class="text-center">
+                                        {{-- <td class="text-center">
                                             <img src="{{ asset('/storage/unit/'.$item->gambar) }}" class="rounded" style="width: 150px">
-                                        </td>
+                                        </td> --}}
                                         <td>{{ $item->nama_unit }}</td>
                                         <td>{{ "Rp " . number_format($item->harga,2,',','.') }}</td>
                                         <td>{{ strip_tags($item->deskripsi) }}</td>
-                                        <td>{{ ($item->available) }}</td>
+                                        <td>
+                                            @foreach ($item->fasilitas as $f)
+                                                <span class="badge bg-info text-dark">{{ $f->nama }}</span>  
+                                            @endforeach
+                                        </td>
                                         <td class="text-center">
+                                                
                                             <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('unit.destroy', $item->id_unit) }}" method="POST">
-                                                <a href="{{ route('unit.show', $item->id_unit) }}" class="btn btn-sm btn-dark"><i class="bi bi-eye"></i></a>
-                                                <a href="{{ route('unit.edit', $item->id_unit) }}" class="btn btn-sm btn-primary"><i class="bi bi-pencil-square"></i></a>
                                                 @csrf
+                                                <a href="{{ route('unit.show', $item->id_unit) }}" class="btn btn-sm btn-dark">SHOW</a>
+                                                <a href="{{ route('unit.edit', $item->id_unit) }}" class="btn btn-sm btn-primary">EDIT</a>
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
+                                                <button type="submit" class="btn btn-sm btn-danger">HAPUS</button>
                                             </form>
                                         </td>
                                     </tr>

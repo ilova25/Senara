@@ -8,6 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class fasilitas extends Model
 {
     use HasFactory;
-    protected $fillable = ['gambar','nama','deskripsi','jumlah'];
-    protected $table = 'fasiitas';
+    protected $fillable = ['nama'];
+    protected $table = 'fasilitas';
+    protected $primaryKey = 'id_fasilitas';
+
+    public function unit()
+    {
+        return $this->belongsToMany(
+            unit::class,
+            'fasilitas_unit',
+            'id_fasilitas',
+            'id_unit'
+        );
+    }
 }

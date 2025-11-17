@@ -1,170 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 
-    <title>Senara Dashboard</title>
+    <!-- Font -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 
-
-    <!--CSS dashboard-->
-    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
-
-    <!-- Custom fonts for this template-->
-    <link href="{{ asset('template/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-
-    <!-- Custom styles for this template-->
-    <link href="{{ asset('template/css/sb-admin-2.min.css') }}" rel="stylesheet">
-
-    {{-- fullcalendar --}}
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
-
-    {{-- bootstrap icons --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-
-</head>
-
-<body id="page-top">
-
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-
-        <!-- Sidebar -->
-        @include('admin.layout.sidebar')
-        <!-- End of Sidebar -->
-        
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
-            <div id="content">
-
-                <!-- Topbar -->
-                @include('admin.layout.navbar')
-                <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-                    @yield('content')
-                    
-
-                </div>
-                <!-- /.container-fluid -->
-
-            </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; RPL Grafika 2025</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-
-        </div>
-        <!-- End of Content Wrapper -->
-
-    </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-    
-    <!-- Logout Modal -->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content border-0 shadow-lg rounded">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title" id="logoutModalLabel">Konfirmasi Logout</h5>
-                <button class="close text-white" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body text-dark">
-                Apakah Anda yakin ingin keluar dari aplikasi?
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-inline">
-                    @csrf
-                    <button type="submit" class="btn btn-danger">Logout</button>
-                </form>
-            </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Global Bukti Pembayaran -->
-    <div class="modal fade" id="buktiModalGlobal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Bukti Pembayaran</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <img id="buktiImage" src="" class="img-fluid rounded" alt="Bukti Pembayaran">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="{{ asset('template/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('template/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="{{ asset('template/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{{ asset('template/js/sb-admin-2.min.js') }}"></script>
-
-    <!-- Page level plugins -->
-    <script src="{{ asset('template/vendor/chart.js/Chart.min.js') }}"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="{{ asset('template/js/demo/chart-area-demo.js') }}"></script>
-    <script src="{{ asset('template/js/demo/chart-pie-demo.js') }}"></script>
-    <script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
-    <script>
-        CKEDITOR.replace('deskripsi');
-    </script>
-
-    {{-- fullcalender --}}
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-
-    {{-- script modal bukti --}}
-    <script>
-        // Script untuk load gambar dinamis
-        function showBukti(url, nama) {
-            document.getElementById('buktiImage').src = url;
-            document.querySelector('#buktiModalGlobal .modal-title').innerText = 'Bukti Pembayaran - ' + nama;
-            var modal = new bootstrap.Modal(document.getElementById('buktiModalGlobal'));
-            modal.show();
+        * {
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: 'Outfit', serif;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden; /* supaya tidak scroll ke bawah berlebihan */
+            background-color: #f8fafc;
+        }
+
+        a { text-decoration: none; }
+        li { list-style: none; }
+
+        /* Layout utama */
+        .wrapper {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+
+        /* Sidebar */
+        #sidebar {
+            width: 80px;
+            background-color: #fff;
+            border-right: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        /* Bagian konten utama */
+        #content-wrapper {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Navbar */
+        nav.navbar {
+            background-color: #fff;
+            height: 60px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        /* Main content */
+        #main {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            background-color: #f8fafc;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid #e5e7eb;
+            background-color: #fff;
+            padding: 0.8rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        {{-- Sidebar --}}
+        @include('admin.layout.sidebar')
+
+        {{-- Content Wrapper --}}
+        <div id="content-wrapper">
+
+            {{-- Navbar --}}
+            @include('admin.layout.navbar')
+
+            {{-- Main Content --}}
+            <div id="main" class="container-fluid">
+                @yield('content')
+            </div>
+
+            {{-- Footer --}}
+            <footer>
+                <span>Copyright &copy; RPL Grafika 2025</span>
+            </footer>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" 
+    crossorigin="anonymous"></script> 
+    
+    <script> 
+    const hamburger = document.querySelector(".toggle-btn"); 
+    const toggler = document.querySelector("#icon"); 
+    hamburger.addEventListener("click",function(){ 
+        document.querySelector("#sidebar").classList.toggle("expand"); 
+        toggler.classList.toggle("bx-chevrons-right"); 
+        toggler.classList.toggle("bx-chevrons-left"); 
+    }); 
     </script>
 
-    @stack('scripts')
-
+    @stack('styles')
 </body>
-
 </html>

@@ -3,33 +3,26 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\fasilitas;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Unit>
- */
 class UnitFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
-        // daftar gambar yang sudah kamu taruh di storage/app/public/unit
-        $images = [
-            'unit 1.jpg',
-            'unit 2.jpg',
-            'unit 3.jpg',
-        ];
-
         return [
-            'nama_unit' => $this->faker->words(2, true),
+            'nama_unit' => 'Unit ' . $this->faker->unique()->numberBetween(1, 20),
             'deskripsi' => $this->faker->sentence(10),
-            'harga' => $this->faker->numberBetween(100000, 1000000),
-            'available' => $this->faker->numberBetween(1, 6),
-            'gambar' => $this->faker->randomElement($images), // simpan path di DB
+            'harga' => $this->faker->numberBetween(100000, 500000),
         ];
     }
 
+    public function configure()
+    {
+        return $this->afterCreating(function ($unit) {
+            // Ambil 2–5 fasilitas random untuk tiap unit
+            $facilityIds = fasilitas::inRandomOrder()->limit(rand(2, 5))->pluck('id_fasilitas');
+
+            $unit->fasilitas()->sync($facilityIds);
+        });
+    }
 }

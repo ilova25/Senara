@@ -1,82 +1,217 @@
-<ul class="navbar-nav bg-gradient-brown sidebar sidebar-dark accordion" id="accordionSidebar">
+@push('styles')
+    <style>
+        #sidebar {
+            width: 90px;
+            min-width: 90px;
+            transition: all 0.25s ease-in-out;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+        }
 
-    <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('admin.dashboard') }}">
-        <div class="sidebar-brand-text mx-2">Senara Guesthouse</div>
-    </a>
+        #sidebar.expand {
+            width: 260px;
+            min-width: 260px;
+        }
 
-    <hr class="sidebar-divider my-0">
+        #sidebar:not(.expand) .sidebar-logo,
+        #sidebar:not(.expand) a.sidebar-link span {
+            display: none;
+        }
 
-    <!-- Dashboard -->
-    <li class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">
-            <i class="fas fa-home"></i>
-            <span>Dashboard</span>
-        </a>
-    </li>
+        .toggle-btn {
+            width: 30px;
+            height: 30px;
+            color: #FFF;
+            border-radius: 0.425rem;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #543310;
+        }
 
-    <hr class="sidebar-divider">
+        .toggle-btn i {
+            color: #FFF;
+        }
 
-    <!-- Heading -->
-    <div class="sidebar-heading">Tamu</div>
+        #sidebar.expand .sidebar-logo,
+        #sidebar.expand .sidebar-link span {
+            animation: fadeIn 0.25s ease;
+        }
 
-    <!-- Nav Item - Booking -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-            aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-calendar-check"></i>
-            <span>Booking</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Menu Booking:</h6>
-                <a class="collapse-item" href="{{route('booking.admin')}}">Lihat Booking</a>
-                <a class="collapse-item" href="{{route('admin.kalender')}}">Kalender</a>
-            </div>
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .sidebar-logo a {
+            color: #543310;
+            font-size: 1.15rem;
+            font-weight: 600;
+        }
+
+        .sidebar-nav {
+            padding: 0.7rem 0;
+            flex: 11 auto;
+            z-index: 10;
+        }
+
+        a.sidebar-link {
+            padding: .625rem 1.625rem;
+            color: #4b5563;
+            display: block;
+            white-space: nowrap;
+            font-weight: 700;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-link i,
+        .dropdown-item i {
+            font-size: 1.1rem;
+            margin-right: .75rem;
+            color: #543310;
+        }
+
+        a.sidebar-link:hover {
+            background-color: #eff6ff;
+            border-left: 3px solid #543310;
+        }
+
+        .sidebar-item {
+            position: relative;
+        }
+
+        #sidebar:not(.expand) .sidebar-item .sidebar-dropdown {
+            position: absolute;
+            top: 0;
+            left: 90px;
+            /* background-color: #0e2238; */
+            padding: 0;
+            min-width: 15rem;
+            display: none;
+        }
+
+        #sidebar:not(.expand) .sidebar-item .sidebar-dropdown .sidebar-dropdown {
+            left: 130px;
+        }
+
+        #sidebar.expand .sidebar-link[data-bs-toggle="collapse"]::after {
+            border: solid;
+            border-width: 0.075rem .075rem 0;
+            content: "";
+            display: inline-block;
+            padding: 2px;
+            position: absolute;
+            right: 1.5rem;
+            top: 1.4rem;
+            transform: rotate(-135deg);
+            transition: all .2s ease-out;
+        }
+
+        #sidebar.expand .sidebar-link[data-bs-toggle="collapse"].collapsed::after {
+            transform: rotate(45deg);
+            transition: all .2s ease-out;
+        }
+
+        .sidebar-dropdown .sidebar-link {
+            position: relative;
+            padding-left: 3rem;
+            transition: all 0.5s;
+        }
+
+        .sidebar-dropdown a.sidebar-link::before {
+            content: "";
+            height: 0.125rem;
+            width: 0.375rem;
+            background-color: #FFFFFF80;
+            position: absolute;
+            left: 1.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: all 0.5s;
+        }
+
+        .sidebar-dropdown a.sidebar-link:hover {
+            background: transparent;
+            border-left: 3px solid transparent;
+            padding-left: 3.8rem;
+            color: #543310;
+        }
+    </style>
+@endpush
+
+<aside id="sidebar">
+    <div class="d-flex justify-content-between p-4">
+        <div class="sidebar-logo">
+            <a href="#">Senara</a>
         </div>
-    </li>
-
-    <!-- Comment -->
-    <li class="nav-item {{ request()->routeIs('comment.*') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('masukan.admin')}}">
-            <i class="fas fa-comments"></i>
-            <span>Kritik dan Saran</span>
-        </a>
-    </li>
-
-    @if (Auth::check() && Auth::user()->role === 'owner')
-        <hr class="sidebar-divider">
-        <div class="sidebar-heading">Pengelolaan</div>
-
-        <!-- Unit -->
-        <li class="nav-item {{ request()->routeIs('unit.*') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('unit.index') }}">
-                <i class="fas fa-building"></i>
+        <button class="toggle-btn border-0" type="button">
+            <i class='bx bx-chevrons-right'></i>
+        </button>
+    </div>
+    <ul class="sidebar-nav">
+        <li class="sidebar-item">
+            <a href="{{ route('admin.dashboard') }}" class="sidebar-link">
+                <i class='bx bxs-dashboard'></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="{{ route('fasilitas.index') }}" class="sidebar-link">
+                <i class='bx bxs-hard-hat'></i>
+                <span>fasilitas</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="{{ route('booking.admin') }}" class="sidebar-link">
+                <i class='bx bxs-calendar-check'></i>
+                <span>Booking</span>
+            </a>
+        </li>
+        
+        <li class="sidebar-item">
+            <a href="{{ route('unit.index') }}" class="sidebar-link">
+                <i class='bx bxs-home'></i>
                 <span>Unit</span>
             </a>
         </li>
-
-        <!-- Fasilitas -->
-        <li class="nav-item {{ request()->routeIs('fasilitas.*') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('fasilitas.index') }}">
-                <i class="fas fa-concierge-bell"></i>
-                <span>Fasilitas</span>
+        <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+                <i class='bx bxs-cog'></i>
+                <span>Settings</span>
             </a>
         </li>
 
-        <!-- Pegawai -->
-        <li class="nav-item {{ request()->routeIs('pegawai.*') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('pegawai.index') }}">
-                <i class="fas fa-users"></i>
-                <span>Pegawai</span>
+        <li class="sidebar-item">
+            <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
+                <i class='bx bxs-bug-alt'></i>
+                <span>Auth</span>
             </a>
+            <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        Login
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        Register
+                    </a>
+                </li>
+            </ul>
         </li>
-    @endif
-
-    <hr class="sidebar-divider d-none d-md-block">
-
-    <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </ul>
+    <div class="sidebar-footer">
+        <a href="#" class="sidebar-link">
+            <i class='bx bx-log-out'></i>
+            <span>Logout</span>
+        </a>
     </div>
-
-</ul>
+</aside>
