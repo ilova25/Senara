@@ -26,9 +26,18 @@ class DatabaseSeeder extends Seeder
         User::factory()->dataadmin1()->create();
         User::factory()->dataadmin2()->create();
         User::factory()->dataadmin3()->create();
-        fasilitas::factory()->count(10)->create();
-        unit::factory()->count(5)->create();
 
+        $fasilitasList = fasilitas::factory()->count(10)->create();
+        
+        $units = unit::factory()->count(5)->create();
+
+        $allFacilityIds = fasilitas::pluck('id_fasilitas');
+
+        $units->each(function ($unit) use ($allFacilityIds) {
+            $randomIds = $allFacilityIds->random(rand(2, 5))->toArray();
+
+            $unit->fasilitas()->sync($randomIds);
+        });
 
     }
 }

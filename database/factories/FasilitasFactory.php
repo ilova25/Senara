@@ -28,6 +28,8 @@ class FasilitasFactory extends Factory
                 'Kolam Renang',
                 'Room Service'
             ]),
+
+            'gambar' => 'fasilitas/default.png',
         ];
     }
 }

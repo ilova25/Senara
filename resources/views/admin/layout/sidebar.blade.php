@@ -163,31 +163,11 @@
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="{{ route('fasilitas.index') }}" class="sidebar-link">
-                <i class='bx bxs-hard-hat'></i>
-                <span>fasilitas</span>
-            </a>
-        </li>
-        <li class="sidebar-item">
-            <a href="{{ route('booking.admin') }}" class="sidebar-link">
+            <a href="#" class="sidebar-link">
                 <i class='bx bxs-calendar-check'></i>
                 <span>Booking</span>
             </a>
         </li>
-        
-        <li class="sidebar-item">
-            <a href="{{ route('unit.index') }}" class="sidebar-link">
-                <i class='bx bxs-home'></i>
-                <span>Unit</span>
-            </a>
-        </li>
-        <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-                <i class='bx bxs-cog'></i>
-                <span>Settings</span>
-            </a>
-        </li>
-
         <li class="sidebar-item">
             <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
                 data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
@@ -206,6 +186,18 @@
                     </a>
                 </li>
             </ul>
+        </li>
+        <li class="sidebar-item">
+            <a href="{{ route('unit.index') }}" class="sidebar-link">
+                <i class='bx bxs-bell-ring'></i>
+                <span>Unit</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+                <i class='bx bxs-cog'></i>
+                <span>Settings</span>
+            </a>
         </li>
     </ul>
     <div class="sidebar-footer">

@@ -96,6 +96,8 @@ Route::middleware('auth')->group(function () {
 
     // Unit (CRUD)
     Route::resource('/admin/unit', UnitController::class);
+    Route::get('unit/{id}/fasilitas',[UnitController::class, 'fasilitasIndex'])->name('unit.fasilitas.index');
+    Route::delete('unit/{id}/fasilitas/{fasilitas}', [UnitController::class, 'destroyFasilitas'])->name('unit.fasilitas.destroy');
 
     // Pegawai (CRUD)
     Route::resource('/admin/pegawai', OwnerController::class);

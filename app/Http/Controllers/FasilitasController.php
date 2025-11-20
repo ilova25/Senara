@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\fasilitas;
+use App\Models\unit;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage as FacadesStorage;
+use Illuminate\Support\Facades\Storage;
 
 class FasilitasController extends Controller
 {
@@ -22,32 +23,33 @@ class FasilitasController extends Controller
         return view('facilities', compact('fasilitas'));
     }
 
-    public function create(): View
+    public function create(Request $request): View
     {
-        return view('admin.fasilitas.create');
+        $unitId = $request->get('unit_id');
+        return view('admin.unit.fasilitas.create', compact('unitId'));
     }
 
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'gambar'      => 'required|image|mimes:jpeg,jpg,png|max:2048',
-            'nama'        => 'required|min:5',
-            'deskripsi'   => 'required|min:10',
-            'jumlah'      => 'required|numeric'
+            'nama'        => 'required|min:1',
+            'unit_id' => 'required|exists:unit,id_unit',
         ]);
 
-        $gambar = $request->file('gambar');
-        $gambar->storeAs('fasilitas', $gambar->hashName());
+        $path = $request->file('gambar')->store('fasilitas','public');
 
-        fasilitas::create([
-            'gambar'      => $gambar->hashName(),
+        $fasilitas = fasilitas::create([
+            'gambar'      => $path,
             'nama'        => $request->nama,
-            'deskripsi'   => $request->deskripsi,
-            'jumlah'      => $request->jumlah
         ]);
+
+        // pasti ada unit_id karena divalidasi "required"
+        $unit = unit::findOrFail($request->unit_id);
+        $unit->fasilitas()->attach($fasilitas->id_fasilitas);
 
         //redirect to index
-        return redirect()->route('fasilitas.index')->with(['success' => 'Data Berhasil Disimpan!']);
+        return redirect()->route('unit.fasilitas.index', $unit->id_unit)->with(['success' => 'Data Berhasil Disimpan!']);
     }
 
     public function show(string $id): View
@@ -56,10 +58,12 @@ class FasilitasController extends Controller
         return view('admin.fasilitas.show', compact('fasilitas'));
     }
 
-    public function edit(string $id): View
+    public function edit(Request $request, string $id): View
     {
         $fasilitas = fasilitas::findOrFail($id);
-        return view('admin.fasilitas.edit', compact('fasilitas'));
+        $unitId = $request->get('unit_id');
+
+        return view('admin.unit.fasilitas.edit', compact('fasilitas','unitId'));
     }
 
     public function update(Request $request, $id): RedirectResponse
@@ -67,49 +71,42 @@ class FasilitasController extends Controller
         //validate form
         $request->validate([
             'gambar'      => 'image|mimes:jpeg,jpg,png|max:2048',
-            'nama'        => 'required|min:5',
-            'deskripsi'   => 'required|min:10',
-            'jumlah'      => 'required|numeric'
+            'nama'        => 'required|min:1',
+            'unit_id' => 'nullable|exists:unit,id_unit',
         ]);
 
         //get product by ID
         $fasilitas = fasilitas::findOrFail($id);
 
+        $dataUpdate = [
+            'nama' => $request->nama,
+        ];
+
         //check if image is uploaded
         if ($request->hasFile('gambar')) {
 
             //delete old image
-            FacadesStorage::delete('fasilitas/' . $fasilitas->gambar);
+            if ($fasilitas->gambar && Storage::disk('public')->exists($fasilitas->gambar)) {
+                Storage::disk('public')->delete($fasilitas->gambar);
+            }
 
             //upload new image
-            $gambar = $request->file('gambar');
-            $gambar->storeAs('fasilitas', $gambar->hashName());
+            $path = $request->file('gambar')->store('fasilitas','public');
+            $dataUpdate['gambar'] = $path;
+        } 
 
-            //update product with new image
-            $fasilitas->update([
-                'gambar'         => $gambar->hashName(),
-                'nama'         => $request->nama,
-                'deskripsi'   => $request->deskripsi,
-                'jumlah'         => $request->jumlah
-            ]);
-        } else {
+        $fasilitas->update($dataUpdate);
 
-            //update product without image
-            $fasilitas->update([
-                'nama'         => $request->nama,
-                'deskripsi'   => $request->deskripsi,
-                'jumlah'         => $request->jumlah
-            ]);
-        }
+        $unit = unit::findOrFail($request->unit_id);
 
         //redirect to index
-        return redirect()->route('fasilitas.index')->with(['success' => 'Data Berhasil Diubah!']);
+        return redirect()->route('unit.fasilitas.index', $unit->id_unit)->with(['success' => 'Data Berhasil Diubah!']);
     }
 
     public function destroy($id): RedirectResponse
     {
         $fasilitas = fasilitas::findOrFail($id);
-        FacadesStorage::delete('/fasilitas' . $fasilitas->gambar);
+        Storage::disk('public')->delete($fasilitas->gambar);
         $fasilitas->delete();
         return redirect()->route('fasilitas.index')->with(['success' => 'Data Berhasil dihapus']);
     }
