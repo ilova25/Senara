@@ -163,12 +163,12 @@
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
+            <a href="{{ route('booking.admin') }}" class="sidebar-link">
                 <i class='bx bxs-calendar-check'></i>
                 <span>Booking</span>
             </a>
         </li>
-        <li class="sidebar-item">
+        {{-- <li class="sidebar-item">
             <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
                 data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
                 <i class='bx bxs-bug-alt'></i>
@@ -186,10 +186,10 @@
                     </a>
                 </li>
             </ul>
-        </li>
+        </li> --}}
         <li class="sidebar-item">
             <a href="{{ route('unit.index') }}" class="sidebar-link">
-                <i class='bx bxs-bell-ring'></i>
+                <i class='bx bxs-home'></i>
                 <span>Unit</span>
             </a>
         </li>
