@@ -2,26 +2,53 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class OwnerController extends Controller
 {
+    // Halaman index pegawai
     public function index(): View
     {
-        $pegawai = User::where('role', 'resepsionis')->paginate(10);
-        return view('admin.pegawai', compact('pegawai'));
+        return view('admin.pegawai');
     }
 
+    // Endpoint JSON untuk AJAX
+    public function data(Request $request)
+    {
+        try {
+            $q = strtolower($request->get('q', ''));
+
+            $query = User::query()->where('role', 'resepsionis');
+
+            if ($q !== '') {
+                $query->where(function ($query) use ($q) {
+                    $query->whereRaw('LOWER(username) LIKE ?', ["%{$q}%"])
+                        ->orWhereRaw('LOWER(email) LIKE ?', ["%{$q}%"])
+                        ->orWhereRaw('LOWER(alamat) LIKE ?', ["%{$q}%"]);
+                });
+            }
+
+            $pegawai = $query->orderBy('username', 'asc')->get();
+
+            return response()->json($pegawai);
+        } catch (\Throwable $e) {
+            Log::error('Error data pegawai: '.$e->getMessage());
+            return response()->json(['error' => 'Gagal memuat data pegawai'], 500);
+        }
+    }
+
+    // Form tambah pegawai
     public function create(): View
     {
         return view('admin.pegawai.create');
     }
 
+    // Simpan pegawai baru
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
@@ -29,61 +56,70 @@ class OwnerController extends Controller
             'email'=> 'required|string|email|unique:users,email',
             'password'=> 'required|string|min:8',
             'alamat' => 'required|string|max:250',
-            'no_hp' => 'required|integer|min:10'
+            'no_hp' => 'required|string|min:10'
         ]);
 
         User::create([
             'username'  => $request->username,
             'email'     => $request->email,
             'password'  => Hash::make($request->password),
-            'role' => 'resepsionis',
-            'alamat' => $request->alamat,
-            'no_hp' => $request->no_hp
+            'role'      => 'resepsionis',
+            'alamat'    => $request->alamat,
+            'no_hp'     => $request->no_hp
         ]);
 
-        //redirect to index
-        return redirect()->route('pegawai.index')->with(['success' => 'Data Berhasil Disimpan!']);
+        return redirect()->route('pegawai.index')->with('success', 'Data Berhasil Disimpan!');
     }
 
+    // Form edit pegawai
     public function edit(string $id): View
     {
         $pegawai = User::findOrFail($id);
         return view('admin.pegawai.edit', compact('pegawai'));
     }
 
+    // Update pegawai
     public function update(Request $request, $id): RedirectResponse
     {
-        //validate form
         $request->validate([
             'username'=> 'required|string|max:50',
             'email'=> 'required|string|email',
-            'password'=> 'required|string|min:8',
+            'password'=> 'nullable|string|min:8', // password boleh kosong jika tidak diubah
             'alamat'=> 'required|string|max:250',
-            'no_hp'=> 'required|integer|min:10'
+            'no_hp'=> 'required|string|min:10'
         ]);
 
-        //get product by ID
         $pegawai = User::findOrFail($id);
 
-        //update product without image
-        $pegawai->update([
-            'username'         => $request->username,
-            'email'         => $request->email,
-            'password'   => $request->password,
-            'alamat'         => $request->alamat,
-            'no_hp'         => $request->no_hp
-        ]);
-        
+        $data = [
+            'username' => $request->username,
+            'email' => $request->email,
+            'alamat' => $request->alamat,
+            'no_hp' => $request->no_hp
+        ];
 
-        //redirect to index
-        return redirect()->route('pegawai.index')->with(['success' => 'Data Berhasil Diubah!']);
+        if ($request->password) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        $pegawai->update($data);
+
+        return redirect()->route('pegawai.index')->with('success', 'Data Berhasil Diubah!');
     }
 
-    public function destroy($id): RedirectResponse
+    // Hapus pegawai
+    public function destroy(string $id): RedirectResponse
     {
-        $user = User::findOrFail($id);
-        $user->delete();
-        return redirect()->route('pegawai.index')->with(['success' => 'Data Berhasil dihapus']);
+        $pegawai = User::findOrFail($id);
+        $pegawai->delete();
+
+        return redirect()->route('pegawai.index')->with('success', 'Data Berhasil Dihapus!');
     }
+
+    public function show($id)
+{
+    // bisa redirect atau return JSON kosong
+    return redirect()->route('pegawai.index');
+}
 
 }

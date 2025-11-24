@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\fasilitas;
 use App\Models\unit;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +15,7 @@ use Throwable;
 class UnitController extends Controller
 {
     // unit index admin
-    public function index(): View
+    public function index(Request $request): View
     {
         $unit = unit::with('fasilitas')->latest()->paginate(5);
         return view('admin.unit', compact('unit'));
@@ -153,11 +154,50 @@ class UnitController extends Controller
         return redirect()->route('unit.index')->with(['success' => 'Data Berhasil dihapus']);
     }
 
-    public function fasilitasIndex($id): View
+    public function fasilitasIndex($id)
     {
         $unit = unit::with('fasilitas')->findOrFail($id);
+
         return view('admin.unit.fasilitas.index', compact('unit'));
     }
+
+    /**
+     * Data fasilitas milik satu unit, untuk AJAX (termasuk search)
+     */
+    public function fasilitasData(unit $unit, Request $request): JsonResponse
+    {
+        $search = strtolower($request->get('q', ''));
+
+        $fasilitasQuery = $unit->fasilitas(); // relasi many-to-many
+
+        if ($search !== '') {
+            $fasilitasQuery->whereRaw('LOWER(nama) LIKE ?', ["%{$search}%"]);
+        }
+
+        $fasilitas = $fasilitasQuery
+            ->orderBy('nama')
+            ->get();
+
+        return response()->json($fasilitas);
+    }
+
+    /**
+     * Contoh search unit (biarkan punyamu kalau sudah ada)
+     */
+    public function search(Request $request): JsonResponse
+    {
+        $keyword = strtolower($request->input('q', ''));
+
+        $unit = unit::when($keyword !== '', function ($query) use ($keyword) {
+                $query->whereRaw('LOWER(nama_unit) LIKE ?', ["%{$keyword}%"]);
+            })
+            ->with('fasilitas') // kalau kamu memang load relasi
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json($unit);
+    }
+
 
     public function destroyFasilitas($unitId, $fasilitasId): RedirectResponse
     {

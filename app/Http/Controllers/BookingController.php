@@ -61,10 +61,37 @@ class BookingController extends Controller
         return redirect()->route('payment', $booking->id)->with('success', 'Booking berhasil!');
     }
 
-    public function admin()
+     public function admin()
     {
-        $booking = Booking::with('unit', 'payment')->get();
+        // boleh kosong atau kasih data awal seadanya
+        $booking = collect(); // atau Booking::limit(0)->get();
+
         return view('admin.booking', compact('booking'));
+    }
+
+    // Endpoint JSON untuk datatable + search
+    public function data(Request $request)
+    {
+        $q = strtolower($request->get('q', ''));
+
+        $query = Booking::with(['unit', 'payment']);
+
+        if ($q !== '') {
+            $query->where(function ($query) use ($q) {
+                $query->whereRaw('LOWER(nama) LIKE ?', ["%{$q}%"])
+                    ->orWhereRaw('LOWER(email) LIKE ?', ["%{$q}%"])
+                    ->orWhereRaw('LOWER(kode_booking) LIKE ?', ["%{$q}%"])
+                    ->orWhereHas('unit', function ($qUnit) use ($q) {
+                        $qUnit->whereRaw('LOWER(nama_unit) LIKE ?', ["%{$q}%"]);
+                    });
+            });
+        }
+
+        // kalau mau paginasi di front-end sendiri, bisa pakai ->get()
+        $booking = $query->latest()->get();
+
+        // kembalikan JSON
+        return response()->json($booking);
     }
 
     public function payment($id): View

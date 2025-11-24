@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Admin;
+use App\Models\booking;
 use App\Models\fasilitas;
 use App\Models\unit;
 use App\Models\User;
@@ -16,7 +17,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        User::factory(10)->create();
 
         // User::factory()->create([
         //     'name' => 'Test User',
@@ -39,5 +40,6 @@ class DatabaseSeeder extends Seeder
             $unit->fasilitas()->sync($randomIds);
         });
 
+        booking::factory()->count(10)->create();
     }
 }

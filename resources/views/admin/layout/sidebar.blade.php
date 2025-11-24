@@ -91,7 +91,6 @@
             position: absolute;
             top: 0;
             left: 90px;
-            /* background-color: #0e2238; */
             padding: 0;
             min-width: 15rem;
             display: none;
@@ -151,7 +150,7 @@
         <div class="sidebar-logo">
             <a href="#">Senara</a>
         </div>
-        <button class="toggle-btn border-0" type="button">
+        <button class="toggle-btn border-0" type="button" id="btn-toggle-sidebar">
             <i class='bx bx-chevrons-right'></i>
         </button>
     </div>
@@ -168,25 +167,6 @@
                 <span>Booking</span>
             </a>
         </li>
-        {{-- <li class="sidebar-item">
-            <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
-                <i class='bx bxs-bug-alt'></i>
-                <span>Auth</span>
-            </a>
-            <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        Login
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        Register
-                    </a>
-                </li>
-            </ul>
-        </li> --}}
         <li class="sidebar-item">
             <a href="{{ route('unit.index') }}" class="sidebar-link">
                 <i class='bx bxs-home'></i>
@@ -194,14 +174,15 @@
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-                <i class='bx bxs-cog'></i>
-                <span>Settings</span>
+            <a href="{{ route('pegawai.index') }}" class="sidebar-link">
+                <i class='bx bxs-user'></i>
+                <span>Pegawai</span>
             </a>
         </li>
     </ul>
+
     <div class="sidebar-footer">
-        <a href="#" class="sidebar-link">
+        <a href="javascript:void(0);" class="sidebar-link" id="btn-logout">
             <i class='bx bx-log-out'></i>
             <span>Logout</span>
         </a>

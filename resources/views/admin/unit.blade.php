@@ -3,101 +3,106 @@
 @section('title', 'Data Unit')
 
 @push('styles')
-<style>
-    .btn-coklat {
-        background-color: #6d4c41;
-        color: #fff;
-        transition: 0.2s;
-    }
-    .btn-coklat:hover {
-        background-color: #5d4037;
-        color: #fff;
-    }
-    .text-brown {
-        color: #6d4c41;
-    }
-    .badge-fasilitas {
-        background-color: #efebe9;
-        color: #5d4037;
-        font-weight: 500;
-    }
-
-    /* --- Extra styling modern untuk tabel --- */
-    .card-table-wrapper {
-        background: #f9f6f1;
-        border-radius: 20px;
-        padding: 18px;
-    }
-
-    .table-modern thead tr {
-        border-bottom: none;
-    }
-
-    .table-modern thead th {
-        border-bottom: none !important;
-        font-size: 0.78rem;
-        text-transform: uppercase;
-        letter-spacing: .06em;
-        font-weight: 700;
-        color: #9e9e9e;
-        background-color: transparent !important;
-    }
-
-    .table-modern tbody tr {
-        border-radius: 12px;
-        transition: background-color .15s ease, transform .1s ease;
-    }
-
-    .table-modern tbody tr:hover {
-        background-color: #f3e9df;
-        transform: translateY(-1px);
-    }
-
-    .table-modern td {
-        border-top: none !important;
-        padding-top: 0.85rem;
-        padding-bottom: 0.85rem;
-        vertical-align: middle;
-    }
-
-    .badge-price {
-        background: #fff3e0;
-        color: #e65100;
-        font-weight: 600;
-        border-radius: 999px;
-        padding: 0.25rem 0.75rem;
-        font-size: 0.8rem;
-    }
-
-    .badge-empty {
-        border-radius: 999px;
-        padding: 0.2rem 0.75rem;
-        font-size: 0.8rem;
-        border: 1px dashed #bdbdbd;
-    }
-
-    .btn-icon {
-        width: 32px;
-        height: 32px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 999px;
-    }
-
-    .btn-icon i {
-        font-size: 1rem;
-    }
-
-    @media (max-width: 768px) {
-        .header-actions {
-            flex-direction: column;
-            align-items: flex-start !important;
-            gap: .75rem;
+    <style>
+        .btn-coklat {
+            background-color: #6d4c41;
+            color: #fff;
+            transition: 0.2s;
         }
-    }
-</style>
+        .btn-coklat:hover {
+            background-color: #5d4037;
+            color: #fff;
+        }
+        .text-brown {
+            color: #6d4c41;
+        }
+        .badge-fasilitas {
+            background-color: #efebe9;
+            color: #5d4037;
+            font-weight: 500;
+        }
+
+        /* --- Extra styling modern untuk tabel --- */
+        .card-table-wrapper {
+            background: #f9f6f1;
+            border-radius: 20px;
+            padding: 18px;
+        }
+
+        .table-modern thead tr {
+            border-bottom: none;
+        }
+
+        .table-modern thead th {
+            border-bottom: none !important;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            font-weight: 700;
+            color: #9e9e9e;
+            background-color: transparent !important;
+        }
+
+        .table-modern tbody tr {
+            border-radius: 12px;
+            transition: background-color .15s ease, transform .1s ease;
+        }
+
+        .table-modern tbody tr:hover {
+            background-color: #f3e9df;
+            transform: translateY(-1px);
+        }
+
+        .table-modern td {
+            border-top: none !important;
+            padding-top: 0.85rem;
+            padding-bottom: 0.85rem;
+            vertical-align: middle;
+        }
+
+        .badge-price {
+            background: #fff3e0;
+            color: #e65100;
+            font-weight: 600;
+            border-radius: 999px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.8rem;
+        }
+
+        .badge-empty {
+            border-radius: 999px;
+            padding: 0.2rem 0.75rem;
+            font-size: 0.8rem;
+            border: 1px dashed #bdbdbd;
+        }
+
+        .btn-icon {
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+        }
+
+        .btn-icon i {
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .header-actions {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: .75rem;
+            }
+        }
+    </style>
 @endpush
+
+@php
+    $searchAction = route('unit.index');
+    $searchPlaceholder = 'Cari unit..';
+@endphp
 
 @section('content')
 <div class="container-fluid py-4">
@@ -110,18 +115,6 @@
         </div>
 
         <div class="d-flex gap-2">
-            {{-- contoh search kecil, kalau belum dipakai bisa dihapus --}}
-            {{-- 
-            <form action="{{ route('unit.index') }}" method="GET" class="d-none d-md-block">
-                <div class="input-group input-group-sm">
-                    <span class="input-group-text bg-white border-end-0">
-                        <i class="bx bx-search"></i>
-                    </span>
-                    <input type="text" name="q" class="form-control border-start-0" placeholder="Cari unit...">
-                </div>
-            </form>
-            --}}
-
             <a href="{{ route('unit.create') }}" class="btn btn-coklat">
                 <i class="fa-solid fa-plus me-1"></i> Tambah Unit
             </a>
@@ -155,7 +148,7 @@
                 </div>
             @else
                 <div class="table-responsive">
-                    <table class="table table-modern align-middle">
+                    <table class="table table-modern align-middle" id="table-unit">
                         <thead>
                             <tr>
                                 <th style="width: 60px;">No</th>
@@ -252,12 +245,142 @@
 
                 {{-- Pagination --}}
                 @if(method_exists($unit, 'links'))
-                    <div class="mt-3 d-flex justify-content-end">
-                        {{ $unit->links() }}
+                    <div class="d-flex justify-content-end mt-3">
+                        <div class="pagination-wrapper">
+                            {{ $unit->withQueryString()->links('pagination::bootstrap-5') }}
+                            {{-- atau kalau belum pakai view bootstrap-5, pakai:
+                            {{-- {{ $unit->withQueryString()->links() }} --}}
+                        </div>
                     </div>
                 @endif
+
             @endif
         </div>
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+$(document).ready(function() {
+
+    // Fungsi buat render ulang isi <tbody>
+    function renderTable(data) {
+        let rows = '';
+
+        if (data.length === 0) {
+            rows = `
+                <tr>
+                    <td colspan="6" class="text-center text-muted">
+                        Tidak ada unit ditemukan
+                    </td>
+                </tr>
+            `;
+        } else {
+            data.forEach((u, index) => {
+                // kalau field id di JSON kamu beda (misal id_unit), sesuaikan
+                const urlShow = `/admin/unit/${u.id_unit}`;
+                const urlEdit = `/admin/unit/${u.id_unit}/edit`;
+                const urlFasilitas = `/admin/unit/${u.id_unit}/fasilitas`; // sesuaikan route-nya
+                const urlDestroy = `/admin/unit/${u.id_unit}`; // form delete masih di server side
+
+                rows += `
+                    <tr>
+                        <td class="text-muted">${index + 1}</td>
+                        <td>
+                            <div class="d-flex flex-column">
+                                <span class="fw-semibold">${u.nama_unit}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <small class="text-muted">
+                                ${u.deskripsi ? u.deskripsi.substring(0, 60) + (u.deskripsi.length > 60 ? '...' : '') : ''}
+                            </small>
+                        </td>
+                        <td>
+                            <span class="badge-price">
+                                Rp ${new Intl.NumberFormat('id-ID').format(u.harga ?? 0)}
+                            </span>
+                        </td>
+                        <td>
+                            ${u.fasilitas && u.fasilitas.length > 0
+                                ? `<a href="${urlFasilitas}" class="text-decoration-none">
+                                        <span class="badge rounded-pill badge-fasilitas">
+                                            ${u.fasilitas.length} fasilitas
+                                        </span>
+                                   </a>`
+                                : `<a href="${urlFasilitas}" class="text-muted small text-decoration-none">
+                                        <span class="badge-empty">
+                                            + Tambah fasilitas
+                                        </span>
+                                   </a>`
+                            }
+                        </td>
+                        <td class="text-end">
+                            <div class="d-inline-flex gap-1">
+                                <a href="${urlShow}" 
+                                   class="btn btn-sm btn-outline-secondary btn-icon"
+                                   title="Detail">
+                                    <i class="bx bxs-show"></i>
+                                </a>
+                                <a href="${urlEdit}" 
+                                   class="btn btn-sm btn-outline-primary btn-icon"
+                                   title="Edit">
+                                    <i class="bx bxs-pen"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        $('#table-unit tbody').html(rows);
+    }
+
+    // Load awal (kalau mau dari AJAX juga, opsional)
+    function loadUnit() {
+        $.ajax({
+            url: "{{ route('unit.search') }}", // boleh pakai search dengan q kosong
+            method: "GET",
+            data: { q: '' },
+            success: function(response) {
+                renderTable(response);
+            },
+            error: function() {
+                console.error('Gagal memuat data unit.');
+            }
+        });
+    }
+
+    // Pencarian realtime (keyup)
+    function searchUnit(keyword) {
+        $.ajax({
+            url: "{{ route('unit.search') }}",
+            method: "GET",
+            data: { q: keyword },
+            success: function(response) {
+                renderTable(response);
+            },
+            error: function() {
+                console.error('Gagal mencari data unit.');
+            }
+        });
+    }
+
+    // Trigger ketika user ngetik di search navbar
+    $('#search-unit').on('keyup', function() {
+        const keyword = $(this).val().trim();
+        if (keyword.length > 0) {
+            searchUnit(keyword);
+        } else {
+            loadUnit(); // kalau kosong, tampilkan semua lagi
+        }
+    });
+
+    // kalau mau, bisa panggil loadUnit() saat pertama kali
+    // loadUnit();
+});
+</script>
+@endpush
+

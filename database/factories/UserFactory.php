@@ -27,10 +27,12 @@ class UserFactory extends Factory
             // database/factories/adminFactory.php
 
             'username' => $this->faker->unique()->userName,
+            'nama' => $this->faker->name(),
             'email' => $this->faker->email(),
             'password' => Hash::make('123'),
-            'role' => 'tamu'
-
+            'role' => 'tamu',
+            'alamat' => $this->faker->address(),
+            'no_hp' => $this->faker->phoneNumber(),
         ];
     }
 
@@ -38,6 +40,7 @@ class UserFactory extends Factory
     { 
         return $this->state([ 
             'username' => 'owner', 
+            'nama' => 'Owner',
             'email' => 'owner@gmail.com',
             'password' => Hash::make('owner'), 
             'role' => 'owner', 
@@ -50,6 +53,7 @@ class UserFactory extends Factory
     { 
         return $this->state([ 
             'username' => 'resepsionis', 
+            'nama' => 'Resepsionis',
             'email' => 'resepsionis@gmail.com',
             'password' => Hash::make('resepsionis'), 
             'role' => 'resepsionis',
@@ -62,6 +66,7 @@ class UserFactory extends Factory
     { 
         return $this->state([ 
             'username' => 'tamu', 
+            'nama' => 'Tamu',
             'email' => 'tamu@gmail.com',
             'password' => Hash::make('tamu'), 
             'role' => 'tamu',
