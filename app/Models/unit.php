@@ -9,7 +9,7 @@ class unit extends Model
 {
     use HasFactory;
     protected $table = 'unit';
-    protected $fillable = ['nama_unit','deskripsi','harga'];
+    protected $fillable = ['nama_unit','gambar','deskripsi','harga'];
     protected $primaryKey = 'id_unit';
 
     public function bookings() {

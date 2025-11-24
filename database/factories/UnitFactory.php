@@ -11,6 +11,7 @@ class UnitFactory extends Factory
     {
         return [
             'nama_unit' => 'Unit ' . $this->faker->unique()->numberBetween(1, 20),
+            'gambar' => 'fasilitas/default.jpg',
             'deskripsi' => $this->faker->sentence(10),
             'harga' => $this->faker->numberBetween(100000, 500000),
         ];

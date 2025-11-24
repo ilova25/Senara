@@ -153,6 +153,7 @@
                             <tr>
                                 <th style="width: 60px;">No</th>
                                 <th>Unit</th>
+                                <th>Gambar</th>
                                 <th>Deskripsi</th>
                                 <th>Harga</th>
                                 <th>Fasilitas</th>
@@ -170,6 +171,15 @@
                                     <td>
                                         <div class="d-flex flex-column">
                                             <span class="fw-semibold">{{ $u->nama_unit }}</span>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="rounded-3 overflow-hidden border" style="width: 110px; height: 70px;">
+                                                <img src="/storage/{{ $u->gambar }}"
+                                                     alt="{{ $u->nama_unit ?? '' }}"
+                                                     class="w-100 h-100"
+                                                     style="object-fit: cover;">
                                         </div>
                                     </td>
 

@@ -29,7 +29,7 @@ class FasilitasFactory extends Factory
                 'Room Service'
             ]),
 
-            'gambar' => 'fasilitas/default.png',
+            'gambar' => 'fasilitas/default.jpg',
         ];
     }
 }

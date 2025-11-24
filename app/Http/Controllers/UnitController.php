@@ -38,7 +38,7 @@ class UnitController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            // 'gambar'      => 'required|image|mimes:jpeg,jpg,png|max:2048',
+            'gambar'      => 'required|image|mimes:jpeg,jpg,png|max:2048',
             'nama'        => 'required|min:5',
             'deskripsi'   => 'required|min:10',
             'harga'      => 'required|numeric',
@@ -48,8 +48,7 @@ class UnitController extends Controller
             'fasilitas.*.gambar' => 'required|image|mimes:jpeg,jpg,png|max:2048',
         ]);
 
-        // $gambar = $request->file('gambar');
-        // $gambar->storeAs('unit', $gambar->hashName());
+        $path = $request->file('gambar')->store('unit','public');
 
 
 
@@ -57,8 +56,8 @@ class UnitController extends Controller
 
         try {
             $unit = unit::create([
-                // 'gambar'      => $gambar->hashName(),
-                'nama_unit'        => $request->nama,
+                'gambar'      => $path,
+                'nama_unit'   => $request->nama,
                 'deskripsi'   => $request->deskripsi,
                 'harga'      => $request->harga,
             ]);
