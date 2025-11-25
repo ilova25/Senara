@@ -148,7 +148,6 @@
   }
 
   .rooms,
-  .facilities,
   .promotions {
     display: flex;
     justify-content: center;
@@ -213,118 +212,127 @@
     color: #5A3B1F !important;
   }
 
-  .facility-card {
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    width: 230px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  /* Testimonial Section Styles */
+  .testimonials {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  max-width: 1200px;
+  margin: 30px auto 0 auto;
+}
+
+.testimonial-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f6f3 100%);
+  padding: 25px;
+  border-radius: 15px;
+  width: 100%;
+  text-align: left;
+  box-shadow: 0 5px 20px rgba(90, 59, 31, 0.08);
+  position: relative;
+  transition: all 0.4s ease;
+  border: 1px solid rgba(175, 143, 111, 0.2);
+}
+
+.testimonial-card:nth-child(n+5) {
+  display: none;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(90, 59, 31, 0.15);
+  border-color: #AF8F6F;
+}
+
+.quote-icon {
+  font-size: 50px;
+  color: #AF8F6F;
+  opacity: 0.3;
+  line-height: 1;
+  margin-bottom: -5px;
+  font-family: Georgia, serif;
+}
+
+.stars {
+  color: #FFD700;
+  font-size: 16px;
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+}
+
+.testimonial-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 15px;
+  font-style: italic;
+  min-height: 70px;
+}
+
+.testimonial-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(175, 143, 111, 0.2);
+}
+
+/* Default Avatar Icon Styles */
+.avatar-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #AF8F6F 0%, #5A3B1F 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(90, 59, 31, 0.2);
+  transition: all 0.3s ease;
+}
+
+.avatar-icon svg {
+  width: 24px;
+  height: 24px;
+  color: white;
+}
+
+.testimonial-card:hover .avatar-icon {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(90, 59, 31, 0.3);
+}
+
+.guest-info h4 {
+  font-size: 15px;
+  color: #5A3B1F;
+  margin-bottom: 3px;
+  font-weight: 600;
+}
+
+.guest-info p {
+  font-size: 12px;
+  color: #888;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .testimonials {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 700px;
+  }
+}
+
+@media (max-width: 768px) {
+  .testimonials {
+    grid-template-columns: 1fr;
+    padding: 0 20px;
+    max-width: 400px;
   }
 
-  .facility-card img {
-    width: 90px;
-    height: 90px;
-    margin-bottom: 15px;
+  .testimonial-card {
+    width: 100%;
   }
-
-  .facility-card:hover {
-    background-color: #5A3B1F;
-    color: white;
-  }
-
-  .facility-card:hover img {
-    filter: brightness(0) invert(1);
-    transition: all 0.3s ease;
-  }
-
-  .facility-card:hover h4,
-  .facility-card:hover p {
-    color: white;
-  }
-
-  /* === PACKAGE SECTION === */
-  .package-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 40px 8%;
-    gap: 40px;
-  }
-
-  .package-left {
-    flex: 1;
-    transform: translateX(20px);
-  }
-
-  .package-left p {
-    font-size: 22px;
-    color: #AF8F6F;
-    margin-bottom: 10px;
-  }
-
-  .package-left h2 {
-    font-size: 36px;
-    margin: 0 0 20px 0;
-  }
-
-  .package-left button {
-    background-color: #5A3B1F;
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    font-size: 16px;
-    border-radius: 25px;
-    cursor: pointer;
-  }
-
-  .package-gallery {
-    flex: 3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    transform: translateX(-5px);
-  }
-
-  .package-slider {
-    width: 660px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .package-slides {
-    display: flex;
-    gap: 20px;
-    transition: transform 0.5s ease-in-out;
-    width: fit-content;
-  }
-
-  .package-slides img {
-    width: 200px;
-    height: 300px;
-    object-fit: cover;
-    border-radius: 10px;
-    flex-shrink: 0;
-  }
-
-  .arrow {
-    font-size: 30px;
-    cursor: pointer;
-    color: #5A3B1F;
-    user-select: none;
-    transition: all 0.3s ease;
-    padding: 10px;
-    border-radius: 50%;
-    background: rgba(90, 59, 31, 0.1);
-  }
-
-  .arrow:hover {
-    background: #5A3B1F;
-    color: white;
-    transform: scale(1.1);
-  }
+}
 
   /* === PROMO === */
   .promo-code {
@@ -393,25 +401,6 @@
   @media (max-width: 768px) {
     .rooms .card {
       flex: 0 0 100%;
-    }
-
-    .package-section {
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 30px;
-    }
-
-    .package-left {
-      transform: none;
-    }
-
-    .package-gallery {
-      flex-wrap: wrap;
-      justify-content: flex-start;
-    }
-
-    .package-slider {
-      width: 100%;
     }
   }
 
@@ -493,56 +482,81 @@
   </div>
 </section>
 
-{{-- FACILITIES --}}
+{{-- section ulasan/testimonial --}}
 <section class="section">
-  <p style="text-align:left; font-size:22px; color:#AF8F6F; margin-left:30px; transform:translateX(215px);">Facilities</p>
-  <h2>Luxury and Comfort, Redefined</h2>
-  <div class="facilities">
-    <div class="facility-card">
-      <img src="{{ asset('images/parking.png') }}" alt="Parking Area">
-      <h4>Parking Area</h4>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+  <p style="text-align: left; font-size: 22px; color: #AF8F6F; margin-left: 30px; transform: translateX(290px);">Testimonials</p>
+  <h2>What Our Guests Say</h2>
+  <div class="testimonials">
+    <div class="testimonial-card">
+      <div class="quote-icon">"</div>
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"Amazing experience! The room was spotless and the staff were incredibly friendly. Will definitely come back!"</p>
+      <div class="testimonial-footer">
+        <div class="avatar-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          </svg>
+        </div>
+        <div class="guest-info">
+          <h4>Sarah Johnson</h4>
+          <p>New York, USA</p>
+        </div>
+      </div>
     </div>
-    <div class="facility-card">
-      <img src="{{ asset('images/bathroom.png') }}" alt="Bathroom">
-      <h4>Bathroom</h4>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+
+    <div class="testimonial-card">
+      <div class="quote-icon">"</div>
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"Perfect location and excellent facilities. The pool area is stunning and breakfast was delicious!"</p>
+      <div class="testimonial-footer">
+        <div class="avatar-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          </svg>
+        </div>
+        <div class="guest-info">
+          <h4>Michael Chen</h4>
+          <p>Singapore</p>
+        </div>
+      </div>
     </div>
-    <div class="facility-card">
-      <img src="{{ asset('images/balcon.png') }}" alt="Laundry">
-      <h4>Balcony</h4>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+
+    <div class="testimonial-card">
+      <div class="quote-icon">"</div>
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"Exceeded all expectations! Luxurious rooms, great service, and wonderful amenities. Highly recommended!"</p>
+      <div class="testimonial-footer">
+        <div class="avatar-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          </svg>
+        </div>
+        <div class="guest-info">
+          <h4>Emma Williams</h4>
+          <p>London, UK</p>
+        </div>
+      </div>
     </div>
-    <div class="facility-card">
-      <img src="{{ asset('images/living room.png') }}" alt="SPA">
-      <h4>Living Room</h4>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+
+    <div class="testimonial-card">
+      <div class="quote-icon">"</div>
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"A hidden gem! The spa was relaxing and the staff went above and beyond to make our stay memorable."</p>
+      <div class="testimonial-footer">
+        <div class="avatar-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          </svg>
+        </div>
+        <div class="guest-info">
+          <h4>David Martinez</h4>
+          <p>Madrid, Spain</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-{{-- PACKAGE --}}
-<section class="package-section">
-  <div class="package-left">
-    <p>Packages</p>
-    <h2>Make Your Memorable Moments</h2>
-    <button>Book Now</button>
-  </div>
-  <div class="package-gallery">
-    <div class="arrow package-prev">&#10094;</div>
-    <div class="package-slider">
-      <div class="package-slides">
-        <img src="{{ asset('images/wedding.png') }}" alt="Wedding">
-        <img src="{{ asset('images/birthday.png') }}" alt="Birthday">
-        <img src="{{ asset('images/event.png') }}" alt="Event">
-        <img src="{{ asset('images/wedding.png') }}" alt="Wedding 2">
-        <img src="{{ asset('images/birthday.png') }}" alt="Birthday 2">
-        <img src="{{ asset('images/event.png') }}" alt="Event 2">
-      </div>
-    </div>
-    <div class="arrow package-next">&#10095;</div>
-  </div>
-</section>
 
 {{-- PROMO --}}
 <section class="section">
@@ -600,21 +614,6 @@
   document.querySelector('.prev').addEventListener('click', () => {
     currentIndex = (currentIndex - 1 + slideImages.length) % slideImages.length;
     slides.style.transform = `translateX(${-currentIndex * 100}%)`;
-  });
-
-  // Package Slider
-  const packageSlides = document.querySelector('.package-slides');
-  const packageSlideItems = document.querySelectorAll('.package-slides img');
-  let packageIndex = 0;
-
-  document.querySelector('.package-next').addEventListener('click', () => {
-    packageIndex = (packageIndex + 1) % packageSlideItems.length;
-    packageSlides.style.transform = `translateX(${-packageIndex * 220}px)`;
-  });
-
-  document.querySelector('.package-prev').addEventListener('click', () => {
-    packageIndex = (packageIndex - 1 + packageSlideItems.length) % packageSlideItems.length;
-    packageSlides.style.transform = `translateX(${-packageIndex * 220}px)`;
   });
 
   // Modals
