@@ -17,23 +17,22 @@
     }
 
     body {
-      background: linear-gradient(135deg, #543310 0%, #74512D 50%, #543310 100%);
       min-height: 100vh;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       padding: 20px;
     }
 
     .register-container {
       display: flex;
-      background: rgba(84, 51, 16, 0.6);
+      background: #74512D;
       backdrop-filter: blur(20px);
       border-radius: 30px;
       overflow: hidden;
       max-width: 900px;
       width: 85%;
-      min-height: 600px;
+      min-height: 90vh;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
                   inset 0 1px 0 rgba(255, 255, 255, 0.1);
       border: 1px solid rgba(255, 255, 255, 0.1);

@@ -26,7 +26,7 @@
 
     .login-container {
       display: flex;
-      background: rgba(84, 51, 16, 0.6);
+      background: #74512D;
       backdrop-filter: blur(20px);
       border-radius: 30px;
       overflow: hidden;
@@ -357,9 +357,6 @@
   <div class="login-container">
     <!-- Welcome Section -->
     <div class="welcome-section">
-      <div class="logo">
-        <i class="fas fa-layer-group"></i>
-      </div>
       
       <h1>Welcome!</h1>
       
