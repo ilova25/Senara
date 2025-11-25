@@ -168,6 +168,7 @@
       border-radius: 4px;
       text-decoration: none; 
     }
+    .btn-book:active{
       grid-column: span 2;
       display: block;
       text-align: center;
