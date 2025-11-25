@@ -129,7 +129,7 @@
       flex-direction: column;
       justify-content: center;
       overflow-y: auto;
-      max-height: 600px;
+      /* max-height: 600px; */
     }
 
     .form-section::-webkit-scrollbar {
