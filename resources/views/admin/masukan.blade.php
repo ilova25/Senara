@@ -1,4 +1,24 @@
 @extends('admin.layout.app')
+@section('title', 'Ulasan Pengguna')
+
+@push('styles')
+<style>
+    .text-brown { color:#6d4c41; }
+    .bg-brown-soft {
+        background:#fff3e0;
+        color:#6d4c41;
+    }
+    .btn-coklat {
+        background-color:#6d4c41;
+        color:#fff;
+        border:none;
+    }
+    .btn-coklat:hover {
+        background-color:#5d4037;
+        color:#fff;
+    }
+</style>
+@endpush
 
 @section('content')
     <!-- Page Heading -->

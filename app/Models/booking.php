@@ -25,4 +25,9 @@ class booking extends Model
         return $this->hasOne(payment::class, 'booking_id', 'id');
     }
 
+    public function masukan()
+    {
+        return $this->hasOne(masukan::class, 'booking_id', 'id');
+    }
+
 }

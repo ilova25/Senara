@@ -34,16 +34,15 @@ class SesiController extends Controller
     public function prosesLogin(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'username' => 'required',
             'password' => 'required'
         ], [
-            'email.required' => 'Email wajib diisi',
-            'email.email' => 'Format email tidak valid',
+            'username.required' => 'Username wajib diisi',
             'password.required' => 'Password wajib diisi',
         ]);
 
         $infologin = [
-            'email' => $request->email,
+            'username' => $request->username,
             'password' => $request->password,
         ];
 
@@ -71,14 +70,16 @@ class SesiController extends Controller
     {
         $request->validate([
             'username'=> 'required|string|max:50|unique:users,username',
+            'name'  => 'required|string|max:100',
             'email'=> 'required|string|email|unique:users,email',
-            'password'=> 'required|string|min:8',
+            'password'=> 'required|string|min:3',
             'alamat'=> 'required|string|max:250',
             'no_hp'=> 'required|string|max:15'
         ]);
 
         User::create([
             'username' => $request->username,
+            'nama'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
             'role'     => 'tamu',

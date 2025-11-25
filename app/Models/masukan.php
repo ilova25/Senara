@@ -9,10 +9,15 @@ class masukan extends Model
 {
     use HasFactory;
     protected $table = 'masukan';
-    protected $fillable = ['masukan', 'user_id'];
+    protected $fillable = ['booking_id','coment', 'rating', 'user_id'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function booking()
+    {
+        return $this->belongsTo(booking::class);
     }
 }

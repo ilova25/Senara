@@ -168,6 +168,12 @@
             </a>
         </li>
         <li class="sidebar-item">
+            <a href="{{ route('masukan.admin') }}" class="sidebar-link">
+                <i class='bx bxs-message-rounded'></i>
+                <span>Ulasan</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
             <a href="{{ route('unit.index') }}" class="sidebar-link">
                 <i class='bx bxs-home'></i>
                 <span>Unit</span>

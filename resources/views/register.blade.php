@@ -166,7 +166,10 @@
       <form method="POST" action="{{ route('register.post') }}">
         @csrf
         <label for="name">Nama</label>
-        <input type="text" id="name" name="username" placeholder="Nama" required />
+        <input type="text" id="name" name="name" placeholder="Nama" required />
+
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Username" required />
 
         <label for="email">Email</label>
         <input type="email" id="email" name="email" placeholder="Email" required />
