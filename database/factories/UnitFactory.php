@@ -10,7 +10,7 @@ class UnitFactory extends Factory
     public function definition(): array
     {
         return [
-            'nama_unit' => 'Unit ' . $this->faker->unique()->numberBetween(1, 20),
+            'nama_unit' => 'Unit ' . $this->faker->numberBetween(1, 10),
             'gambar' => 'fasilitas/default.jpg',
             'deskripsi' => $this->faker->sentence(10),
             'harga' => $this->faker->numberBetween(100000, 500000),

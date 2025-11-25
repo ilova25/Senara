@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\masukan;
 use App\Models\unit;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -12,8 +13,9 @@ class SesiController extends Controller
 {
     public function home()
     {
-        $unit = unit::take(3)->get();
-        return view('home', compact('unit'));
+        $unit = unit::orderBy('created_at', 'desc')->take(3)->get();
+        $ulasan = masukan::latest()->take(4)->get();
+        return view('home', compact('unit','ulasan'));
     }
 
     public function dashboard()

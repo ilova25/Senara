@@ -3,7 +3,6 @@
 @section('title', 'Manajemen Booking')
 
 @php
-    // navbar form tetap submit ke booking.admin, tapi kita cegah submit pakai JS
     $searchAction = route('booking.admin');
     $searchPlaceholder = 'Cari nama tamu, kode, email, atau unit...';
 @endphp
@@ -71,10 +70,24 @@
                     </tbody>
                 </table>
             </div>
-
-            {{-- Karena full AJAX, pagination blade tidak dipakai --}}
         </div>
     </div>
+</div>
+
+{{-- Modal untuk bukti pembayaran --}}
+<div class="modal fade" id="buktiModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Bukti Pembayaran</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <img id="buktiImage" src="" alt="Bukti pembayaran" class="img-fluid rounded shadow-sm">
+        <p class="mt-2 mb-0 small text-muted" id="buktiNama"></p>
+      </div>
+    </div>
+  </div>
 </div>
 @endsection
 
@@ -97,7 +110,6 @@
                 `;
             } else {
                 data.forEach((item, index) => {
-                    // handle relasi unit & payment yang bisa null
                     const unitName   = item.unit ? item.unit.nama_unit : 'Tidak ada unit';
                     const kode       = item.kode_booking ?? '';
                     const email      = item.email ?? '';
@@ -107,7 +119,6 @@
                     const totalHarga = item.total_harga ?? 0;
                     const payment    = item.payment;
 
-                    // status pembayaran
                     let statusBayarBadge = `
                         <span class="badge bg-secondary bg-opacity-10 text-secondary">
                             Belum ada pembayaran
@@ -136,7 +147,6 @@
                         }
                     }
 
-                    // bukti pembayaran
                     let buktiBayarHtml = `
                         <span class="badge bg-secondary bg-opacity-25 text-danger">
                             Belum upload
@@ -146,14 +156,13 @@
                         const buktiUrl = `/storage/bukti/${payment.bukti_pembayaran}`;
                         buktiBayarHtml = `
                             <a href="javascript:void(0);"
-                               onclick="showBukti('${buktiUrl}', '${nama}')"
+                               onclick="showBukti('${buktiUrl}', '${nama.replace(/'/g, "\\'")}')"
                                class="small text-decoration-none">
                                 <i class="bi bi-file-earmark-text me-1"></i> Lihat Bukti
                             </a>
                         `;
                     }
 
-                    // status menginap
                     const statusMenginap = item.status_menginap ?? 'pending';
                     let statusMenginapBadge = `
                         <span class="badge bg-secondary bg-opacity-10 text-secondary">
@@ -180,7 +189,6 @@
                         `;
                     }
 
-                    // URL aksi
                     const urlUpdateStatusBayar = `/admin/booking/${item.id}/status`;
                     const urlUpdateStatusPesan = `/admin/booking/${item.id}/status_pemesanan`;
 
@@ -263,24 +271,19 @@
             }
 
             $('#tbody-booking').html(rows);
-
-            // binding submit otomatis untuk select setelah render
             bindFormAutoSubmit();
         }
 
         function bindFormAutoSubmit() {
-            // pembayaran
             $('.form-update-bayar select').off('change').on('change', function() {
                 $(this).closest('form')[0].submit();
             });
 
-            // menginap
             $('.form-update-menginap select').off('change').on('change', function() {
                 $(this).closest('form')[0].submit();
             });
         }
 
-        // load semua booking awal
         function loadBooking() {
             $.ajax({
                 url: "{{ route('booking.data') }}",
@@ -295,7 +298,6 @@
             });
         }
 
-        // cari booking
         function searchBooking(keyword) {
             $.ajax({
                 url: "{{ route('booking.data') }}",
@@ -310,13 +312,11 @@
             });
         }
 
-        // cegah navbar form submit & pakai AJAX
         const $navbarSearchInput = $('#search-unit');
         $navbarSearchInput.closest('form').on('submit', function(e) {
             e.preventDefault();
         });
 
-        // realtime search lewat navbar
         $navbarSearchInput.on('keyup', function() {
             const keyword = $(this).val().trim();
             if (keyword.length > 0) {
@@ -326,8 +326,20 @@
             }
         });
 
-        // load pertama
         loadBooking();
     });
+
+    // fungsi global untuk pop up bukti pembayaran
+    function showBukti(url, nama) {
+        const img   = document.getElementById('buktiImage');
+        const label = document.getElementById('buktiNama');
+
+        img.src = url;
+        label.textContent = 'Atas nama: ' + (nama || '-');
+
+        const modalEl = document.getElementById('buktiModal');
+        const modal   = new bootstrap.Modal(modalEl);
+        modal.show();
+    }
 </script>
 @endpush

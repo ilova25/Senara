@@ -22,9 +22,8 @@
             font-weight: 500;
         }
 
-        /* --- Extra styling modern untuk tabel --- */
         .card-table-wrapper {
-            background: #f9f6f1;
+            /* background: #f9f6f1; */
             border-radius: 20px;
             padding: 18px;
         }
@@ -48,10 +47,10 @@
             transition: background-color .15s ease, transform .1s ease;
         }
 
-        .table-modern tbody tr:hover {
+        /* .table-modern tbody tr:hover {
             background-color: #f3e9df;
             transform: translateY(-1px);
-        }
+        } */
 
         .table-modern td {
             border-top: none !important;
@@ -96,13 +95,20 @@
                 gap: .75rem;
             }
         }
+
+        .pagination .page-link {
+            border-radius: 999px !important;
+            font-size: 0.8rem;
+            padding: 0.25rem 0.6rem;
+        }
+
+        .pagination .page-item.active .page-link {
+            color: #fff;
+            background-color: #1e88e5;  /* kalau mau, bisa sesuaikan ke warna coklatmu */
+            border-color: #1e88e5;
+        }
     </style>
 @endpush
-
-@php
-    $searchAction = route('unit.index');
-    $searchPlaceholder = 'Cari unit..';
-@endphp
 
 @section('content')
 <div class="container-fluid py-4">
@@ -167,7 +173,6 @@
                                         {{ $loop->iteration + ($unit->currentPage() - 1) * $unit->perPage() }}
                                     </td>
 
-                                    {{-- Nama + mungkin kecilkan ID --}}
                                     <td>
                                         <div class="d-flex flex-column">
                                             <span class="fw-semibold">{{ $u->nama_unit }}</span>
@@ -176,28 +181,27 @@
 
                                     <td>
                                         <div class="rounded-3 overflow-hidden border" style="width: 110px; height: 70px;">
+                                            @if($u->gambar)
                                                 <img src="/storage/{{ $u->gambar }}"
                                                      alt="{{ $u->nama_unit ?? '' }}"
                                                      class="w-100 h-100"
                                                      style="object-fit: cover;">
+                                            @endif
                                         </div>
                                     </td>
 
-                                    {{-- Deskripsi singkat --}}
                                     <td>
                                         <small class="text-muted">
                                             {{ \Illuminate\Support\Str::limit(strip_tags($u->deskripsi), 60) }}
                                         </small>
                                     </td>
 
-                                    {{-- Harga --}}
                                     <td>
                                         <span class="badge-price">
                                             Rp {{ number_format($u->harga, 0, ',', '.') }}
                                         </span>
                                     </td>
 
-                                    {{-- Fasilitas --}}
                                     <td>
                                         @php
                                             $count = $u->fasilitas->count();
@@ -218,7 +222,6 @@
                                         @endif
                                     </td>
 
-                                    {{-- Aksi --}}
                                     <td class="text-end">
                                         <div class="d-inline-flex gap-1">
                                             {{-- Detail --}}
@@ -253,17 +256,59 @@
                     </table>
                 </div>
 
-                {{-- Pagination --}}
-                @if(method_exists($unit, 'links'))
-                    <div class="d-flex justify-content-end mt-3">
-                        <div class="pagination-wrapper">
-                            {{ $unit->withQueryString()->links('pagination::bootstrap-5') }}
-                            {{-- atau kalau belum pakai view bootstrap-5, pakai:
-                            {{-- {{ $unit->withQueryString()->links() }} --}}
+                {{-- Pagination custom --}}
+                @if(method_exists($unit, 'links') && $unit->hasPages())
+                    <div class="d-flex justify-content-between align-items-center mt-3" id="pagination-wrapper">
+                        
+                        {{-- Info halaman --}}
+                        <div class="small text-muted">
+                            Halaman <span class="fw-semibold">{{ $unit->currentPage() }}</span>
+                            dari <span class="fw-semibold">{{ $unit->lastPage() }}</span>
                         </div>
+
+                        {{-- Tombol pagination --}}
+                        <nav>
+                            <ul class="pagination mb-0">
+
+                                {{-- Tombol Previous --}}
+                                @if ($unit->onFirstPage())
+                                    <li class="page-item disabled">
+                                        <span class="page-link">&laquo;</span>
+                                    </li>
+                                @else
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $unit->previousPageUrl() }}" rel="prev">&laquo;</a>
+                                    </li>
+                                @endif
+
+                                {{-- Nomor halaman --}}
+                                @foreach ($unit->getUrlRange(1, $unit->lastPage()) as $page => $url)
+                                    @if ($page == $unit->currentPage())
+                                        <li class="page-item active">
+                                            <span class="page-link">{{ $page }}</span>
+                                        </li>
+                                    @else
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                        </li>
+                                    @endif
+                                @endforeach
+
+                                {{-- Tombol Next --}}
+                                @if ($unit->hasMorePages())
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $unit->nextPageUrl() }}" rel="next">&raquo;</a>
+                                    </li>
+                                @else
+                                    <li class="page-item disabled">
+                                        <span class="page-link">&raquo;</span>
+                                    </li>
+                                @endif
+
+                            </ul>
+                        </nav>
                     </div>
                 @endif
-
             @endif
         </div>
     </div>
@@ -274,49 +319,62 @@
 <script>
 $(document).ready(function() {
 
-    // Fungsi buat render ulang isi <tbody>
+    // Render ulang tbody berdasarkan data JSON dari AJAX
     function renderTable(data) {
         let rows = '';
 
-        if (data.length === 0) {
+        if (!data || data.length === 0) {
             rows = `
                 <tr>
-                    <td colspan="6" class="text-center text-muted">
+                    <td colspan="7" class="text-center text-muted">
                         Tidak ada unit ditemukan
                     </td>
                 </tr>
             `;
         } else {
             data.forEach((u, index) => {
-                // kalau field id di JSON kamu beda (misal id_unit), sesuaikan
                 const urlShow = `/admin/unit/${u.id_unit}`;
                 const urlEdit = `/admin/unit/${u.id_unit}/edit`;
-                const urlFasilitas = `/admin/unit/${u.id_unit}/fasilitas`; // sesuaikan route-nya
-                const urlDestroy = `/admin/unit/${u.id_unit}`; // form delete masih di server side
+                const urlFasilitas = `/admin/unit/${u.id_unit}/fasilitas`;
+
+                const deskripsi = u.deskripsi 
+                    ? u.deskripsi.substring(0, 60) + (u.deskripsi.length > 60 ? '...' : '')
+                    : '';
+
+                const harga = u.harga ?? 0;
+                const fasilitasCount = u.fasilitas ? u.fasilitas.length : 0;
 
                 rows += `
                     <tr>
                         <td class="text-muted">${index + 1}</td>
                         <td>
                             <div class="d-flex flex-column">
-                                <span class="fw-semibold">${u.nama_unit}</span>
+                                <span class="fw-semibold">${u.nama_unit ?? ''}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="rounded-3 overflow-hidden border" style="width: 110px; height: 70px;">
+                                ${u.gambar 
+                                    ? `<img src="/storage/${u.gambar}" alt="${u.nama_unit ?? ''}" class="w-100 h-100" style="object-fit: cover;">`
+                                    : ''
+                                }
                             </div>
                         </td>
                         <td>
                             <small class="text-muted">
-                                ${u.deskripsi ? u.deskripsi.substring(0, 60) + (u.deskripsi.length > 60 ? '...' : '') : ''}
+                                ${deskripsi}
                             </small>
                         </td>
                         <td>
                             <span class="badge-price">
-                                Rp ${new Intl.NumberFormat('id-ID').format(u.harga ?? 0)}
+                                Rp ${new Intl.NumberFormat('id-ID').format(harga)}
                             </span>
                         </td>
                         <td>
-                            ${u.fasilitas && u.fasilitas.length > 0
+                            ${fasilitasCount > 0
                                 ? `<a href="${urlFasilitas}" class="text-decoration-none">
                                         <span class="badge rounded-pill badge-fasilitas">
-                                            ${u.fasilitas.length} fasilitas
+                                            ${fasilitasCount} fasilitas
                                         </span>
                                    </a>`
                                 : `<a href="${urlFasilitas}" class="text-muted small text-decoration-none">
@@ -348,29 +406,18 @@ $(document).ready(function() {
         $('#table-unit tbody').html(rows);
     }
 
-    // Load awal (kalau mau dari AJAX juga, opsional)
-    function loadUnit() {
-        $.ajax({
-            url: "{{ route('unit.search') }}", // boleh pakai search dengan q kosong
-            method: "GET",
-            data: { q: '' },
-            success: function(response) {
-                renderTable(response);
-            },
-            error: function() {
-                console.error('Gagal memuat data unit.');
-            }
-        });
-    }
-
-    // Pencarian realtime (keyup)
+    // Pencarian realtime (keyup) ke route unit.search yang return JSON
     function searchUnit(keyword) {
         $.ajax({
             url: "{{ route('unit.search') }}",
             method: "GET",
             data: { q: keyword },
             success: function(response) {
+                // response diharapkan adalah JSON array unit
                 renderTable(response);
+
+                // saat search aktif, sembunyikan pagination HTML
+                $('#pagination-wrapper').hide();
             },
             error: function() {
                 console.error('Gagal mencari data unit.');
@@ -378,19 +425,21 @@ $(document).ready(function() {
         });
     }
 
-    // Trigger ketika user ngetik di search navbar
+    // Event input search di navbar (id: search-unit)
     $('#search-unit').on('keyup', function() {
         const keyword = $(this).val().trim();
+
         if (keyword.length > 0) {
             searchUnit(keyword);
         } else {
-            loadUnit(); // kalau kosong, tampilkan semua lagi
+            // jika input kosong, reload halaman utama agar pagination normal lagi
+            window.location.href = "{{ route('unit.index') }}";
+            // kalau mau full AJAX bisa pakai:
+            // $('#pagination-wrapper').show();
+            // (biarkan data tetap dari server-side awal)
         }
     });
 
-    // kalau mau, bisa panggil loadUnit() saat pertama kali
-    // loadUnit();
 });
 </script>
 @endpush
-

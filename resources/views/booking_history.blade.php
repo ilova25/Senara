@@ -339,6 +339,7 @@
 
         <div class="bookings-list">
             @forelse ($booking as $item)
+            {{-- {{ dd($item->masukan) }} --}}
                 <div class="booking-item">
                     <div class="booking-header">
                         <div class="booking-info">
@@ -390,6 +391,13 @@
                         @elseif ($item->status_menginap === 'completed')
                             <a href="{{ route('booking.create') }}" class="action-btn btn-primary">Book Lagi</a>
                             <a href="{{ route('detil', $item->id) }}" class="action-btn btn-primary">Lihat Detail</a>
+
+                            @if ($item->masukan)
+                                <a href="{{ route('ulasan.show', $item->id) }}" class="action-btn btn-secondary">Lihat Ulasan</a>
+                            @else
+                                <a href="{{ route('ulasan.create', $item->id) }}" class="action-btn btn-primary">Beri Ulasan</a>
+                            @endif
+        
                         @elseif ($item->payment && $item->payment->status_pembayaran === 'paid')
                             <a href="{{ route('booking.pdf', $item->id) }}" class="action-btn btn-primary">Unduh Invoice</a>
                         @elseif ($item->payment && $item->payment->status_pembayaran === 'waiting')

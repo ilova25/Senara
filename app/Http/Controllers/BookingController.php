@@ -61,15 +61,22 @@ class BookingController extends Controller
         return redirect()->route('payment', $booking->id)->with('success', 'Booking berhasil!');
     }
 
-     public function admin()
+    /**
+     * Halaman admin booking dengan pagination biasa (server-side).
+     */
+    public function admin()
     {
-        // boleh kosong atau kasih data awal seadanya
-        $booking = collect(); // atau Booking::limit(0)->get();
+        $booking = Booking::with(['unit', 'payment'])
+            ->orderByDesc('created_at')
+            ->paginate(10); // 10 data per halaman
 
         return view('admin.booking', compact('booking'));
     }
 
-    // Endpoint JSON untuk datatable + search
+    /**
+     * Endpoint JSON untuk AJAX (kalau nanti mau dipakai search live).
+     * Boleh kamu biarkan atau hapus, pagination Blade tetap jalan.
+     */
     public function data(Request $request)
     {
         $q = strtolower($request->get('q', ''));
@@ -87,16 +94,14 @@ class BookingController extends Controller
             });
         }
 
-        // kalau mau paginasi di front-end sendiri, bisa pakai ->get()
         $booking = $query->latest()->get();
 
-        // kembalikan JSON
         return response()->json($booking);
     }
 
     public function payment($id): View
     {
-        $booking = Booking::with('unit', 'user','payment')->findOrFail($id);
+        $booking = Booking::with('unit', 'user', 'payment')->findOrFail($id);
         return view('payment', compact('booking'));
     }
 
@@ -117,11 +122,11 @@ class BookingController extends Controller
         $exists = Booking::where('id_unit', $request->id_unit)
             ->where(function ($query) use ($request) {
                 $query->whereBetween('checkin', [$request->checkin, $request->checkout])
-                      ->orWhereBetween('checkout', [$request->checkin, $request->checkout])
-                      ->orWhere(function ($q) use ($request) {
-                          $q->where('checkin', '<=', $request->checkin)
+                    ->orWhereBetween('checkout', [$request->checkin, $request->checkout])
+                    ->orWhere(function ($q) use ($request) {
+                        $q->where('checkin', '<=', $request->checkin)
                             ->where('checkout', '>=', $request->checkout);
-                      });
+                    });
             })
             ->exists();
 
@@ -157,7 +162,7 @@ class BookingController extends Controller
 
     public function history()
     {
-        $booking = Booking::with('unit', 'payment')
+        $booking = Booking::with('unit', 'payment', 'masukan')
             ->where('id_user', Auth::id())
             ->get();
 
@@ -176,7 +181,8 @@ class BookingController extends Controller
             'pending',
             'booked',
             'canceled',
-            'completed','ongoing'
+            'completed',
+            'ongoing'
         ));
     }
 

@@ -328,7 +328,7 @@
                     <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
                 </div>
 
-                <h3>Kritik dan Saran</h3>
+                {{-- <h3>Kritik dan Saran</h3>
                 <form class="newsletter-form" method="POST" action="{{ route('masukan.store') }}">
                     @csrf
                     <input type="text" name="masukan" class="newsletter-input"
@@ -338,7 +338,7 @@
 
                 @if(session('newsletter_success'))
                     <p class="newsletter-success">{{ session('newsletter_success') }}</p>
-                @endif
+                @endif --}}
             </div>
         </div>
 

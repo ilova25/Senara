@@ -18,18 +18,29 @@ class BookingFactory extends Factory
      */
     public function definition(): array
     {
+        $checkin = $this->faker->dateTimeBetween('-1 month','now');
+        $checkout = (clone $checkin)->modify('+'.rand(1,14).' days');
+
         return [
-            'id_user' => User::factory(),
+            'id_user' => User::inRandomOrder()->first()->id ?? User::factory(),
             'nama' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
-            'checkin' => $this->faker->dateTimeBetween('+1 days', '+1 month')->format('Y-m-d'),
-            'checkout' => $this->faker->dateTimeBetween('+2 days', '+2 months')->format('Y-m-d'),
-            'id_unit' => unit::factory(),
+            'checkin' => $checkin->format('Y-m-d'),
+            'checkout' => $checkout->format('Y-m-d'),
+            'id_unit' => unit::inRandomOrder()->first()->id ?? unit::factory(),
             'total_harga' => $this->faker->numberBetween(500000, 5000000),
             'adult' => $this->faker->numberBetween(1, 4),
             'children' => $this->faker->numberBetween(0, 3),
             'kode_booking' => strtoupper($this->faker->bothify('????-########')),
             'status_menginap' => $this->faker->randomElement(['booked','ongoing','completed','canceled']),
         ];
+        
+    }
+
+    public function completed(): static
+    {
+        return $this->state(fn () => [ 
+            'status_menginap' => 'completed',
+        ]);
     }
 }

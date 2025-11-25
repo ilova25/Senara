@@ -16,7 +16,7 @@
     }
 
     body {
-      background: linear-gradient(135deg, #543310 0%, #74512D 50%, #543310 100%);
+      /* background: linear-gradient(135deg, #543310 0%, #74512D 50%, #543310 100%); */
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -33,7 +33,7 @@
       max-width: 850px;
       width: 85%;
       min-height: 520px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
                   inset 0 1px 0 rgba(255, 255, 255, 0.1);
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
@@ -381,15 +381,15 @@
         @csrf
         
         <div class="form-group">
-          <label for="username">USER NAME</label>
+          <label for="username">Username</label>
           <div class="input-wrapper">
-            <input type="text" id="username" name="username" placeholder="TechTree" required />
+            <input type="text" id="username" name="username" placeholder="Masukkan Username Anda" required />
             <i class="fas fa-user input-icon"></i>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="password">PASSWORD</label>
+          <label for="password">Password</label>
           <div class="input-wrapper">
             <input type="password" id="password" name="password" placeholder="••••••••••" required />
             <i class="fas fa-lock input-icon"></i>

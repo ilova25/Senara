@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Admin;
 use App\Models\booking;
 use App\Models\fasilitas;
+use App\Models\masukan;
 use App\Models\unit;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -36,10 +37,15 @@ class DatabaseSeeder extends Seeder
 
         $units->each(function ($unit) use ($allFacilityIds) {
             $randomIds = $allFacilityIds->random(rand(2, 5))->toArray();
-
             $unit->fasilitas()->sync($randomIds);
         });
 
         booking::factory()->count(10)->create();
+
+        $completedBookings = booking::factory()->count(5)->completed()->create();
+
+        foreach ($completedBookings as $booking) {
+            masukan::factory()->create();
+        }
     }
 }

@@ -21,29 +21,74 @@
 @endpush
 
 @section('content')
-    <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Kritik dan Saran</h1>
-    </div>
+<div class="row">
+    <div class="col-12">
+        <!--Table-->
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center py-3">
+                <div>
+                    <h5 class="mb-0 fw-semibold">Ulasan</h5>
+                    <small class="text-muted">Lihat ulasan pelanggan Senara Guesthouse</small>
+                </div>
+            </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nama</th>
-                <th>Email</th>
-                <th>Masukan</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($masukan as $item)
-                <tr>
-                    <td>{{ $item->id }}</td>
-                    <td>{{ $item->user->username }}</td>
-                    <td>{{ $item->user->email }}</td>
-                    <td>{{ $item->masukan }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+            <div class="card-body p-0">
+                @if ($masukan->isEmpty())
+                    <div class="alert alert-danger m-3">
+                        Data ulasan belum ada
+                    </div>
+                @else
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0 align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="fw-semibold small text-muted text-uppercase">No</th>
+                                    <th class="fw-semibold small text-muted text-uppercase">Nama</th>
+                                    <th class="fw-semibold small text-muted text-uppercase">Kode Booking</th>
+                                    <th class="fw-semibold small text-muted text-uppercase">Rating</th>
+                                    <th class="fw-semibold small text-muted text-uppercase">Ulasan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($masukan as $i => $s)
+                                    <tr>
+                                        <td>{{$i + 1 }}</td>
+                                        {{-- <td class="text-center">
+                                            <img src="{{ asset('/storage/fasilitas/'.$s->gambar) }}" class="rounded" style="width: 150px">
+                                        </td> --}}
+                                        <td>{{ $s->user->nama }}</td>
+                                        <td>{{ $s->booking->kode_booking }}</td>
+                                        <td>{{ $s->rating }}</td>
+                                        <td>{{ strip_tags($s->coment) }}</td>
+                                        <td class="text-center">
+                                            <div class="d-flex justify-content-center gap-2">
+                                                {{-- <a href="{{ route('fasilitas.show', $s->id) }}" class="btn btn-sm btn-dark">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                <a href="{{ route('fasilitas.edit', $s->id) }}" class="btn btn-sm btn-primary">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                <form onsubmit="return confirm('Apakah Anda yakin ingin menghapus pesanan ini?');"
+                                                    action="{{ route('fasilitas.destroy', $s->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-danger">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form> --}}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    {{-- <div class="p-3">
+                        {{ $pesanan->links() }}
+                    </div> --}}
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

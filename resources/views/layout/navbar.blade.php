@@ -86,7 +86,6 @@
       <ul>
         <li><a href="{{ route('home') }}">Home</a></li>
         <li><a href="{{ route('unit') }}">Unit</a></li>
-        <li><a href="{{ route('facilities') }}">Facilities</a></li>
 
         @if (Auth::check())
           <li><a href="{{ route('booking.create') }}">Booking</a></li>
@@ -100,7 +99,7 @@
 
             <div class="dropdown-menu dropdown-menu-right shadow" aria-labelledby="userDropdown">
               <a class="dropdown-item" href="{{ route('profile', Auth::id()) }}"><i class="fas fa-user fa-sm fa-fw mr-2"></i> Profile</a>
-              <a class="dropdown-item" href="{{ route('booking.history', Auth::id()) }}"><i class="fas fa-cog fa-sm fa-fw mr-2"></i> Riwayat Booking</a>
+              <a class="dropdown-item" href="{{ route('riwayat.booking', Auth::id()) }}"><i class="fas fa-cog fa-sm fa-fw mr-2"></i> Riwayat Booking</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i> Logout

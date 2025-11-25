@@ -322,9 +322,14 @@
           <label for="name">NAMA</label>
           <div class="input-wrapper">
             <input type="text" id="name" name="name" placeholder="Nama lengkap" required />
+            <i class="fas fa-user input-icon"></i>
+          </div>
+        </div>
 
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" placeholder="Username" required />
+        <div class="form-group">
+          <label for="username">Username</label>
+          <div class="input-wrapper">
+            <input type="text" id="username" name="username" placeholder="example" required />
             <i class="fas fa-user input-icon"></i>
           </div>
         </div>

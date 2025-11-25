@@ -44,6 +44,9 @@ Route::post('/newsletter/subscribe', function (\Illuminate\Http\Request $request
     return back()->with('newsletter_success', 'Terima kasih sudah berlangganan!');
 })->name('newsletter.subscribe');
 
+
+    Route::get('/unit/detail/{id}', [UnitController::class, 'detailUser'])->name('detail.unit');
+
 // Login & Register (hanya untuk guest)
 Route::middleware('guest')->group(function () {
     Route::get('/login', [SesiController::class, 'formLogin'])->name('login');
@@ -75,7 +78,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/check-availability', [BookingController::class, 'checkAvailability'])->name('check.availability');
     Route::put('/admin/booking/{id}/status', [BookingController::class, 'updateStatus'])->name('booking.updateStatus');
     Route::get('/booking/{id}', [BookingController::class, 'exportPdf'])->name('booking.pdf');
-    Route::get('/booking/history', [BookingController::class, 'history'])->name('booking.history');
+    Route::get('/booking/history', [BookingController::class, 'history'])->name('riwayat.booking');
     Route::put('/admin/booking/{id}/status_pemesanan', [BookingController::class, 'updatePesanan'])->name('booking.updatePesanan');
 
     // payment upload
@@ -83,8 +86,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/payment_upload/{id}', [PaymentController::class, 'store'])->name('payment.store');
 
     // masukan
-    Route::post('/masukan', [MasukanController::class, 'store'])->name('masukan.store');
+    Route::get('/ulasan/{booking}', [MasukanController::class, 'create'])->name('ulasan.create');    
+    Route::post('/ulasan/{booking}', [MasukanController::class, 'store'])->name('ulasan.store');
     Route::get('/admin/masukan', [MasukanController::class,'admin'])->name('masukan.admin');
+    Route::get('/ulasan/{booking}/show', [MasukanController::class,'show'])->name('ulasan.show');
 
     // Dashboard admin (sebaiknya juga pakai auth, tapi ini mengikuti punyamu)
     Route::get('/admin/dashboard/data', [AdminController::class, 'data'])->name('admin.dashboard.data');

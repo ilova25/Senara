@@ -132,13 +132,15 @@
   <div class="room-list">
     @foreach ($unit as $index => $item)
       <div class="room-card {{ $index % 2 == 1 ? 'reverse' : '' }}">
-        <img src="{{ asset('storage/unit/'.$item->gambar) }}" alt="{{ $item->nama_unit }}">
+        <img src="{{ asset('storage/'.$item->gambar) }}" alt="{{ $item->nama_unit }}">
         <div class="room-info">
           <h3>{{ $item->nama_unit }}</h3>
           <p>{{ strip_tags($item->deskripsi) }}</p>
-          <p class="price">Price : <strong>{{ $item->harga }}</strong> / Night</p>
-          <p>Available For : {{ $item->available }}</p>
+          <p class="price">Price : <strong>{{ number_format($item->harga, 0, ',', '.') }}</strong> / Night</p>
+          <div>
           <a href="{{ route('booking.create') }}" class="book-btn">Book Now</a>
+          <a href="{{ route('detail.unit', ['id' => $item->id_unit]) }}" class="book-btn">See Detail</a>
+          </div>
         </div>
       </div> 
     @endforeach

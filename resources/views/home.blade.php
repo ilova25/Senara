@@ -445,40 +445,23 @@
 <section class="section">
   <p style="text-align:left; font-size:22px; color:#AF8F6F; margin-left:20px; transform:translateX(330px);">Unit</p>
   <h2>Our Exclusive Unit</h2>
+
   <div class="rooms">
-    <div class="card">
-      <img src="{{ asset('images/room.png') }}" alt="Room">
-      <div class="info">
-        <h3>Deluxe Room</h3>
-        <p>Lorem ipsum dolor sit amet</p>
-        <div class="button-group">
-          <a href="{{ route('unit') }}"><button class="see-detail-btn">See Detail</button></a>
-          <a href="{{ route('booking.create') }}"><button>Book Now</button></a>
+    @forelse ($unit as $u)
+      <div class="card">
+        <img src="{{ asset('storage/'.$u->gambar) }}" alt="{{ $u->nama_unit }}">
+        <div class="info">
+          <h3>{{ $u->nama_unit }}</h3>
+          <p>{{ $u->deskripsi }}</p>
+          <div class="button-group">
+            <a href="{{ route('unit') }}"><button class="see-detail-btn">See Detail</button></a>
+            <a href="{{ route('booking.create') }}"><button>Book Now</button></a>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="card">
-      <img src="{{ asset('images/room.png')}}" alt="Room">
-      <div class="info">
-        <h3>Deluxe Room</h3>
-        <p>Lorem ipsum dolor sit amet</p>
-        <div class="button-group">
-          <a href="{{ route('unit') }}"><button class="see-detail-btn">See Detail</button></a>
-          <a href="{{ route('booking.create') }}"><button>Book Now</button></a>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <img src="{{ asset('images/room.png')}}" alt="Room">
-      <div class="info">
-        <h3>Deluxe Room</h3>
-        <p>Lorem ipsum dolor sit amet</p>
-        <div class="button-group">
-          <a href="{{ route('unit') }}"><button class="see-detail-btn">See Detail</button></a>
-          <a href="{{ route('booking.create') }}"><button>Book Now</button></a>
-        </div>
-      </div>
-    </div>
+    @empty
+      <p class="text-muted">Belum ada unit yang tersedia.</p>
+    @endforelse
   </div>
 </section>
 
@@ -487,73 +470,38 @@
   <p style="text-align: left; font-size: 22px; color: #AF8F6F; margin-left: 30px; transform: translateX(290px);">Testimonials</p>
   <h2>What Our Guests Say</h2>
   <div class="testimonials">
-    <div class="testimonial-card">
-      <div class="quote-icon">"</div>
-      <div class="stars">★★★★★</div>
-      <p class="testimonial-text">"Amazing experience! The room was spotless and the staff were incredibly friendly. Will definitely come back!"</p>
-      <div class="testimonial-footer">
-        <div class="avatar-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-          </svg>
-        </div>
-        <div class="guest-info">
-          <h4>Sarah Johnson</h4>
-          <p>New York, USA</p>
-        </div>
-      </div>
-    </div>
+    @forelse ($ulasan as $t)
+      <div class="testimonial-card">
+        <div class="quote-icon">"</div>
 
-    <div class="testimonial-card">
-      <div class="quote-icon">"</div>
-      <div class="stars">★★★★★</div>
-      <p class="testimonial-text">"Perfect location and excellent facilities. The pool area is stunning and breakfast was delicious!"</p>
-      <div class="testimonial-footer">
-        <div class="avatar-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-          </svg>
+        <div class="stars">
+          @for ($i = 1; $i <= 5; $i++)
+              @if ($i <= ($t->rating ?? 5))
+                ★
+              @else
+                ☆
+              @endif
+          @endfor
         </div>
-        <div class="guest-info">
-          <h4>Michael Chen</h4>
-          <p>Singapore</p>
-        </div>
-      </div>
-    </div>
 
-    <div class="testimonial-card">
-      <div class="quote-icon">"</div>
-      <div class="stars">★★★★★</div>
-      <p class="testimonial-text">"Exceeded all expectations! Luxurious rooms, great service, and wonderful amenities. Highly recommended!"</p>
-      <div class="testimonial-footer">
-        <div class="avatar-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-          </svg>
-        </div>
-        <div class="guest-info">
-          <h4>Emma Williams</h4>
-          <p>London, UK</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="testimonial-card">
-      <div class="quote-icon">"</div>
-      <div class="stars">★★★★★</div>
-      <p class="testimonial-text">"A hidden gem! The spa was relaxing and the staff went above and beyond to make our stay memorable."</p>
-      <div class="testimonial-footer">
-        <div class="avatar-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-          </svg>
-        </div>
-        <div class="guest-info">
-          <h4>David Martinez</h4>
-          <p>Madrid, Spain</p>
+        <p class="testimonial-text">
+          "{{ $t->coment}}"
+        </p>
+        
+        <div class="testimonial-footer">
+          <div class="avatar-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+          </div>
+          <div class="guest-info">
+            <h4>{{ $t->user->nama }}</h4>
+          </div>
         </div>
       </div>
-    </div>
+    @empty
+        <p class="text-muted">Belum ada ulasan tamu.</p>
+    @endforelse
   </div>
 </section>
 

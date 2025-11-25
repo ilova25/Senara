@@ -24,7 +24,7 @@ class UnitController extends Controller
     // unit index user
     public function UnitUser(): View
     {
-        $unit = unit::latest()->paginate(5);
+        $unit = unit::whereHas('fasilitas')->paginate(5);
         return view('unit', compact('unit'));
     }
 
@@ -203,6 +203,12 @@ class UnitController extends Controller
         $unit = unit::findOrFail($unitId);
         $unit->fasilitas()->detach($fasilitasId);
         return redirect()->route('unit.fasilitas.index', $unitId)->with(['success' => 'Fasilitas berhasil dihapus dari unit.']);
+    }
+
+    public function detailUser(string $id): View
+    {
+        $unit = unit::with('fasilitas')->findOrFail($id);
+        return view('detail_unit', compact('unit'));
     }
 
 }

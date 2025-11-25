@@ -299,7 +299,7 @@
     <div class="container">
         <h1>Payment</h1>
         <div class="room-card">
-            <img src="{{ asset('storage/unit/'.$booking->unit->gambar) }}" alt="Room">
+            <img src="{{ asset('storage/'.$booking->unit->gambar) }}" alt="Room">
             <div class="room-info">
                 <h2>{{ $booking->unit->nama_unit }}</h2>
                 <p>👤 {{ $booking->user->username }}</p>
@@ -332,13 +332,13 @@
         <div class="payment-method">
             <h3>Payment Method</h3>
 
-            <label class="payment-option">
+            {{-- <label class="payment-option">
                 <input type="radio" name="payment" value="arrival">
                 <div>
                     <span class="payment-title">Pay on Arrival</span><br>
                     <small>Pay with cash on arrival</small>
                 </div>
-            </label>
+            </label> --}}
 
             <label class="payment-option">
                 <input type="radio" name="payment" value="bank">
