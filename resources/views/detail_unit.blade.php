@@ -1,6 +1,26 @@
 @extends('layout.app')
 
 @section('content')
+<style>
+    .book-btn {
+      background-color: #5A3B1F;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: fit-content;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .book-btn:hover {
+      background-color: #AF8F6F;
+      text-decoration: none;
+      color: white;
+    }
+</style>
 
 <div class="container py-4" style="padding-left: 70px;">
 
@@ -96,8 +116,8 @@
                             @endforeach
                         </div>
                     @endif
-
                 </div>
+          <a href="{{ route('booking.create', ['id' => $unit->id_unit]) }}" class="book-btn">Book Now</a>
             </div>
         </div>
     </div>

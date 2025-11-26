@@ -91,6 +91,7 @@
             position: absolute;
             top: 0;
             left: 90px;
+            /* background-color: #0e2238; */
             padding: 0;
             min-width: 15rem;
             display: none;
@@ -150,7 +151,7 @@
         <div class="sidebar-logo">
             <a href="#">Senara</a>
         </div>
-        <button class="toggle-btn border-0" type="button" id="btn-toggle-sidebar">
+        <button class="toggle-btn border-0" type="button">
             <i class='bx bx-chevrons-right'></i>
         </button>
     </div>
@@ -175,7 +176,7 @@
         </li>
         <li class="sidebar-item">
             <a href="{{ route('unit.index') }}" class="sidebar-link">
-                <i class='bx bxs-home'></i>
+                <i class='bx bxs-bell-ring'></i>
                 <span>Unit</span>
             </a>
         </li>
@@ -186,7 +187,6 @@
             </a>
         </li>
     </ul>
-
     <div class="sidebar-footer">
         <a href="javascript:void(0);" class="sidebar-link" id="btn-logout">
             <i class='bx bx-log-out'></i>

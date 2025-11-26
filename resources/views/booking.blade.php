@@ -20,12 +20,12 @@
     }
 
    .page-title {
-  text-align: left;
-  font-size: 42px;
-  margin: 40px 0 20px;
-  padding-left: 50px; /* bisa diganti 5% juga */
-  font-weight: 400;
-}
+    text-align: left;
+    font-size: 42px;
+    margin: 40px 0 20px;
+    padding-left: 50px; /* bisa diganti 5% juga */
+    font-weight: 400;
+    }
 
     .banner {
       width: 100%;
@@ -249,13 +249,13 @@
     }
   </style>
 
-  <h1 class="page-title">Booking</h1>
+  <h1 class="page-title">Reservasi Online</h1>
   <img src="{{ asset('images/banner-fasilitas.png') }}" alt="Booking Banner" class="banner">
 
   <form class="booking-form" action="{{ route('booking.store') }}" method="POST">
       @csrf
       <div class="form-group">
-          <label>Name</label>
+          <label>Nama</label>
           <input type="text" name="nama" id="name" value="{{ old('nama', Auth::user()->username) }}" required>
       </div>
 
@@ -265,17 +265,17 @@
       </div>
 
       <div class="form-group">
-          <label>Guests</label>
+          <label>Tamu</label>
           <div class="guests-wrapper">
               <select name="adult" id="adults">
-                  <option value="1">1 Adult</option>
-                  <option value="2">2 Adults</option>
-                  <option value="3">3 Adults</option>
+                  <option value="1">1 Dewasa</option>
+                  <option value="2">2 Dewasa</option>
+                  <option value="3">3 Dewasa</option>
               </select>
               <select name="children" id="children">
-                  <option value="1">1 Child</option>
-                  <option value="2">2 Children</option>
-                  <option value="3">3 Children</option>
+                  <option value="1">1 Anak</option>
+                  <option value="2">2 Anak</option>
+                  <option value="3">3 Anak</option>
               </select>
           </div>
       </div>
@@ -309,7 +309,7 @@
           <p id="total_harga">Rp 0</p>
       </div>
 
-      <button type="submit" class="btn-book">Booking</button>
+      <button type="submit" class="btn-book">Reservasi</button>
   </form>
 
 @endsection

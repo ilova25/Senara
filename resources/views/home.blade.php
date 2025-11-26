@@ -422,7 +422,7 @@
   <div class="hero-row">
     <p>Selamat datang di MANEMBAH HOMESTAY, kenyamanan, dan kehidupan yang berkelas.</p>
     <a href="{{ route('booking.create') }}">
-      <button>Book Now</button>
+      <button>Pesan Sekarang</button>
     </a>
   </div>
 </div>
@@ -440,7 +440,7 @@
   </div>
 </div>
 
-{{-- ROOMS --}}
+{{-- Unit --}}
 <section class="section">
   <p style="text-align:left; font-size:22px; color:#AF8F6F; margin-left:20px; transform:translateX(400px);">Unit</p>
   <h2>Unit Eksklusif Kami</h2>
@@ -453,8 +453,8 @@
           <h3>{{ $u->nama_unit }}</h3>
           <p>{{ $u->deskripsi }}</p>
           <div class="button-group">
-            <a href="{{ route('unit') }}"><button class="see-detail-btn">See Detail</button></a>
-            <a href="{{ route('booking.create') }}"><button>Book Now</button></a>
+            <a href="{{ route('detail.unit', ['id' => $u->id_unit]) }}"><button>Lihat Detail</button></a>
+            <a href="{{ route('booking.create') }}"><button>Pesan Sekarang</button></a>
           </div>
         </div>
       </div>
@@ -466,8 +466,8 @@
 
 {{-- section ulasan/testimonial --}}
 <section class="section">
-  <p style="text-align: left; font-size: 22px; color: #AF8F6F; margin-left: 30px; transform: translateX(320px);">Testimonials</p>
-  <h2>What Our Guests Say</h2>
+  <p style="text-align: left; font-size: 22px; color: #AF8F6F; margin-left: 30px; transform: translateX(290px);">Ulasan</p>
+  <h2>Ulasan Tamu Kami</h2>
   <div class="testimonials">
     @forelse ($ulasan as $t)
       <div class="testimonial-card">

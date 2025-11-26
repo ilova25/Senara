@@ -291,9 +291,8 @@
             <div class="footer-section">
                 <h3>Navigasi</h3>
                 <ul>
-                    <li><a href="{{ route('home') }}">Home</a></li>
+                    <li><a href="{{ route('home') }}">Beranda</a></li>
                     <li><a href="{{ route('unit') }}">Unit</a></li>
-                    <li><a href="{{ route('facilities') }}">Facility</a></li>
                     @auth
                         <li><a href="{{ route('booking.create') }}">Reservasi Online</a></li>
                     @else
@@ -327,23 +326,11 @@
                     <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
                     <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
                 </div>
-
-                {{-- <h3>Kritik dan Saran</h3>
-                <form class="newsletter-form" method="POST" action="{{ route('masukan.store') }}">
-                    @csrf
-                    <input type="text" name="masukan" class="newsletter-input"
-                           placeholder="Masukkan Kritik dan Saran" value="{{ old('masukan') }}" required>
-                    <button type="submit" class="newsletter-btn">Kirim</button>
-                </form>
-
-                @if(session('newsletter_success'))
-                    <p class="newsletter-success">{{ session('newsletter_success') }}</p>
-                @endif --}}
             </div>
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; {{ date('Y') }} Senara Guest House. All rights reserved.</p>
+            <p>&copy; {{ date('Y') }} Manembah Home Stay. All rights reserved.</p>
         </div>
     </div>
 </footer>

@@ -85,11 +85,11 @@
     <div class="brand">MANEMBAH HOMESTAY</div>
     <nav>
       <ul>
-        <li><a href="{{ route('home') }}">Home</a></li>
+        <li><a href="{{ route('home') }}">Beranda</a></li>
         <li><a href="{{ route('unit') }}">Unit</a></li>
 
         @if (Auth::check())
-          <li><a href="{{ route('booking.create') }}">Booking</a></li>
+          <li><a href="{{ route('booking.create') }}">Reservasi</a></li>
 
           <!-- Dropdown User -->
           <li class="nav-item dropdown">
@@ -99,16 +99,16 @@
             </a>
 
             <div class="dropdown-menu dropdown-menu-right shadow" aria-labelledby="userDropdown">
-              <a class="dropdown-item" href="{{ route('profile', Auth::id()) }}"><i class="fas fa-user fa-sm fa-fw mr-2"></i> Profile</a>
-              <a class="dropdown-item" href="{{ route('riwayat.booking', Auth::id()) }}"><i class="fas fa-cog fa-sm fa-fw mr-2"></i> Riwayat Booking</a>
+              <a class="dropdown-item" href="{{ route('profile', Auth::id()) }}"><i class="fas fa-user fa-sm fa-fw mr-2"></i> Profil</a>
+              <a class="dropdown-item" href="{{ route('riwayat.booking', Auth::id()) }}"><i class="fas fa-cog fa-sm fa-fw mr-2"></i> Riwayat Pemesanan</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i> Logout
+                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i> Keluar
               </a>
             </div>
           </li>
         @else
-          <li><a href="{{ route('login') }}" class="login-btn">Login</a></li>
+          <li><a href="{{ route('login') }}" class="login-btn">Masuk</a></li>
         @endif
       </ul>
     </nav>
