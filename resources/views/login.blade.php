@@ -24,6 +24,27 @@
       padding: 20px;
     }
 
+    .back-btn {
+      padding: 14px 36px;
+      background: linear-gradient(135deg, #F8F4E1 0%, #AF8F6F 100%);
+      color: #543310;
+      border: none;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      width: fit-content;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(248, 244, 225, 0.25);
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .back-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(248, 244, 225, 0.35);
+    }
+
     .login-container {
       display: flex;
       background: #74512D;
@@ -358,27 +379,27 @@
     <!-- Welcome Section -->
     <div class="welcome-section">
       
-      <h1>Welcome!</h1>
+      <h1>Selamat Datang!</h1>
       
       <div class="divider"></div>
       
-      <p>Experience seamless authentication with our modern and secure platform. Join thousands of users who trust us with their digital journey.</p>
+      <p>Rasakan pengalaman autentikasi yang mulus dengan platform modern dan aman kami. Bergabunglah dengan ribuan pengguna yang mempercayai kami dalam perjalanan digital mereka.</p>
       
-      <button class="learn-more-btn">Learn More</button>
+      <a href="{{ route('register') }}" class="back-btn">Daftar</a>
     </div>
 
     <!-- Form Section -->
     <div class="form-section">
       <div class="form-header">
-        <h2>Sign In</h2>
-        <p>Welcome back! Please enter your details</p>
+        <h2>Masuk</h2>
+        <p>Selamat datang kembali! Silakan masukkan identitas Anda</p>
       </div>
 
       <form method="POST" action="{{ route('login.post') }}">
         @csrf
         
         <div class="form-group">
-          <label for="username">Username</label>
+          <label for="username">Nama Pengguna</label>
           <div class="input-wrapper">
             <input type="text" id="username" name="username" placeholder="Masukkan Username Anda" required />
             <i class="fas fa-user input-icon"></i>
@@ -386,7 +407,7 @@
         </div>
 
         <div class="form-group">
-          <label for="password">Password</label>
+          <label for="password">Kata Sandi</label>
           <div class="input-wrapper">
             <input type="password" id="password" name="password" placeholder="••••••••••" required />
             <i class="fas fa-lock input-icon"></i>
@@ -394,10 +415,10 @@
           </div>
         </div>
 
-        <button type="submit" class="submit-btn">Submit</button>
+        <button type="submit" class="submit-btn">Kirim</button>
 
         <div class="register-link">
-          Don't have an account? <a href="{{ route('register') }}">Register here</a>
+          Belum punya akun? <a href="{{ route('register') }}">Daftar di sini</a>
         </div>
       </form>
     </div>
