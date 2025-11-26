@@ -149,7 +149,7 @@
 <aside id="sidebar">
     <div class="d-flex justify-content-between p-4">
         <div class="sidebar-logo">
-            <a href="#">Senara</a>
+            <a href="#">Manembah</a>
         </div>
         <button class="toggle-btn border-0" type="button">
             <i class='bx bx-chevrons-right'></i>
@@ -176,7 +176,7 @@
         </li>
         <li class="sidebar-item">
             <a href="{{ route('unit.index') }}" class="sidebar-link">
-                <i class='bx bxs-bell-ring'></i>
+                <i class='bx bxs-home'></i>
                 <span>Unit</span>
             </a>
         </li>

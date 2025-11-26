@@ -249,7 +249,7 @@
     }
   </style>
 
-  <h1 class="page-title">Reservasi Online</h1>
+  <h1 class="page-title">Reservasi</h1>
   <img src="{{ asset('images/banner-fasilitas.png') }}" alt="Booking Banner" class="banner">
 
   <form class="booking-form" action="{{ route('booking.store') }}" method="POST">

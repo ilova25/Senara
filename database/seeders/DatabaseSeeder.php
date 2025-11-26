@@ -40,12 +40,29 @@ class DatabaseSeeder extends Seeder
             $unit->fasilitas()->sync($randomIds);
         });
 
-        booking::factory()->count(10)->create();
+        $allUsers = User::all();
+        $allUnits = unit::all();
+        booking::factory()->count(10)->make()->each(function ($booking) use ($allUsers, $allUnits) {
+            $booking->id_user = $allUsers->random()->id;        // sesuaikan nama kolom
+            $booking->id_unit = $allUnits->random()->id_unit;   // sesuaikan PK unit
+            $booking->save();
+        });
 
-        $completedBookings = booking::factory()->count(5)->completed()->create();
+        $completedBookings = booking::factory()
+        ->count(5)
+        ->completed()
+        ->make()
+        ->each(function ($booking) use ($allUsers, $allUnits) {
+            $booking->id_user = $allUsers->random()->id;
+            $booking->id_unit = $allUnits->random()->id_unit;
+            $booking->save();
+        });
 
         foreach ($completedBookings as $booking) {
-            masukan::factory()->create();
+            masukan::factory()->create([
+                'booking_id' => $booking->id,
+                'user_id' => $booking->id_user,
+            ]);
         }
     }
 }

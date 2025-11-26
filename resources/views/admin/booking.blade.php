@@ -59,10 +59,10 @@
                             <th class="small text-muted text-uppercase fw-semibold">Check-out</th>
                             <th class="small text-muted text-uppercase fw-semibold">Total</th>
                             <th class="small text-muted text-uppercase fw-semibold">Bukti Bayar</th>
-                            <th class="small text-muted text-uppercase fw-semibold">Status Bayar</th>
-                            <th class="small text-muted text-uppercase fw-semibold">Aksi Bayar</th>
                             <th class="small text-muted text-uppercase fw-semibold">Status Menginap</th>
                             <th class="small text-muted text-uppercase fw-semibold">Aksi Menginap</th>
+                            <th class="small text-muted text-uppercase fw-semibold">Status Bayar</th>
+                            <th class="small text-muted text-uppercase fw-semibold">Aksi Bayar</th>
                         </tr>
                     </thead>
                     <tbody id="tbody-booking">
@@ -228,6 +228,22 @@
                             </td>
 
                             <td>
+                                ${statusMenginapBadge}
+                            </td>
+
+                            <td>
+                                <form action="${urlUpdateStatusPesan}" method="POST" class="mb-0 form-update-menginap">
+                                    <input type="hidden" name="_token" value="${csrfToken}">
+                                    <input type="hidden" name="_method" value="PUT">
+                                    <select name="status_pemesanan" class="form-select form-select-sm">
+                                        <option value="ongoing"   ${statusMenginap === 'ongoing' ? 'selected' : ''}>Check In</option>
+                                        <option value="completed" ${statusMenginap === 'completed' ? 'selected' : ''}>Check Out</option>
+                                        <option value="canceled"  ${statusMenginap === 'canceled' ? 'selected' : ''}>Canceled</option>
+                                    </select>
+                                </form>
+                            </td>
+
+                            <td>
                                 ${statusBayarBadge}
                             </td>
 
@@ -250,21 +266,7 @@
                                 }
                             </td>
 
-                            <td>
-                                ${statusMenginapBadge}
-                            </td>
-
-                            <td>
-                                <form action="${urlUpdateStatusPesan}" method="POST" class="mb-0 form-update-menginap">
-                                    <input type="hidden" name="_token" value="${csrfToken}">
-                                    <input type="hidden" name="_method" value="PUT">
-                                    <select name="status_pemesanan" class="form-select form-select-sm">
-                                        <option value="ongoing"   ${statusMenginap === 'ongoing' ? 'selected' : ''}>Check In</option>
-                                        <option value="completed" ${statusMenginap === 'completed' ? 'selected' : ''}>Check Out</option>
-                                        <option value="canceled"  ${statusMenginap === 'canceled' ? 'selected' : ''}>Canceled</option>
-                                    </select>
-                                </form>
-                            </td>
+                            
                         </tr>
                     `;
                 });

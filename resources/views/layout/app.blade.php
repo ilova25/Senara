@@ -59,7 +59,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content border-0 shadow-lg rounded">
                 <div class="modal-header bg-danger text-white">
-                    <h5 class="modal-title" id="logoutModalLabel">Konfirmasi Logout</h5>
+                    <h5 class="modal-title" id="logoutModalLabel">Konfirmasi Keluar</h5>
                     <button class="close text-white" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -71,7 +71,7 @@
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-inline">
                         @csrf
-                        <button type="submit" class="btn btn-danger">Logout</button>
+                        <button type="submit" class="btn btn-danger">Keluar</button>
                     </form>
                 </div>
             </div>
