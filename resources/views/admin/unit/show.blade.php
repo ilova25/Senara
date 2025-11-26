@@ -24,7 +24,7 @@
             <div class="card border-0 shadow-sm rounded h-100">
                 <div class="card-body p-2">
                     @if(!empty($unit->gambar))
-                        <img src="{{ asset('storage/unit/'.$unit->gambar) }}" 
+                        <img src="{{ asset('storage/'.$unit->gambar) }}" 
                              class="img-fluid rounded w-100"
                              alt="{{ $unit->nama_unit }}">
                     @else

@@ -31,7 +31,7 @@
   text-align: left;
   font-size: 42px;
   margin: 40px 0 20px;
-  padding-left: 50px; /* bisa diganti 5% juga */
+  padding-left: 135px; /* bisa diganti 5% juga */
   font-weight: 400;
 }
 
@@ -58,7 +58,7 @@
 
     .room-card img {
       width: 50%;
-      max-width: 500px;
+      max-width: 400px;
       height: auto;
       max-height: 400px;
       border-radius: 10px;

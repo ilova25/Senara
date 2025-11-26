@@ -39,7 +39,7 @@
   .right-text {
     display: block;
     text-align: right;
-    transform: translateX(10px);
+    transform: translateX(-20px);
     font-size: 77px;
     font-weight: 200;
   }
@@ -443,7 +443,7 @@
 
 {{-- ROOMS --}}
 <section class="section">
-  <p style="text-align:left; font-size:22px; color:#AF8F6F; margin-left:20px; transform:translateX(330px);">Unit</p>
+  <p style="text-align:left; font-size:22px; color:#AF8F6F; margin-left:20px; transform:translateX(380px);">Unit</p>
   <h2>Our Exclusive Unit</h2>
 
   <div class="rooms">
@@ -513,8 +513,8 @@
     <h2 style="text-align:left;">Get Promo for a Cheaper Price</h2>
   </div>
   <div class="promotions">
-    <img src="{{ asset('images/promo1.png') }}" alt="Flash Sale" class="card promo-image" style="width:490px;" onclick="openModal('flashSaleModal')">
-    <img src="{{ asset('images/promo2.png') }}" alt="Long Stay" class="card promo-image" style="width:490px;" onclick="openModal('longStayModal')">
+    <img src="{{ asset('images/promo1.png') }}" alt="Flash Sale" class="card promo-image" style="width:510px;" onclick="openModal('flashSaleModal')">
+    <img src="{{ asset('images/promo2.png') }}" alt="Long Stay" class="card promo-image" style="width:510px;" onclick="openModal('longStayModal')">
   </div>
 </section>
 

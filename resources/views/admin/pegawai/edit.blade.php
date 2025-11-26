@@ -36,7 +36,7 @@
                                 @enderror
                             </div>
 
-                            <div class="form-group mb-3">
+                            {{-- <div class="form-group mb-3">
                                 <label class="font-weight-bold">Password</label>
                                 <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" value="{{ old('password', $pegawai->password) }}" placeholder="Masukkan Password">
 
@@ -46,7 +46,7 @@
                                     {{ $message }}
                                 </div>
                                 @enderror
-                            </div>
+                            </div> --}}
 
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">Alamat</label>

@@ -11,12 +11,25 @@
                             @csrf
 
                             <div class="form-group mb-3">
-                                <label class="font-weight-bold">Nama</label>
-                                <input type="text" class="form-control @error('nama') is-invalid @enderror"
-                                    name="username" value="{{ old('nama') }}" placeholder="Masukkan Nama Pegawai">
+                                <label class="font-weight-bold">Username</label>
+                                <input type="text" class="form-control @error('username') is-invalid @enderror"
+                                    name="username" value="{{ old('username') }}" placeholder="Masukkan Nama Pegawai">
 
                                 <!-- error message untuk nama -->
-                                @error('nama')
+                                @error('username')
+                                    <div class="alert alert-danger mt-2">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label class="font-weight-bold">Nama</label>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                    name="name" value="{{ old('nama') }}" placeholder="Masukkan Nama Pegawai">
+
+                                <!-- error message untuk nama -->
+                                @error('name')
                                     <div class="alert alert-danger mt-2">
                                         {{ $message }}
                                     </div>

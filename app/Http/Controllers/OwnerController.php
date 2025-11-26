@@ -53,6 +53,7 @@ class OwnerController extends Controller
     {
         $request->validate([
             'username'=> 'required|string|max:50|unique:users,username',
+            'name'  => 'required|string|max:100',
             'email'=> 'required|string|email|unique:users,email',
             'password'=> 'required|string|min:8',
             'alamat' => 'required|string|max:250',
@@ -61,6 +62,7 @@ class OwnerController extends Controller
 
         User::create([
             'username'  => $request->username,
+            'nama'      => $request->name,
             'email'     => $request->email,
             'password'  => Hash::make($request->password),
             'role'      => 'resepsionis',
@@ -83,6 +85,7 @@ class OwnerController extends Controller
     {
         $request->validate([
             'username'=> 'required|string|max:50',
+            'name'  => 'required|string|max:100',
             'email'=> 'required|string|email',
             'password'=> 'nullable|string|min:8', // password boleh kosong jika tidak diubah
             'alamat'=> 'required|string|max:250',
@@ -93,6 +96,7 @@ class OwnerController extends Controller
 
         $data = [
             'username' => $request->username,
+            'nama' => $request->name,
             'email' => $request->email,
             'alamat' => $request->alamat,
             'no_hp' => $request->no_hp

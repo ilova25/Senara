@@ -33,7 +33,7 @@
                         {{-- Preview gambar lama --}}
                         @if($unit->gambar)
                             <div class="mb-2">
-                                <img src="{{ asset('storage/unit/'.$unit->gambar) }}"
+                                <img src="{{ asset('storage/'.$unit->gambar) }}"
                                      alt="Gambar Unit"
                                      class="rounded" style="width: 150px; object-fit: cover;">
                             </div>

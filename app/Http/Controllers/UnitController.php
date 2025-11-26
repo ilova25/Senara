@@ -105,7 +105,7 @@ class UnitController extends Controller
     {
         //validate form
         $request->validate([
-            // 'gambar'      => 'image|mimes:jpeg,jpg,png|max:2048',
+            'gambar'      => 'image|mimes:jpeg,jpg,png|max:2048',
             'nama'        => 'required|min:5',
             'deskripsi'   => 'required|min:10',
             'harga'      => 'required|numeric',
@@ -117,16 +117,11 @@ class UnitController extends Controller
         //check if image is uploaded
         if ($request->hasFile('gambar')) {
 
-            // //delete old image
-            // Storage::delete('unit/' . $unit->gambar);
-
-            // //upload new image
-            // $gambar = $request->file('gambar');
-            // $gambar->storeAs('unit', $gambar->hashName());
+            $path = $request->file('gambar')->store('unit','public');
 
             //update product with new image
             $unit->update([
-                // 'gambar'         => $gambar->hashName(),
+                'gambar'         => $path,
                 'nama_unit'         => $request->nama,
                 'deskripsi'   => $request->deskripsi,
                 'harga'         => $request->harga,
