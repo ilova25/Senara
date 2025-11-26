@@ -31,16 +31,15 @@
   .left-text {
     display: block;
     text-align: left;
-    transform: translateX(-10px);
-    font-size: 95px;
+    font-size: 70px;
     font-weight: 300;
   }
 
   .right-text {
     display: block;
     text-align: right;
-    transform: translateX(-20px);
-    font-size: 77px;
+    transform: translateX(-10px);
+    font-size: 70px;
     font-weight: 200;
   }
 
@@ -57,7 +56,7 @@
     margin: 0;
     font-size: 14px;
     text-align: left;
-    transform: translateX(105px);
+    transform: translateX(150px);
   }
 
   .hero-row button {
@@ -65,12 +64,12 @@
     color: white;
     border: none;
     padding: 15px 30px;
-    width: 250px;
+    width: 180px;
     font-size: 18px;
     cursor: pointer;
     border-radius: 30px;
     white-space: nowrap;
-    transform: translateX(105px);
+    transform: translateX(180px);
   }
 
   /* === SLIDER === */
@@ -417,11 +416,11 @@
 {{-- HERO --}}
 <div class="hero">
   <h1>
-    <span class="left-text">WELCOME TO</span>
-    <span class="right-text">SENARA GUEST HOUSE</span>
+    <span class="left-text">SELAMAT DATANG DI</span>
+    <span class="right-text">MANEMBAH HOMESTAY</span>
   </h1>
   <div class="hero-row">
-    <p>Welcome to Senara Guest House, a destination of elegance, comfort, and refined living.</p>
+    <p>Selamat datang di MANEMBAH HOMESTAY, kenyamanan, dan kehidupan yang berkelas.</p>
     <a href="{{ route('booking.create') }}">
       <button>Book Now</button>
     </a>
@@ -443,8 +442,8 @@
 
 {{-- ROOMS --}}
 <section class="section">
-  <p style="text-align:left; font-size:22px; color:#AF8F6F; margin-left:20px; transform:translateX(380px);">Unit</p>
-  <h2>Our Exclusive Unit</h2>
+  <p style="text-align:left; font-size:22px; color:#AF8F6F; margin-left:20px; transform:translateX(400px);">Unit</p>
+  <h2>Unit Eksklusif Kami</h2>
 
   <div class="rooms">
     @forelse ($unit as $u)
@@ -467,7 +466,7 @@
 
 {{-- section ulasan/testimonial --}}
 <section class="section">
-  <p style="text-align: left; font-size: 22px; color: #AF8F6F; margin-left: 30px; transform: translateX(290px);">Testimonials</p>
+  <p style="text-align: left; font-size: 22px; color: #AF8F6F; margin-left: 30px; transform: translateX(320px);">Testimonials</p>
   <h2>What Our Guests Say</h2>
   <div class="testimonials">
     @forelse ($ulasan as $t)
@@ -513,8 +512,8 @@
     <h2 style="text-align:left;">Get Promo for a Cheaper Price</h2>
   </div>
   <div class="promotions">
-    <img src="{{ asset('images/promo1.png') }}" alt="Flash Sale" class="card promo-image" style="width:510px;" onclick="openModal('flashSaleModal')">
-    <img src="{{ asset('images/promo2.png') }}" alt="Long Stay" class="card promo-image" style="width:510px;" onclick="openModal('longStayModal')">
+    <img src="{{ asset('images/promo1.png') }}" alt="Flash Sale" class="card promo-image" style="width:535px;" onclick="openModal('flashSaleModal')">
+    <img src="{{ asset('images/promo2.png') }}" alt="Long Stay" class="card promo-image" style="width:535px;" onclick="openModal('longStayModal')">
   </div>
 </section>
 

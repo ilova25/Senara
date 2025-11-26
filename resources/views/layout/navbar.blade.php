@@ -17,7 +17,7 @@
     font-size: 20px;
     font-weight: bold;
     color: #5A3B1F;
-    transform: translateX(45px);
+    transform: translateX(35px);
   }
 
   header nav {
@@ -82,7 +82,7 @@
 
 <header>
   <div class="container header-container">
-    <div class="brand">Senara Guest House</div>
+    <div class="brand">MANEMBAH HOMESTAY</div>
     <nav>
       <ul>
         <li><a href="{{ route('home') }}">Home</a></li>
