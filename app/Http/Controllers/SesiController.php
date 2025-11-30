@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\informasi;
 use App\Models\masukan;
 use App\Models\unit;
 use App\Models\User;
@@ -15,7 +16,8 @@ class SesiController extends Controller
     {
         $unit = unit::orderBy('created_at', 'desc')->take(3)->get();
         $ulasan = masukan::latest()->take(4)->get();
-        return view('home', compact('unit','ulasan'));
+        $informasi = informasi::first();
+        return view('home', compact('unit','ulasan', 'informasi'));
     }
 
     public function dashboard()

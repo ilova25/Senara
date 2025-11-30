@@ -82,7 +82,7 @@
 
 <header>
   <div class="container header-container">
-    <div class="brand">Senara Guest House</div>
+    <div class="brand">MANEMBAH HOMESTAY</div>
     <nav>
       <ul>
         <li><a href="{{ route('home') }}">Beranda</a></li>

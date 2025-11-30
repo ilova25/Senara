@@ -12,12 +12,14 @@ use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
+    // create booking
     public function create()
     {
         $unit = Unit::all();
         return view('booking', compact('unit'));
     }
 
+    // store booking
     public function store(Request $request)
     {
         $request->validate([
@@ -99,18 +101,21 @@ class BookingController extends Controller
         return response()->json($booking);
     }
 
+    // show payment page
     public function payment($id): View
     {
         $booking = Booking::with('unit', 'user', 'payment')->findOrFail($id);
         return view('payment', compact('booking'));
     }
 
+    // show detail page
     public function detail($id): View
     {
         $booking = Booking::with('unit', 'user')->findOrFail($id);
         return view('detil', compact('booking'));
     }
 
+    // check availability
     public function checkAvailability(Request $request)
     {
         $request->validate([
@@ -135,6 +140,7 @@ class BookingController extends Controller
         ]);
     }
 
+    // update payment status
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
@@ -152,6 +158,7 @@ class BookingController extends Controller
         return back()->with('success', 'Status pembayaran diperbarui');
     }
 
+    // export detail booking to PDF
     public function exportPdf($id)
     {
         $booking = Booking::with('unit', 'payment')->findOrFail($id);
@@ -160,6 +167,16 @@ class BookingController extends Controller
         return $pdf->download('booking.pdf');
     }
 
+    // export semua data booking to PDF (admin)
+    public function exportPdfAdmin()
+    {
+        $booking = Booking::with('unit', 'payment')->get();
+
+        $pdf = Pdf::loadView('admin.booking_pdf', compact('booking'))->setPaper('a4', 'landscape');
+        return $pdf->download('Laporan-Booking.pdf');
+    }
+
+    // histori booking user
     public function history()
     {
         $booking = Booking::with('unit', 'payment', 'masukan')
@@ -186,6 +203,7 @@ class BookingController extends Controller
         ));
     }
 
+    // update status booking (admin)
     public function updatePesanan(Request $request, $id)
     {
         $request->validate([

@@ -284,7 +284,7 @@
             <!-- Kolom 1 -->
             <div class="footer-section">
                 <h3>Tentang Kami</h3>
-                <p>Senara Guest House adalah penginapan nyaman dengan fasilitas modern dan layanan terbaik.</p>
+                <p>Manembah HomeStay adalah penginapan nyaman dengan fasilitas modern dan layanan terbaik.</p>
             </div>
 
             <!-- Kolom 2 -->
@@ -306,15 +306,15 @@
                 <h3>Kontak</h3>
                 <div class="contact-item">
                     <i class="fas fa-map-marker-alt"></i>
-                    <div>Jl. Mawar No. 123, Jakarta</div>
+                    <div>{{ $informasi->alamat }}</div>
                 </div>
                 <div class="contact-item">
                     <i class="fas fa-phone"></i>
-                    <div>+62 812-3456-7890</div>
+                    <div>{{ $informasi->no_hp }}</div>
                 </div>
                 <div class="contact-item">
                     <i class="fas fa-envelope"></i>
-                    <div>info@senaraguesthouse.com</div>
+                    <div>{{ $informasi->email }}</div>
                 </div>
             </div>
 

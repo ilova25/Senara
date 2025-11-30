@@ -3,7 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FasilitasController;
-use App\Http\Controllers\KalenderController;
+use App\Http\Controllers\InformasiController;
 use App\Http\Controllers\MasukanController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\SesiController;
@@ -37,12 +37,12 @@ Route::view('/terms', 'terms')->name('terms');
 Route::view('/faq', 'faq')->name('faq');
 Route::view('/cancellation', 'cancellation')->name('cancellation');
 
-// Newsletter subscribe
-Route::post('/newsletter/subscribe', function (\Illuminate\Http\Request $request) {
-    $request->validate(['email' => 'required|email']);
-    // TODO: simpan ke database atau kirim notifikasi
-    return back()->with('newsletter_success', 'Terima kasih sudah berlangganan!');
-})->name('newsletter.subscribe');
+// // Newsletter subscribe
+// Route::post('/newsletter/subscribe', function (\Illuminate\Http\Request $request) {
+//     $request->validate(['email' => 'required|email']);
+//     // TODO: simpan ke database atau kirim notifikasi
+//     return back()->with('newsletter_success', 'Terima kasih sudah berlangganan!');
+// })->name('newsletter.subscribe');
 
 
     Route::get('/unit/detail/{id}', [UnitController::class, 'detailUser'])->name('detail.unit');
@@ -56,22 +56,57 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [SesiController::class, 'prosesRegister'])->name('register.post');
 });
 
-
-
-
 // Area yang butuh login
 Route::middleware('auth')->group(function () {
+    Route::middleware(['cekadmin'])->group(function (){
+        Route::middleware(['cekowner'])->group(function (){
+            // Fasilitas (CRUD)
+            Route::resource('/admin/fasilitas', FasilitasController::class);
+        
+            // Unit (CRUD)
+            Route::get('/admin/unit/search', [UnitController::class, 'search'])->name('unit.search');
+            Route::resource('/admin/unit', UnitController::class);
+
+            Route::get('unit/{id}/fasilitas',[UnitController::class, 'fasilitasIndex'])->name('unit.fasilitas.index');
+            Route::delete('unit/{id}/fasilitas/{fasilitas}', [UnitController::class, 'destroyFasilitas'])->name('unit.fasilitas.destroy');
+
+            // Endpoint AJAX data pegawai
+            Route::get('/admin/pegawai/data', [OwnerController::class, 'data'])->name('pegawai.data');
+
+            // Resource CRUD pegawai
+            Route::resource('/admin/pegawai', OwnerController::class);
+
+            // Endpoint AJAX data informasi
+            Route::get('/admin/informasi/data', [InformasiController::class, 'data'])->name('informasi.data');
+
+            // Resource CRUD informasi
+            Route::resource('/admin/informasi', InformasiController::class);
+        });
+        // data fasilitas per unit untuk AJAX
+        Route::get('admin/unit/{unit}/fasilitas/data', [FasilitasController::class, 'data'])->name('unit.fasilitas.data');
+
+        Route::get('/admin/masukan', [MasukanController::class,'admin'])->name('masukan.admin');
+        // Dashboard admin (sebaiknya juga pakai auth, tapi ini mengikuti punyamu)
+        Route::get('/admin/dashboard/data', [AdminController::class, 'data'])->name('admin.dashboard.data');
+
+        // Dashboard admin (sebaiknya juga pakai auth, tapi ini mengikuti punyamu)
+        Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+
+        // Booking admin 
+        Route::get('/admin/booking', [BookingController::class, 'admin'])->name('booking.admin');
+        Route::get('/admin/booking/data', [BookingController::class, 'data'])->name('booking.data');
+        Route::get('admin/booking/laporan', [BookingController::class, 'exportPdfAdmin'])->name('laporan.booking.pdf');
+    });
+
     // Profil
-    Route::get('/profile/{id}', [ProfilController::class, 'show'])->name('profile');
-    Route::put('/profile', [ProfilController::class, 'update'])->name('profile.update');
-    Route::put('/profile/password', [ProfilController::class, 'updatePassword'])->name('profile.updatePassword');
+        Route::get('/profile/{id}', [ProfilController::class, 'show'])->name('profile');
+        Route::put('/profile', [ProfilController::class, 'update'])->name('profile.update');
+        Route::put('/profile/password', [ProfilController::class, 'updatePassword'])->name('profile.updatePassword');
+    // end Profil
 
     // Booking dan Payment (user & admin)
     Route::get('/booking', [BookingController::class, 'create'])->name('booking.create'); // untuk form booking
     Route::post('/booking', [BookingController::class, 'store'])->name('booking.store'); // untuk submit booking
-
-    Route::get('/admin/kalender', [KalenderController::class, 'index'])->name('admin.kalender');
-    Route::get('/admin/kalender/bookings', [KalenderController::class, 'getBookings'])->name('kalender.bookings');
 
     Route::get('/payment/{id}', [BookingController::class, 'payment'])->name('payment');
     Route::get('/detail_booking/{id}', [BookingController::class, 'detail'])->name('detil');
@@ -86,41 +121,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/payment_upload/{id}', [PaymentController::class, 'store'])->name('payment.store');
 
     // masukan
-    Route::get('/ulasan/{booking}', [MasukanController::class, 'create'])->name('ulasan.create');    
-    Route::post('/ulasan/{booking}', [MasukanController::class, 'store'])->name('ulasan.store');
-    Route::get('/admin/masukan', [MasukanController::class,'admin'])->name('masukan.admin');
-    Route::get('/ulasan/{booking}/show', [MasukanController::class,'show'])->name('ulasan.show');
-
-    // Dashboard admin (sebaiknya juga pakai auth, tapi ini mengikuti punyamu)
-    Route::get('/admin/dashboard/data', [AdminController::class, 'data'])->name('admin.dashboard.data');
-
-    // Dashboard admin (sebaiknya juga pakai auth, tapi ini mengikuti punyamu)
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-    
-    // Fasilitas (CRUD)
-    Route::resource('/admin/fasilitas', FasilitasController::class);
-
-    // data fasilitas per unit untuk AJAX
-    Route::get('admin/unit/{unit}/fasilitas/data', [FasilitasController::class, 'data'])
-        ->name('unit.fasilitas.data');
-
-    // Unit (CRUD)
-    Route::get('/admin/unit/search', [UnitController::class, 'search'])->name('unit.search');
-    Route::resource('/admin/unit', UnitController::class);
-
-    Route::get('unit/{id}/fasilitas',[UnitController::class, 'fasilitasIndex'])->name('unit.fasilitas.index');
-    Route::delete('unit/{id}/fasilitas/{fasilitas}', [UnitController::class, 'destroyFasilitas'])->name('unit.fasilitas.destroy');
-
-    // Endpoint AJAX data pegawai
-    Route::get('/admin/pegawai/data', [OwnerController::class, 'data'])->name('pegawai.data');
-
-    // Resource CRUD pegawai
-    Route::resource('/admin/pegawai', OwnerController::class);
-
-    // Booking admin + data (AJAX)
-    Route::get('/admin/booking', [BookingController::class, 'admin'])->name('booking.admin');
-    Route::get('/admin/booking/data', [BookingController::class, 'data'])->name('booking.data');
+        Route::get('/ulasan/{booking}', [MasukanController::class, 'create'])->name('ulasan.create');    
+        Route::post('/ulasan/{booking}', [MasukanController::class, 'store'])->name('ulasan.store');
+        Route::get('/ulasan/{booking}/show', [MasukanController::class,'show'])->name('ulasan.show');
+    // end masukan
 
     // Logout
     Route::post('/logout', [SesiController::class, 'logout'])->name('logout');
 });
+
+    
