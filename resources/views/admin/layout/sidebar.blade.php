@@ -149,7 +149,7 @@
 <aside id="sidebar">
     <div class="d-flex justify-content-between p-4">
         <div class="sidebar-logo">
-            <a href="#">Senara</a>
+            <a href="{{ route('home')}}">Manembah</a>
         </div>
         <button class="toggle-btn border-0" type="button">
             <i class='bx bx-chevrons-right'></i>
@@ -174,18 +174,33 @@
                 <span>Ulasan</span>
             </a>
         </li>
-        <li class="sidebar-item">
-            <a href="{{ route('unit.index') }}" class="sidebar-link">
-                <i class='bx bxs-bell-ring'></i>
-                <span>Unit</span>
-            </a>
-        </li>
-        <li class="sidebar-item">
-            <a href="{{ route('pegawai.index') }}" class="sidebar-link">
-                <i class='bx bxs-user'></i>
-                <span>Pegawai</span>
-            </a>
-        </li>
+
+        @if (Auth::check() && Auth::user()->role === 'owner')
+            {{-- unit --}}
+            <li class="sidebar-item">
+                <a href="{{ route('unit.index') }}" class="sidebar-link">
+                    <i class='bx bxs-home'></i>
+                    <span>Unit</span>
+                </a>
+            </li>
+
+            {{-- pegawai --}}
+            <li class="sidebar-item">
+                <a href="{{ route('pegawai.index') }}" class="sidebar-link">
+                    <i class='bx bxs-user'></i>
+                    <span>Pegawai</span>
+                </a>
+            </li>
+
+            {{-- informasi --}}
+            <li class="sidebar-item">
+                <a href="{{ route('informasi.index') }}" class="sidebar-link">
+                    <i class='bx bxs-info-circle'></i>
+                    <span>Informasi</span>
+                </a>
+            </li>
+        @endif
+        
     </ul>
     <div class="sidebar-footer">
         <a href="javascript:void(0);" class="sidebar-link" id="btn-logout">

@@ -19,8 +19,8 @@ class MasukanFactory extends Factory
     public function definition(): array
     {
         return [
-            'booking_id' => booking::inRandomOrder()->first()->id ?? booking::factory(),
-            'user_id' => User::inRandomOrder()->first()->id ?? User::factory(),
+            'booking_id' => booking::inRandomOrder()->first()->id,
+            'user_id' => User::inRandomOrder()->first()->id,
             'rating' => $this->faker->numberBetween(3, 5),
             'coment' => $this->faker->sentence(rand(5, 15)),
         ];

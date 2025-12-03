@@ -136,6 +136,25 @@
       </div>
     </div>
 
+    <!-- MODAL NOTIF -->
+    <div class="modal fade" id="notifModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Peringatan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    {{ session('error') }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     {{-- JS --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
@@ -144,6 +163,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    {{-- script logout --}}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Toggle sidebar (pakai code-mu)
@@ -179,14 +199,25 @@
         });
     </script>
 
+    {{-- script modal error session --}}
+    @if (session('error'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var notifModal = new bootstrap.Modal(document.getElementById('notifModal'));
+                notifModal.show();
+            });
+        </script>
+    @endif
+
+    {{-- script sidebar toggle --}}
     <script> 
-    const hamburger = document.querySelector(".toggle-btn"); 
-    const toggler = document.querySelector("#icon"); 
-    hamburger.addEventListener("click",function(){ 
-        document.querySelector("#sidebar").classList.toggle("expand"); 
-        toggler.classList.toggle("bx-chevrons-right"); 
-        toggler.classList.toggle("bx-chevrons-left"); 
-    }); 
+        const hamburger = document.querySelector(".toggle-btn"); 
+        const toggler = document.querySelector("#icon"); 
+        hamburger.addEventListener("click",function(){ 
+            document.querySelector("#sidebar").classList.toggle("expand"); 
+            toggler.classList.toggle("bx-chevrons-right"); 
+            toggler.classList.toggle("bx-chevrons-left"); 
+        }); 
     </script>
 
     @stack('styles')

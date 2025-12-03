@@ -37,6 +37,11 @@
                 Lihat dan kelola pemesanan tamu, status pembayaran, dan status menginap.
             </small>
         </div>
+        <div class="d-flex gap-2">
+            <a href="{{ route('laporan.booking.pdf') }}" class="btn btn-coklat">
+                <i class="fa-solid fa-file-pdf"></i> Export PDF
+            </a>
+        </div>
     </div>
 
     {{-- Card Tabel Booking --}}
@@ -58,11 +63,13 @@
                             <th class="small text-muted text-uppercase fw-semibold">Check-in</th>
                             <th class="small text-muted text-uppercase fw-semibold">Check-out</th>
                             <th class="small text-muted text-uppercase fw-semibold">Total</th>
-                            <th class="small text-muted text-uppercase fw-semibold">Bukti Bayar</th>
-                            <th class="small text-muted text-uppercase fw-semibold">Status Bayar</th>
-                            <th class="small text-muted text-uppercase fw-semibold">Aksi Bayar</th>
                             <th class="small text-muted text-uppercase fw-semibold">Status Menginap</th>
-                            <th class="small text-muted text-uppercase fw-semibold">Aksi Menginap</th>
+                            @if (Auth::check() && Auth::user()->role === 'resepsionis')
+                                <th class="small text-muted text-uppercase fw-semibold">Aksi Menginap</th>
+                                <th class="small text-muted text-uppercase fw-semibold">Bukti Bayar</th>
+                                <th class="small text-muted text-uppercase fw-semibold">Status Bayar</th>
+                                <th class="small text-muted text-uppercase fw-semibold">Aksi Bayar</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody id="tbody-booking">
@@ -118,6 +125,7 @@
                     const checkout   = item.checkout ?? '';
                     const totalHarga = item.total_harga ?? 0;
                     const payment    = item.payment;
+                    const isResepsionis = @json(Auth::check() && Auth::user()->role === 'resepsionis');
 
                     let statusBayarBadge = `
                         <span class="badge bg-secondary bg-opacity-10 text-secondary">
@@ -224,47 +232,49 @@
                             <td><strong>Rp ${Number(totalHarga).toLocaleString('id-ID')}</strong></td>
 
                             <td>
-                                ${buktiBayarHtml}
-                            </td>
-
-                            <td>
-                                ${statusBayarBadge}
-                            </td>
-
-                            <td>
-                                ${
-                                    payment
-                                        ? `
-                                            <form action="${urlUpdateStatusBayar}" method="POST" class="mb-0 form-update-bayar">
-                                                <input type="hidden" name="_token" value="${csrfToken}">
-                                                <input type="hidden" name="_method" value="PUT">
-                                                <select name="status_pembayaran"
-                                                        class="form-select form-select-sm">
-                                                    <option value="pending"  ${payment.status_pembayaran === 'pending' ? 'selected' : ''}>Pending</option>
-                                                    <option value="paid"     ${payment.status_pembayaran === 'paid' ? 'selected' : ''}>Paid</option>
-                                                    <option value="canceled" ${payment.status_pembayaran === 'canceled' ? 'selected' : ''}>Canceled</option>
-                                                </select>
-                                            </form>
-                                          `
-                                        : `<span class="text-muted small">—</span>`
-                                }
-                            </td>
-
-                            <td>
                                 ${statusMenginapBadge}
                             </td>
 
-                            <td>
-                                <form action="${urlUpdateStatusPesan}" method="POST" class="mb-0 form-update-menginap">
-                                    <input type="hidden" name="_token" value="${csrfToken}">
-                                    <input type="hidden" name="_method" value="PUT">
-                                    <select name="status_pemesanan" class="form-select form-select-sm">
-                                        <option value="ongoing"   ${statusMenginap === 'ongoing' ? 'selected' : ''}>Check In</option>
-                                        <option value="completed" ${statusMenginap === 'completed' ? 'selected' : ''}>Check Out</option>
-                                        <option value="canceled"  ${statusMenginap === 'canceled' ? 'selected' : ''}>Canceled</option>
-                                    </select>
-                                </form>
-                            </td>
+                            ${isResepsionis ? `
+                                <td>
+                                    <form action="${urlUpdateStatusPesan}" method="POST" class="mb-0 form-update-menginap">
+                                        <input type="hidden" name="_token" value="${csrfToken}">
+                                        <input type="hidden" name="_method" value="PUT">
+                                        <select name="status_pemesanan" class="form-select form-select-sm">
+                                            <option value="ongoing"   ${statusMenginap === 'ongoing' ? 'selected' : ''}>Check In</option>
+                                            <option value="completed" ${statusMenginap === 'completed' ? 'selected' : ''}>Check Out</option>
+                                            <option value="canceled"  ${statusMenginap === 'canceled' ? 'selected' : ''}>Canceled</option>
+                                        </select>
+                                    </form>
+                                </td>
+
+                                <td>
+                                    ${buktiBayarHtml}
+                                </td>
+
+                                <td>
+                                    ${statusBayarBadge}
+                                </td>
+
+                                <td>
+                                    ${
+                                        payment
+                                            ? `
+                                                <form action="${urlUpdateStatusBayar}" method="POST" class="mb-0 form-update-bayar">
+                                                    <input type="hidden" name="_token" value="${csrfToken}">
+                                                    <input type="hidden" name="_method" value="PUT">
+                                                    <select name="status_pembayaran"
+                                                            class="form-select form-select-sm">
+                                                        <option value="pending"  ${payment.status_pembayaran === 'pending' ? 'selected' : ''}>Pending</option>
+                                                        <option value="paid"     ${payment.status_pembayaran === 'paid' ? 'selected' : ''}>Paid</option>
+                                                        <option value="canceled" ${payment.status_pembayaran === 'canceled' ? 'selected' : ''}>Canceled</option>
+                                                    </select>
+                                                </form>
+                                            `
+                                            : `<span class="text-muted small">—</span>`
+                                    }
+                                </td>
+                            ` : ''}
                         </tr>
                     `;
                 });

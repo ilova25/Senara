@@ -218,120 +218,120 @@
   gap: 20px;
   max-width: 1200px;
   margin: 30px auto 0 auto;
-}
-
-.testimonial-card {
-  background: linear-gradient(135deg, #ffffff 0%, #f8f6f3 100%);
-  padding: 25px;
-  border-radius: 15px;
-  width: 100%;
-  text-align: left;
-  box-shadow: 0 5px 20px rgba(90, 59, 31, 0.08);
-  position: relative;
-  transition: all 0.4s ease;
-  border: 1px solid rgba(175, 143, 111, 0.2);
-}
-
-.testimonial-card:nth-child(n+5) {
-  display: none;
-}
-
-.testimonial-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 40px rgba(90, 59, 31, 0.15);
-  border-color: #AF8F6F;
-}
-
-.quote-icon {
-  font-size: 50px;
-  color: #AF8F6F;
-  opacity: 0.3;
-  line-height: 1;
-  margin-bottom: -5px;
-  font-family: Georgia, serif;
-}
-
-.stars {
-  color: #FFD700;
-  font-size: 16px;
-  margin-bottom: 12px;
-  letter-spacing: 2px;
-}
-
-.testimonial-text {
-  font-size: 14px;
-  line-height: 1.6;
-  color: #555;
-  margin-bottom: 15px;
-  font-style: italic;
-  min-height: 70px;
-}
-
-.testimonial-footer {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding-top: 15px;
-  border-top: 1px solid rgba(175, 143, 111, 0.2);
-}
-
-/* Default Avatar Icon Styles */
-.avatar-icon {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #AF8F6F 0%, #5A3B1F 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(90, 59, 31, 0.2);
-  transition: all 0.3s ease;
-}
-
-.avatar-icon svg {
-  width: 24px;
-  height: 24px;
-  color: white;
-}
-
-.testimonial-card:hover .avatar-icon {
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(90, 59, 31, 0.3);
-}
-
-.guest-info h4 {
-  font-size: 15px;
-  color: #5A3B1F;
-  margin-bottom: 3px;
-  font-weight: 600;
-}
-
-.guest-info p {
-  font-size: 12px;
-  color: #888;
-  margin: 0;
-}
-
-/* Responsive */
-@media (max-width: 1200px) {
-  .testimonials {
-    grid-template-columns: repeat(2, 1fr);
-    max-width: 700px;
-  }
-}
-
-@media (max-width: 768px) {
-  .testimonials {
-    grid-template-columns: 1fr;
-    padding: 0 20px;
-    max-width: 400px;
   }
 
   .testimonial-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f6f3 100%);
+    padding: 25px;
+    border-radius: 15px;
     width: 100%;
+    text-align: left;
+    box-shadow: 0 5px 20px rgba(90, 59, 31, 0.08);
+    position: relative;
+    transition: all 0.4s ease;
+    border: 1px solid rgba(175, 143, 111, 0.2);
   }
-}
+
+  .testimonial-card:nth-child(n+5) {
+    display: none;
+  }
+
+  .testimonial-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(90, 59, 31, 0.15);
+    border-color: #AF8F6F;
+  }
+
+  .quote-icon {
+    font-size: 50px;
+    color: #AF8F6F;
+    opacity: 0.3;
+    line-height: 1;
+    margin-bottom: -5px;
+    font-family: Georgia, serif;
+  }
+
+  .stars {
+    color: #FFD700;
+    font-size: 16px;
+    margin-bottom: 12px;
+    letter-spacing: 2px;
+  }
+
+  .testimonial-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 15px;
+    font-style: italic;
+    min-height: 70px;
+  }
+
+  .testimonial-footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(175, 143, 111, 0.2);
+  }
+
+  /* Default Avatar Icon Styles */
+  .avatar-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #AF8F6F 0%, #5A3B1F 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(90, 59, 31, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .avatar-icon svg {
+    width: 24px;
+    height: 24px;
+    color: white;
+  }
+
+  .testimonial-card:hover .avatar-icon {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(90, 59, 31, 0.3);
+  }
+
+  .guest-info h4 {
+    font-size: 15px;
+    color: #5A3B1F;
+    margin-bottom: 3px;
+    font-weight: 600;
+  }
+
+  .guest-info p {
+    font-size: 12px;
+    color: #888;
+    margin: 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 1200px) {
+    .testimonials {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 700px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .testimonials {
+      grid-template-columns: 1fr;
+      padding: 0 20px;
+      max-width: 400px;
+    }
+
+    .testimonial-card {
+      width: 100%;
+    }
+  }
 
   /* === PROMO === */
   .promo-code {
@@ -420,10 +420,17 @@
     <span class="right-text">MANEMBAH HOMESTAY</span>
   </h1>
   <div class="hero-row">
-    <p>Selamat datang di MANEMBAH HOMESTAY, kenyamanan, dan kehidupan yang berkelas.</p>
-    <a href="{{ route('booking.create') }}">
-      <button>Pesan Sekarang</button>
-    </a>
+    <p>Selamat datang di Manembah HomeStay, destinasi keanggunan, kenyamanan, dan kehidupan yang halus.</p>
+    @if (Auth::check() && (Auth::user()->role === 'resepsionis' || Auth::user()->role === 'owner'))
+      <a href="{{ route('admin.dashboard') }}">
+        <button>Dashboard</button>
+      </a>
+    @else
+      <a href="{{ route('booking.create') }}">
+        <button>Pesan Sekarang</button>
+      </a>
+    @endif
+    
   </div>
 </div>
 
