@@ -284,7 +284,7 @@
             <!-- Kolom 1 -->
             <div class="footer-section">
                 <h3>Tentang Kami</h3>
-                <p>Senara Guest House adalah penginapan nyaman dengan fasilitas modern dan layanan terbaik.</p>
+                <p>MANEMBAH HOMESTAY adalah penginapan nyaman dengan fasilitas modern dan layanan terbaik.</p>
             </div>
 
             <!-- Kolom 2 -->
@@ -314,7 +314,7 @@
                 </div>
                 <div class="contact-item">
                     <i class="fas fa-envelope"></i>
-                    <div>info@senaraguesthouse.com</div>
+                    <div>info@manembahhomestay.com</div>
                 </div>
             </div>
 

@@ -124,3 +124,8 @@ Route::middleware('auth')->group(function () {
     // Logout
     Route::post('/logout', [SesiController::class, 'logout'])->name('logout');
 });
+
+// Route untuk halaman Tata Cara Pesan
+Route::get('/tata-cara-pesan', function () {
+    return view('tata-cara');
+})->name('tata.cara');
