@@ -15,10 +15,11 @@ use Midtrans\Snap;
 class BookingController extends Controller
 {
     // create booking
-    public function create()
+    public function create(Request $request)
     {
+        $unitId = $request->unit;
         $unit = Unit::all();
-        return view('booking', compact('unit'));
+        return view('booking', compact('unit','unitId'));
     }
 
     // store booking

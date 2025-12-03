@@ -147,6 +147,35 @@
       padding-right: 40px;
     }
 
+    /* Guest warning notification */
+    .guest-warning {
+      margin-top: 12px;
+      padding: 12px 15px;
+      background-color: #fee;
+      border-left: 4px solid #dc3545;
+      border-radius: 4px;
+      color: #dc3545;
+      font-size: 14px;
+      font-weight: 600;
+      display: none;
+    }
+
+    .guest-warning.show {
+      display: block;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     /* Special styling for date inputs */
     .form-group input[type="date"] {
       position: relative;
@@ -254,16 +283,31 @@
 
   <form class="booking-form" action="{{ route('booking.store') }}" method="POST">
       @csrf
+      <!-- Kolom Kiri -->
       <div class="form-group">
           <label>Nama</label>
           <input type="text" name="nama" id="name" value="{{ old('nama', Auth::user()->username) }}" required>
       </div>
 
+      <!-- Kolom Kanan -->
       <div class="form-group">
           <label>Email</label>
           <input type="email" name="email" id="email" value="{{ old('email', Auth::user()->email) }}" required>
       </div>
 
+      <!-- Kolom Kanan -->
+      <div class="form-group">
+          <label>Check in</label>
+          <input type="date" name="checkin" id="checkin">
+      </div>
+
+      <!-- Kolom Kiri -->
+      <div class="form-group">
+          <label>Check out</label>
+          <input type="date" name="checkout" id="checkout">
+      </div>
+
+      <!-- Kolom Kiri -->
       <div class="form-group">
           <label>Tamu</label>
           <div class="guests-wrapper">
@@ -271,31 +315,43 @@
                   <option value="1">1 Dewasa</option>
                   <option value="2">2 Dewasa</option>
                   <option value="3">3 Dewasa</option>
+                  <option value="4">4 Dewasa</option>
+                  <option value="5">5 Dewasa</option>
+                  <option value="6">6 Dewasa</option>
+                  <option value="7">7 Dewasa</option>
+                  <option value="8">8 Dewasa</option>
+                  <option value="9">9 Dewasa</option>
+                  <option value="10">10 Dewasa</option>
               </select>
               <select name="children" id="children">
+                  <option value="0">Tidak ada</option>
                   <option value="1">1 Anak</option>
                   <option value="2">2 Anak</option>
                   <option value="3">3 Anak</option>
+                  <option value="4">4 Anak</option>
+                  <option value="5">5 Anak</option>
+                  <option value="6">6 Anak</option>
+                  <option value="7">7 Anak</option>
+                  <option value="8">8 Anak</option>
+                  <option value="9">9 Anak</option>
+                  <option value="10">10 Anak</option>
               </select>
+          </div>
+          <div class="guest-warning" id="guest-warning">
+              ⚠️ Jumlah tamu melebihi 6 orang. Biaya tambahan Rp 50.000/orang untuk tamu yang melebihi batas.
           </div>
       </div>
 
-      <div class="form-group">
-          <label>Check in</label>
-          <input type="date" name="checkin" id="checkin">
-      </div>
-
-      <div class="form-group">
-          <label>Check out</label>
-          <input type="date" name="checkout" id="checkout">
-      </div>
-
+      <!-- Kolom Kanan -->
       <div class="form-group">
         <label>Unit</label>
         <select name="id_unit" id="room_id">
             <option value="">-- Pilih unit --</option>
             @foreach ($unit as $item)
-                <option value="{{ $item->id_unit }}" data-price="{{ $item->harga }}">
+                <option value="{{ $item->id_unit }}" 
+                  data-price="{{ $item->harga }}"
+                  {{ isset($unitId) && $unitId == $item->id_unit ? 'selected' : '' }}
+                >
                     {{ $item->nama_unit }} - Rp {{ number_format($item->harga, 0, ',', '.') }} / malam
                 </option>
             @endforeach
@@ -303,7 +359,7 @@
         <p id="unit_status" style="margin-top:5px;font-weight:bold;"></p>
       </div>
 
-
+      <!-- Kolom Kiri -->
       <div class="form-group">
           <label>Total Harga</label>
           <p id="total_harga">Rp 0</p>
@@ -321,6 +377,11 @@
     const checkoutInput = document.getElementById('checkout');
     const totalHargaEl = document.getElementById('total_harga');
     const statusMsg = document.getElementById('unit_status');
+    const adultsSelect = document.getElementById('adults');
+    const childrenSelect = document.getElementById('children');
+    const guestWarning = document.getElementById('guest-warning');
+    const MAX_GUESTS = 6;
+    const EXTRA_GUEST_PRICE = 50000;
 
     function calculateTotal() {
         const roomOption = roomSelect.options[roomSelect.selectedIndex];
@@ -334,8 +395,32 @@
             days = (checkout - checkin) / (1000 * 60 * 60 * 24);
         }
 
-        const total = price * days;
+        // Hitung jumlah tamu
+        const adults = parseInt(adultsSelect.value) || 0;
+        const children = parseInt(childrenSelect.value) || 0;
+        const totalGuests = adults + children;
+
+        // Hitung biaya tambahan jika melebihi 6 orang
+        let extraGuestCost = 0;
+        if (totalGuests > MAX_GUESTS) {
+            const excessGuests = totalGuests - MAX_GUESTS;
+            extraGuestCost = excessGuests * EXTRA_GUEST_PRICE * days;
+        }
+
+        const total = price * days + extraGuestCost;
         totalHargaEl.textContent = "Rp " + total.toLocaleString('id-ID');
+    }
+
+    function checkGuestLimit() {
+        const adults = parseInt(adultsSelect.value) || 0;
+        const children = parseInt(childrenSelect.value) || 0;
+        const totalGuests = adults + children;
+
+        if (totalGuests > MAX_GUESTS) {
+            guestWarning.classList.add('show');
+        } else {
+            guestWarning.classList.remove('show');
+        }
     }
 
     // ✅ Cek ketersediaan unit via AJAX
@@ -369,5 +454,7 @@
     roomSelect.addEventListener('change', () => { calculateTotal(); checkAvailability(); });
     checkinInput.addEventListener('change', () => { calculateTotal(); checkAvailability(); });
     checkoutInput.addEventListener('change', () => { calculateTotal(); checkAvailability(); });
+    adultsSelect.addEventListener('change', () => { calculateTotal(); checkGuestLimit(); });
+    childrenSelect.addEventListener('change', () => { calculateTotal(); checkGuestLimit(); });
   </script>
 @endpush

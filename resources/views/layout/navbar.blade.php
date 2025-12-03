@@ -7,7 +7,7 @@
 
   .header-container {
     max-width: 1200px;
-    padding: 15px 20px; /* sama seperti footer */
+    padding: 15px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -17,13 +17,12 @@
     font-size: 20px;
     font-weight: bold;
     color: #5A3B1F;
-    transform: translateX(45px);
+    transform: translateX(35px);
   }
 
   header nav {
     display: flex;
     align-items: center;
-    /* margin-bottom: 30px; */
   }
 
   header nav ul {
@@ -87,10 +86,9 @@
       <ul>
         <li><a href="{{ route('home') }}">Beranda</a></li>
         <li><a href="{{ route('unit') }}">Unit</a></li>
+        <li><a href="{{ route('tata.cara') }}">Tata Cara Pesan</a></li> <!-- DIGANTI DARI RESERVASI -->
 
         @if (Auth::check())
-          <li><a href="{{ route('booking.create') }}">Reservasi</a></li>
-
           <!-- Dropdown User -->
           <li class="nav-item dropdown">
             <a class="nav-link p-0 dropdown-toggle" href="#" id="userDropdown" role="button"

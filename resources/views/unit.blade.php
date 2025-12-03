@@ -328,7 +328,7 @@
                             <small>per night</small>
                         </div>
                         <div class="room-actions">
-                            <a href="{{ route('booking.create') }}" class="btn-main">
+                            <a href="{{ route('booking.create', ['unit' => $item->id_unit]) }}" class="btn-main">
                                 Book Now
                             </a>
                             <a href="{{ route('detail.unit', ['id' => $item->id_unit]) }}" class="btn-outline">
