@@ -9,6 +9,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Midtrans\Config;
+use Midtrans\Snap;
 
 class BookingController extends Controller
 {
@@ -106,6 +108,33 @@ class BookingController extends Controller
     {
         $booking = Booking::with('unit', 'user', 'payment')->findOrFail($id);
         return view('payment', compact('booking'));
+    }
+
+    public function paymentMidtrans($id)
+    {
+        $booking = Booking::with('unit','user')->findOrFail($id);
+
+         // Midtrans Config
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$clientKey = config('midtrans.client_key');
+        Config::$isProduction = false; // sandbox
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+
+        $params = [
+            'transaction_details' => [
+                'order_id' => 'ORDER-' . $booking->id . '-' . time(),
+                'gross_amount' => $booking->total_harga,
+            ],
+            'customer_details' => [
+                'first_name' => $booking->nama,
+                'email' => $booking->email,
+            ]
+        ];
+
+        $snapToken = Snap::getSnapToken($params);
+
+        return response()->json(['token' => $snapToken]);
     }
 
     // show detail page

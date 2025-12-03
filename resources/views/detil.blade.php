@@ -139,7 +139,7 @@
     </div>
   </div>
 
-  <!-- RIGHT BOX -->
+  {{-- <!-- RIGHT BOX -->
   <div class="side-card">
     <h3>Payment Details</h3>
     <div class="payment-info">
@@ -164,7 +164,7 @@
       <small>No. Rekening</small>
       <p>123-456-789 (Bank ABC)</p>
     </div>
-  </div>
+  </div> --}}
 </div>
 
 <!-- UPLOAD SECTION -->

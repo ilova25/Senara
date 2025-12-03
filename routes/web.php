@@ -108,6 +108,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/booking', [BookingController::class, 'create'])->name('booking.create'); // untuk form booking
     Route::post('/booking', [BookingController::class, 'store'])->name('booking.store'); // untuk submit booking
 
+    
+    Route::get('/booking/{id}/payment', [BookingController::class, 'paymentPage'])->name('booking.payment');
     Route::get('/payment/{id}', [BookingController::class, 'payment'])->name('payment');
     Route::get('/detail_booking/{id}', [BookingController::class, 'detail'])->name('detil');
     Route::get('/check-availability', [BookingController::class, 'checkAvailability'])->name('check.availability');
@@ -116,6 +118,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/booking/history', [BookingController::class, 'history'])->name('riwayat.booking');
     Route::put('/admin/booking/{id}/status_pemesanan', [BookingController::class, 'updatePesanan'])->name('booking.updatePesanan');
 
+    Route::get('/pay/{id}', [BookingController::class,'paymentMidtrans'])->name('pay');
     // payment upload
     Route::get('/payment_upload/{id}', [PaymentController::class, 'create'])->name('payment.create');
     Route::post('/payment_upload/{id}', [PaymentController::class, 'store'])->name('payment.store');
@@ -125,6 +128,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/ulasan/{booking}', [MasukanController::class, 'store'])->name('ulasan.store');
         Route::get('/ulasan/{booking}/show', [MasukanController::class,'show'])->name('ulasan.show');
     // end masukan
+
+    // midtrans
+    Route::get('/payment', [PaymentController::class, 'index']);
+    //end midtrans
 
     // Logout
     Route::post('/logout', [SesiController::class, 'logout'])->name('logout');
