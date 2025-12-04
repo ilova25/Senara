@@ -151,9 +151,9 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 30px;
+    gap: 20px;
     max-width: 1200px;
-    margin: 30px auto 0 auto;
+    margin: 10px auto 0 auto;
   }
 
   .card {
@@ -369,6 +369,12 @@
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
 
+  .promo-image {
+    width: 450px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
   .copy-btn {
     background: #fff;
     color: #5A3B1F;
@@ -514,13 +520,13 @@
 
 {{-- PROMO --}}
 <section class="section">
-  <div style="padding-left:25px;">
+  <div >
     <p style="text-align:left; font-size:22px; color:#AF8F6F;">Promotion</p>
     <h2 style="text-align:left;">Get Promo for a Cheaper Price</h2>
   </div>
   <div class="promotions">
-    <img src="{{ asset('images/promo1.png') }}" alt="Flash Sale" class="card promo-image" style="width:535px;" onclick="openModal('flashSaleModal')">
-    <img src="{{ asset('images/promo2.png') }}" alt="Long Stay" class="card promo-image" style="width:535px;" onclick="openModal('longStayModal')">
+    <img src="{{ asset('images/promo1.png') }}" alt="Flash Sale" class="promo-image" style="width:500px;" onclick="openModal('flashSaleModal')">
+    <img src="{{ asset('images/promo2.png') }}" alt="Long Stay" class="promo-image" style="width:500px;" onclick="openModal('longStayModal')">
   </div>
 </section>
 

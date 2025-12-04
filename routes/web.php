@@ -118,10 +118,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/booking/history', [BookingController::class, 'history'])->name('riwayat.booking');
     Route::put('/admin/booking/{id}/status_pemesanan', [BookingController::class, 'updatePesanan'])->name('booking.updatePesanan');
 
+    // payment
     Route::get('/pay/{id}', [BookingController::class,'paymentMidtrans'])->name('pay');
-    // payment upload
-    Route::get('/payment_upload/{id}', [PaymentController::class, 'create'])->name('payment.create');
-    Route::post('/payment_upload/{id}', [PaymentController::class, 'store'])->name('payment.store');
+    Route::post('/payment/notification', [PaymentController::class, 'notification']);
+    // // payment upload
+    // Route::get('/payment_upload/{id}', [PaymentController::class, 'create'])->name('payment.create');
+    // Route::post('/payment_upload/{id}', [PaymentController::class, 'store'])->name('payment.store');
 
     // masukan
         Route::get('/ulasan/{booking}', [MasukanController::class, 'create'])->name('ulasan.create');    
@@ -129,9 +131,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/ulasan/{booking}/show', [MasukanController::class,'show'])->name('ulasan.show');
     // end masukan
 
-    // midtrans
-    Route::get('/payment', [PaymentController::class, 'index']);
-    //end midtrans
+    // // midtrans
+    // Route::get('/payment', [PaymentController::class, 'index']);
+    // //end midtrans
 
     // Logout
     Route::post('/logout', [SesiController::class, 'logout'])->name('logout');

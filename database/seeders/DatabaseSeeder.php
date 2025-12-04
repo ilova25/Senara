@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Admin;
 use App\Models\booking;
 use App\Models\fasilitas;
+use App\Models\informasi;
 use App\Models\masukan;
 use App\Models\unit;
 use App\Models\User;
@@ -29,9 +30,16 @@ class DatabaseSeeder extends Seeder
         User::factory()->dataadmin2()->create();
         User::factory()->dataadmin3()->create();
 
+        informasi::factory()->informasi1()->create();
+
         $fasilitasList = fasilitas::factory()->count(10)->create();
         
-        $units = unit::factory()->count(5)->create();
+        $units = collect([
+            unit::factory()->unit1()->create(),
+            unit::factory()->unit2()->create(),
+            unit::factory()->unit3()->create(),
+            unit::factory()->unit4()->create(),
+        ]);
 
         $allFacilityIds = fasilitas::pluck('id_fasilitas');
 

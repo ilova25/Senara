@@ -139,40 +139,59 @@
     </div>
   </div>
 
-  {{-- <!-- RIGHT BOX -->
-  <div class="side-card">
+  <!-- RIGHT BOX -->
+  {{-- <div class="side-card">
     <h3>Payment Details</h3>
     <div class="payment-info">
       <small>Date</small>
       <p>{{ $booking->created_at->format('D, d M Y') }}</p>
 
       <small>Payment Method</small>
-      <p>Direct Bank Transfer</p>
+      <p>
+        @if ($booking->payment)
+          {{ ucfirst($booking->payment->metode_pembayaran ?? 'Midtrans') }}
+        @else
+          Belum dipilih
+        @endif
+      </p>
 
       <small>Total</small>
       <p>Rp{{ number_format($booking->total_harga, 0, ',', '.') }}</p>
 
       <small>Status</small>
-      @if($booking->payment)
-        <p class="status {{ strtolower($booking->payment->status_pembayaran) }}">
-          {{ strtoupper($booking->payment->status_pembayaran) }}
-        </p>
-      @else
-        <p class="status pending">PENDING</p>
-      @endif
+      <p class="status {{ strtolower($booking->payment->status_pembayaran ?? 'pending') }}">
+        {{ strtoupper($booking->payment->status_pembayaran ?? 'pending') }}
+      </p>
       
-      <small>No. Rekening</small>
-      <p>123-456-789 (Bank ABC)</p>
+       @if ($booking->payment)
+        <small>Order ID</small>
+        <p>{{ $booking->payment->order_id }}</p>
+
+        <small>Transaction ID</small>
+        <p>{{ $booking->payment->transaction_id ?? '-' }}</p>
+      @endif
+
     </div>
   </div> --}}
 </div>
 
 <!-- UPLOAD SECTION -->
+    {{-- @if (!$booking->payment || $booking->payment->status_pembayaran == 'pending')
+      <a href="{{ route('pay', $booking->id) }}" class="upload-btn">
+        Bayar Sekarang
+      </a>
+    @endif --}}
+
 <div class="upload-section">
-  @if ($booking->payment && $booking->payment->status_pembayaran === 'paid')
-    <a href="{{ route('booking.pdf', $booking->id)}}" class="upload-btn">Unduh PDF</a>
+  <a href="{{ route('booking.pdf', $booking->id)}}" class="upload-btn">Unduh PDF</a>
+  {{-- @if ($booking->payment && $booking->payment->status_pembayaran === 'paid')
+    
   @elseif (!$booking->payment || $booking->payment->status_pembayaran === 'pending')
     <a href="{{ route('payment.create', $booking->id)}}" class="upload-btn">Upload Bukti Pembayaran</a>
-  @endif
+  @endif --}}
 </div>
+
+    @if ($booking->payment && $booking->payment->status_pembayaran == 'paid')
+      
+    @endif
 @endsection

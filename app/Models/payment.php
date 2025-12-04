@@ -9,7 +9,16 @@ class payment extends Model
 {
     use HasFactory;
     protected $table = 'payment';
-    protected $fillable = ['bukti_pembayaran','status_pembayaran','batas_pembayaran','booking_id'];
+    protected $fillable = [
+        'booking_id',
+        'order_id',
+        'transaction_id',
+        'metode_pembayaran',
+        'status_pembayaran',
+        'gross_amount',
+        'snap_token'
+    ];
+
     protected $primaryKey = 'id';
 
     public function booking() {

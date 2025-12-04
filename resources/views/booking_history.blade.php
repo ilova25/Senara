@@ -387,7 +387,7 @@
                     <div class="booking-actions">
                         {{-- Tombol sesuai status --}}
                         @if ($item->payment && $item->payment->status_pembayaran === 'pending')
-                            <a href="{{ route('payment.create', $item->id) }}" class="action-btn btn-secondary">Bayar</a>
+                            {{-- <a href="{{ route('payment.create', $item->id) }}" class="action-btn btn-secondary">Bayar</a> --}}
                         @elseif ($item->status_menginap === 'completed')
                             <a href="{{ route('booking.create') }}" class="action-btn btn-primary">Book Lagi</a>
                             <a href="{{ route('detil', $item->id) }}" class="action-btn btn-primary">Lihat Detail</a>

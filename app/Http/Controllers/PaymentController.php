@@ -6,71 +6,73 @@ use App\Models\booking;
 use App\Models\payment;
 use Illuminate\Http\Request;
 use Midtrans\Config;
+use Midtrans\Notification;
 use Midtrans\Snap;
 
 class PaymentController extends Controller
 {
-    public function index()
+    public function paymentMidtrans($id)
     {
-        // Set konfigurasi Midtrans
-        Config::$serverKey    = config('midtrans.server_key');
-        Config::$clientKey    = config('midtrans.client_key');
-        Config::$isProduction = config('midtrans.is_production');
-        Config::$isSanitized  = config('midtrans.is_sanitized');
-        Config::$is3ds        = config('midtrans.is_3ds');
+        $booking = Booking::with('unit','user')->findOrFail($id);
 
-        // Data pembayaran (contoh)
+         // Midtrans Config
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$clientKey = config('midtrans.client_key');
+        Config::$isProduction = false; // sandbox
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+
+        $orderId = 'ORDER-' . $booking->id . '-' . time();
+
         $params = [
             'transaction_details' => [
-                'order_id' => 'ORDER-' . rand(1000,9999),
-                'gross_amount' => 50000,
+                'order_id' => 'ORDER-' . $booking->id . '-' . time(),
+                'gross_amount' => $booking->total_harga,
             ],
             'customer_details' => [
-                'first_name' => 'Risky',
+                'first_name' => $booking->nama,
+                'email' => $booking->email,
             ]
         ];
 
-        // Generate token
         $snapToken = Snap::getSnapToken($params);
 
-        return view('pay', compact('snapToken'));
+        $payment = payment::updateOrCreate(
+            ['booking_id' => $booking->id],
+            [
+                'order_id' => $orderId,
+                'gross_amount' => $booking->total_harga,
+                'snap_token' => $snapToken,
+                'status_pembayaran' => 'pending'
+            ]
+        );
+
+        return response()->json(['token' => $snapToken]);
     }
 
-    // create
-    public function create($id){
-        $booking = booking::findOrFail($id);
-        return view('payment_upload', compact('booking'));
-    }
+    public function notification(Request $request)
+    {
+        $notif = new Notification();
+        $payment = Payment::where('order_id', $notif->order_id)->first();
 
-    //store
-    public function store(Request $request, $id){
-        $request->validate([
-            'bukti' => 'required|image|mimes:jpeg,jpg,png|max:2048',
-        ]);
+        if (!$payment) return;
 
-        $booking = Booking::with('payment')->findOrFail($id);
+        $status = $notif->transaction_status;
 
-        $bukti_pembayaran = $request->file('bukti');
-        $bukti_pembayaran->storeAs('bukti', $bukti_pembayaran->hashName());
-
-        // update record payment yang sudah ada
-        if ($booking->payment) {
-            $booking->payment->update([
-                'bukti_pembayaran' => $bukti_pembayaran->hashName(),
-                'status_pembayaran' => 'waiting', // ✅ setelah upload jadi waiting
+        if ($status == 'settlement') {
+            $payment->update([
+                'status_pembayaran' => 'paid',
+                'transaction_id' => $notif->transaction_id,
+                'metode_pembayaran' => $notif->payment_type
             ]);
+        } elseif ($status == 'pending') {
+            $payment->update(['status_pembayaran' => 'pending']);
+        } elseif ($status == 'expire') {
+            $payment->update(['status_pembayaran' => 'expired']);
         } else {
-            // fallback kalau entah kenapa tidak ada payment
-            Payment::create([
-                'booking_id' => $booking->id,
-                'bukti_pembayaran' => $bukti_pembayaran->hashName(),
-                'status_pembayaran' => 'waiting',
-                'batas_pembayaran' => now()->addDay(),
-            ]);
+            $payment->update(['status_pembayaran' => 'failed']);
         }
-
-        return redirect()->route('detil', $booking->id)
-                        ->with('success', 'Bukti pembayaran berhasil diupload, menunggu konfirmasi admin.');
     }
+
 
 }

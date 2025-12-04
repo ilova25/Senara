@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('payment', function (Blueprint $table) {
             $table->id();
-            $table->string('bukti_pembayaran')->nullable();
-            $table->enum('status_pembayaran', ['pending','waiting','paid','canceled'])->default('pending');
-            $table->date('batas_pembayaran');
             $table->unsignedBigInteger('booking_id');
             $table->foreign('booking_id')->references('id')->on('booking')->onDelete('cascade');
+            $table->string('order_id')->nullable();
+            $table->string('transaction_id')->nullable();
+            $table->string('metode_pembayaran')->nullable();
+            $table->string('status_pembayaran')->default('pending'); 
+            $table->integer('gross_amount')->default(0);
+            $table->string('snap_token')->nullable();
             $table->timestamps();
         });
     }

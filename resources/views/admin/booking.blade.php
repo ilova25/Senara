@@ -66,9 +66,9 @@
                             <th class="small text-muted text-uppercase fw-semibold">Status Menginap</th>
                             @if (Auth::check() && Auth::user()->role === 'resepsionis')
                                 <th class="small text-muted text-uppercase fw-semibold">Aksi Menginap</th>
-                                <th class="small text-muted text-uppercase fw-semibold">Bukti Bayar</th>
+                                {{-- <th class="small text-muted text-uppercase fw-semibold">Bukti Bayar</th>
                                 <th class="small text-muted text-uppercase fw-semibold">Status Bayar</th>
-                                <th class="small text-muted text-uppercase fw-semibold">Aksi Bayar</th>
+                                <th class="small text-muted text-uppercase fw-semibold">Aksi Bayar</th> --}}
                             @endif
                         </tr>
                     </thead>
@@ -248,32 +248,7 @@
                                     </form>
                                 </td>
 
-                                <td>
-                                    ${buktiBayarHtml}
-                                </td>
-
-                                <td>
-                                    ${statusBayarBadge}
-                                </td>
-
-                                <td>
-                                    ${
-                                        payment
-                                            ? `
-                                                <form action="${urlUpdateStatusBayar}" method="POST" class="mb-0 form-update-bayar">
-                                                    <input type="hidden" name="_token" value="${csrfToken}">
-                                                    <input type="hidden" name="_method" value="PUT">
-                                                    <select name="status_pembayaran"
-                                                            class="form-select form-select-sm">
-                                                        <option value="pending"  ${payment.status_pembayaran === 'pending' ? 'selected' : ''}>Pending</option>
-                                                        <option value="paid"     ${payment.status_pembayaran === 'paid' ? 'selected' : ''}>Paid</option>
-                                                        <option value="canceled" ${payment.status_pembayaran === 'canceled' ? 'selected' : ''}>Canceled</option>
-                                                    </select>
-                                                </form>
-                                            `
-                                            : `<span class="text-muted small">—</span>`
-                                    }
-                                </td>
+                                
                             ` : ''}
                         </tr>
                     `;

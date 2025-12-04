@@ -32,9 +32,7 @@
             </h4>
         </div>
 
-        <a href="{{ route('unit') }}" class="btn btn-outline-secondary">
-            <i class="fa-solid fa-arrow-left me-1"></i> Kembali ke Daftar Unit
-        </a>
+        
     </div>
 
     <div class="row g-4">
@@ -59,7 +57,7 @@
         {{-- Kolom kanan: detail unit --}}
         <div class="col-md-8">
             <div class="card border-0 shadow-sm rounded mb-4">
-                <div class="card-body">
+                <div class="card-body mb-4">
                     <h3 class="mb-1">{{ $unit->nama_unit }}</h3>
                     <small class="text-muted d-block mb-3">
                         ID Unit: {{ $unit->id_unit }}
@@ -117,7 +115,14 @@
                         </div>
                     @endif
                 </div>
-          <a href="{{ route('booking.create', ['id' => $unit->id_unit]) }}" class="book-btn">Book Now</a>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <a href="{{ route('booking.create', ['id' => $unit->id_unit]) }}" class="book-btn">Book Now</a>
+
+                    <a href="{{ route('unit') }}" class="btn btn-outline-secondary">
+                        <i class="fa-solid fa-arrow-left me-1"></i> Kembali ke Daftar Unit
+                    </a>
+                </div>
             </div>
         </div>
     </div>
