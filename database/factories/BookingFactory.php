@@ -25,14 +25,14 @@ class BookingFactory extends Factory
             'id_user' => null,
             'nama' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
-            'checkin' => $checkin->format('Y-m-d'),
-            'checkout' => $checkout->format('Y-m-d'),
+            'checkin' => $checkin->format('Y-m-d H:i:s'),
+            'checkout' => $checkout->format('Y-m-d H:i:s'),
             'id_unit' => null,
             'total_harga' => $this->faker->numberBetween(500000, 5000000),
             'adult' => $this->faker->numberBetween(1, 4),
             'children' => $this->faker->numberBetween(0, 3),
             'kode_booking' => strtoupper($this->faker->bothify('????-########')),
-            'status_menginap' => $this->faker->randomElement(['booked','ongoing','completed','canceled']),
+            'status' => $this->faker->randomElement(['ongoing','completed','pending']),
         ];
         
     }
@@ -40,7 +40,7 @@ class BookingFactory extends Factory
     public function completed(): static
     {
         return $this->state(fn () => [ 
-            'status_menginap' => 'completed',
+            'status' => 'completed',
         ]);
     }
 }

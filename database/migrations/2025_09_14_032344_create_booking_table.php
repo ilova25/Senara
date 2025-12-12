@@ -17,15 +17,15 @@ return new class extends Migration
             $table->string('nama');
             $table->string('email');
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
-            $table->date('checkin');
-            $table->date('checkout');
+            $table->dateTime('checkin');
+            $table->dateTime('checkout');
             $table->decimal('total_harga', 12, 2)->nullable();
             $table->unsignedBigInteger('id_unit');
             $table->foreign('id_unit')->references('id_unit')->on('unit')->onDelete('cascade');
             $table->integer('adult')->default(1);
             $table->integer('children')->default(0);
             $table->string('kode_booking')->unique();
-            $table->enum('status_menginap', ['booked','ongoing','completed','canceled'])->default('booked');
+            $table->enum('status', ['pending','paid','booked','ongoing','completed'])->default('pending');
             $table->timestamps();
         });
     }

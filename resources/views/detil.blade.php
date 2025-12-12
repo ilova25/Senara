@@ -140,7 +140,7 @@
   </div>
 
   <!-- RIGHT BOX -->
-  {{-- <div class="side-card">
+  <div class="side-card">
     <h3>Payment Details</h3>
     <div class="payment-info">
       <small>Date</small>
@@ -172,26 +172,49 @@
       @endif
 
     </div>
-  </div> --}}
+  </div>
 </div>
 
-<!-- UPLOAD SECTION -->
-    {{-- @if (!$booking->payment || $booking->payment->status_pembayaran == 'pending')
-      <a href="{{ route('pay', $booking->id) }}" class="upload-btn">
-        Bayar Sekarang
-      </a>
-    @endif --}}
+<!-- PAYMENT SECTION -->
 
 <div class="upload-section">
-  <a href="{{ route('booking.pdf', $booking->id)}}" class="upload-btn">Unduh PDF</a>
-  {{-- @if ($booking->payment && $booking->payment->status_pembayaran === 'paid')
-    
-  @elseif (!$booking->payment || $booking->payment->status_pembayaran === 'pending')
-    <a href="{{ route('payment.create', $booking->id)}}" class="upload-btn">Upload Bukti Pembayaran</a>
-  @endif --}}
+  @if ($booking->payment )
+    <a href="{{ route('booking.pdf', $booking->id)}}" class="upload-btn">Unduh PDF</a>
+  @elseif (!$booking->payment)
+    <button id="pay-button" class="upload-btn">Bayar Sekarang</button>
+  @endif
 </div>
 
-    @if ($booking->payment && $booking->payment->status_pembayaran == 'paid')
-      
-    @endif
 @endsection
+
+@push('script')
+<script src="https://app.sandbox.midtrans.com/snap/snap.js"
+        data-client-key="{{ config('midtrans.client_key') }}">
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const payBtn = document.getElementById('pay-button');
+
+    if (payBtn) {
+        payBtn.addEventListener('click', function () {
+            snap.pay('{{ $snapToken }}', {
+                onSuccess: function(result){
+                    window.location.reload();
+                },
+                onPending: function(result){
+                    alert("Menunggu pembayaran...");
+                },
+                onError: function(result){
+                    alert("Pembayaran gagal!");
+                },
+                onClose: function(){
+                    alert("Anda menutup pembayaran.");
+                }
+            });
+        });
+    }
+});
+</script>
+@endpush
+

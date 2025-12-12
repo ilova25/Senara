@@ -8,38 +8,57 @@
         body {
             font-family: DejaVu Sans, sans-serif;
             font-size: 12px;
+            color: #333;
         }
+
         h2 {
             text-align: center;
             margin-bottom: 20px;
-            color: #6d4c41;
+            font-size: 18px;
+            font-weight: bold;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 15px;
         }
+
+        table th, table td {
+            border: 1px solid #444;
+            padding: 6px 8px;
+            font-size: 11px;
+        }
+
         table th {
-            background: #f5e6d3;
-            padding: 8px;
-            border: 1px solid #ddd;
-            font-size: 11px;
+            background: #efefef;
+            font-weight: bold;
+            text-align: center;
         }
-        table td {
-            padding: 7px;
-            border: 1px solid #ddd;
-            font-size: 11px;
+
+        .text-center { 
+            text-align: center; 
         }
-        .text-center { text-align: center; }
+
         .badge {
             padding: 3px 6px;
-            border-radius: 4px;
+            border-radius: 3px;
             font-size: 10px;
             color: white;
+            display: inline-block;
         }
-        .pending { background-color: #ff9800; }
-        .paid { background-color: #4caf50; }
-        .cancel { background-color: #f44336; }
+
+        .pending {
+            background-color: #ff9800;
+        }
+
+        .paid {
+            background-color: #4caf50;
+        }
+
+        .cancel {
+            background-color: #f44336;
+        }
     </style>
 </head>
 <body>

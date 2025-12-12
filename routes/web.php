@@ -95,7 +95,8 @@ Route::middleware('auth')->group(function () {
         // Booking admin 
         Route::get('/admin/booking', [BookingController::class, 'admin'])->name('booking.admin');
         Route::get('/admin/booking/data', [BookingController::class, 'data'])->name('booking.data');
-        Route::get('admin/booking/laporan', [BookingController::class, 'exportPdfAdmin'])->name('laporan.booking.pdf');
+        Route::get('/admin/booking/export/pdf', [BookingController::class, 'exportPdfAdmin'])->name('laporan.booking.pdf');
+
     });
 
     // Profil
@@ -120,10 +121,7 @@ Route::middleware('auth')->group(function () {
 
     // payment
     Route::get('/pay/{id}', [BookingController::class,'paymentMidtrans'])->name('pay');
-    Route::post('/payment/notification', [PaymentController::class, 'notification']);
-    // // payment upload
-    // Route::get('/payment_upload/{id}', [PaymentController::class, 'create'])->name('payment.create');
-    // Route::post('/payment_upload/{id}', [PaymentController::class, 'store'])->name('payment.store');
+    Route::post('/payment/callback', [PaymentController::class, 'notification'])->name('payment.callback');
 
     // masukan
         Route::get('/ulasan/{booking}', [MasukanController::class, 'create'])->name('ulasan.create');    
@@ -144,4 +142,23 @@ Route::get('/tata-cara-pesan', function () {
     return view('tata-cara');
 })->name('tata.cara');
 
+// Booking dan Payment (user & admin)
+    Route::get('/booking', [BookingController::class, 'create'])->name('booking.create'); // untuk form booking
+    Route::post('/booking', [BookingController::class, 'store'])->name('booking.store'); // untuk submit booking
+
     
+    Route::get('/booking/{id}/payment', [BookingController::class, 'paymentPage'])->name('booking.payment');
+    Route::get('/payment/{id}', [BookingController::class, 'payment'])->name('payment');
+    Route::get('/detail_booking/{id}', [BookingController::class, 'detail'])->name('detil');
+    Route::get('/check-availability', [BookingController::class, 'checkAvailability'])->name('check.availability');
+    Route::put('/admin/booking/{id}/status', [BookingController::class, 'updateStatus'])->name('booking.updateStatus');
+    Route::get('/booking/{id}', [BookingController::class, 'exportPdf'])->name('booking.pdf');
+    Route::get('/booking/history', [BookingController::class, 'history'])->name('riwayat.booking');
+    Route::put('/admin/booking/{id}/status_pemesanan', [BookingController::class, 'updatePesanan'])->name('booking.updatePesanan');
+    Route::put('/admin/booking/{id}/update_waktu', [BookingController::class, 'updateWaktu'])->name('booking.update_waktu');
+
+
+    // payment
+    Route::get('/pay/{id}', [BookingController::class,'paymentMidtrans'])->name('pay');
+    Route::post('/payment/callback', [PaymentController::class, 'notification'])->name('payment.callback');
+// end booking

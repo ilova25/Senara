@@ -104,7 +104,6 @@
                                     <th class="fw-semibold small text-muted text-uppercase">Check-out</th>
                                     <th class="fw-semibold small text-muted text-uppercase">Total</th>
                                     <th class="fw-semibold small text-muted text-uppercase">Status</th>
-                                    <th class="fw-semibold small text-muted text-uppercase">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody id="tbody-dashboard">
@@ -139,6 +138,8 @@
         function renderDashboardTable(data) {
             console.log('DATA DASHBOARD:', data); // debug
 
+            
+
             let rows = '';
 
             if (!data || data.length === 0) {
@@ -151,6 +152,31 @@
                 `;
             } else {
                 data.forEach(function (b) {
+                    const status = b.status ?? 'pending';
+                    let statusMenginapBadge = `
+                        <span class="badge bg-secondary bg-opacity-10 text-secondary">
+                            Pending
+                        </span>
+                    `;
+                    if (status === 'ongoing') {
+                        statusMenginapBadge = `
+                            <span class="badge bg-warning bg-opacity-10 text-warning">
+                                <i class="bi bi-circle-fill me-1" style="font-size:6px;"></i> Ongoing
+                            </span>
+                        `;
+                    } else if (status === 'completed') {
+                        statusMenginapBadge = `
+                            <span class="badge bg-success bg-opacity-10 text-success">
+                                <i class="bi bi-circle-fill me-1" style="font-size:6px;"></i> Completed
+                            </span>
+                        `;
+                    } else if (status === 'canceled') {
+                        statusMenginapBadge = `
+                            <span class="badge bg-danger bg-opacity-10 text-danger">
+                                <i class="bi bi-circle-fill me-1" style="font-size:6px;"></i> Canceled
+                            </span>
+                        `;
+                    }
                     rows += `
                         <tr>
                             <td>
@@ -163,29 +189,7 @@
                             <td>${formatDate(b.checkin)}</td>
                             <td>${formatDate(b.checkout)}</td>
                             <td><strong>${formatRupiah(b.total_harga)}</strong></td>
-                            <td>
-                                <span class="badge bg-success bg-opacity-10 text-success">
-                                    <i class="bi bi-circle-fill" style="font-size:6px;"></i> Selesai
-                                </span>
-                            </td>
-                            <td>
-                                <div class="dropdown">
-                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                        Update Status
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">
-                                            <i class="bi bi-hourglass-split me-2"></i> Proses
-                                        </a></li>
-                                        <li><a class="dropdown-item" href="#">
-                                            <i class="bi bi-check-circle me-2"></i> Selesai
-                                        </a></li>
-                                        <li><a class="dropdown-item" href="#">
-                                            <i class="bi bi-x-circle me-2"></i> Batal
-                                        </a></li>
-                                    </ul>
-                                </div>
-                            </td>
+                            <td>${statusMenginapBadge}</td>
                         </tr>
                     `;
                 });

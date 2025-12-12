@@ -84,24 +84,45 @@ class BookingController extends Controller
      */
     public function data(Request $request)
     {
-        $q = strtolower($request->get('q', ''));
-
         $query = Booking::with(['unit', 'payment']);
 
-        if ($q !== '') {
-            $query->where(function ($query) use ($q) {
-                $query->whereRaw('LOWER(nama) LIKE ?', ["%{$q}%"])
-                    ->orWhereRaw('LOWER(email) LIKE ?', ["%{$q}%"])
-                    ->orWhereRaw('LOWER(kode_booking) LIKE ?', ["%{$q}%"])
-                    ->orWhereHas('unit', function ($qUnit) use ($q) {
-                        $qUnit->whereRaw('LOWER(nama_unit) LIKE ?', ["%{$q}%"]);
-                    });
+        // SEARCH
+        if ($request->q) {
+            $q = $request->q;
+            $query->where(function ($x) use ($q) {
+                $x->where('nama', 'like', "%$q%")
+                ->orWhere('email', 'like', "%$q%")
+                ->orWhere('kode_booking', 'like', "%$q%")
+                ->orWhereHas('unit', function ($u) use ($q) {
+                        $u->where('nama_unit', 'like', "%$q%");
+                });
             });
         }
 
-        $booking = $query->latest()->get();
+        // QUICK RANGE (1-3-6-12 bulan)
+        if ($request->range) {
+            $ranges = [
+                '1month' => now()->subMonth(),
+                '3month' => now()->subMonths(3),
+                '6month' => now()->subMonths(6),
+                '1year'  => now()->subYear(),
+            ];
 
-        return response()->json($booking);
+            if (isset($ranges[$request->range])) {
+                $query->where('checkin', '>=', $ranges[$request->range]);
+            }
+        }
+
+        
+
+        // FILTER STATUS (SESUIAI DATABASE KAMU)
+        if ($request->status) {
+            $query->where('status', $request->status);
+        }
+
+        return response()->json(
+            $query->orderBy('checkin', 'desc')->get()
+        );
     }
 
     // show payment page
@@ -141,8 +162,42 @@ class BookingController extends Controller
     // show detail page
     public function detail($id): View
     {
-        $booking = Booking::with('unit', 'user')->findOrFail($id);
-        return view('detil', compact('booking'));
+        $booking = Booking::with('unit', 'user','payment')->findOrFail($id);
+
+        if ($booking->payment && $booking->payment->snap_token) {
+            $snapToken = $booking->payment->snap_token;
+        } else {
+
+            // Midtrans Config
+            Config::$serverKey = config('midtrans.server_key');
+            Config::$clientKey = config('midtrans.client_key');
+            Config::$isProduction = false; // sandbox
+            Config::$isSanitized = true;
+            Config::$is3ds = true;
+
+            $orderId = $booking->id . '-' . time();
+
+            $params = [
+                'transaction_details' => [
+                    'order_id' => 'ORDER-' . $orderId,
+                    'gross_amount' => $booking->total_harga
+                ],
+                'customer_details' => [
+                    'first_name' => $booking->nama,
+                    'email' => $booking->email,
+                ]
+            ];
+
+            $snapToken = Snap::getSnapToken($params);
+
+            // Simpan token & order id ke payment
+            $booking->payment()->update([
+                'snap_token' => $snapToken,
+                'order_id'   => $params['transaction_details']['order_id']
+            ]);
+        }
+
+        return view('detil', compact('booking', 'snapToken'));
     }
 
     // check availability
@@ -197,14 +252,50 @@ class BookingController extends Controller
         return $pdf->download('booking.pdf');
     }
 
-    // export semua data booking to PDF (admin)
-    public function exportPdfAdmin()
+    public function exportPdfAdmin(Request $request)
     {
-        $booking = Booking::with('unit', 'payment')->get();
+        $query = Booking::with(['unit', 'payment']);
 
-        $pdf = Pdf::loadView('admin.booking_pdf', compact('booking'))->setPaper('a4', 'landscape');
+        // FILTER SEARCH
+        if ($request->q) {
+            $q = $request->q;
+            $query->where(function ($x) use ($q) {
+                $x->where('nama', 'like', "%$q%")
+                    ->orWhere('email', 'like', "%$q%")
+                    ->orWhere('kode_booking', 'like', "%$q%")
+                    ->orWhereHas('unit', function ($u) use ($q) {
+                        $u->where('nama_unit', 'like', "%$q%");
+                    });
+            });
+        }
+
+        // FILTER RANGE BULAN
+        if ($request->range) {
+            $ranges = [
+                '1month' => now()->subMonth(),
+                '3month' => now()->subMonths(3),
+                '6month' => now()->subMonths(6),
+                '1year'  => now()->subYear(),
+            ];
+
+            if (isset($ranges[$request->range])) {
+                $query->where('checkin', '>=', $ranges[$request->range]);
+            }
+        }
+
+        // FILTER STATUS
+        if ($request->status) {
+            $query->where('status', $request->status);
+        }
+
+        $booking = $query->orderBy('checkin', 'desc')->get();
+
+        $pdf = Pdf::loadView('admin.booking_pdf', compact('booking'))
+                ->setPaper('a4', 'landscape');
+
         return $pdf->download('Laporan-Booking.pdf');
     }
+
 
     // histori booking user
     public function history()
@@ -248,4 +339,26 @@ class BookingController extends Controller
 
         return back()->with('success', 'Status pemesanan diperbarui');
     }
+
+    public function updateWaktu(Request $request, $id)
+    {
+        $booking = Booking::findOrFail($id);
+
+        $booking->checkin = $request->checkin_time;
+        $booking->checkout = $request->checkout_time;
+
+        // Status otomatis
+        if ($request->checkin_time && !$request->checkout_time) {
+            $booking->status = "ongoing";
+        } elseif ($request->checkin_time && $request->checkout_time) {
+            $booking->status = "completed";
+        } else {
+            $booking->status = "pending";
+        }
+
+        $booking->save();
+
+        return back()->with('success', 'Waktu Check In & Check Out berhasil diperbarui.');
+    }
+
 }

@@ -9,7 +9,7 @@ class booking extends Model
 {
     use HasFactory;
     protected $table = 'booking';
-    protected $fillable = ['id_user','nama','email','checkin','checkout','id_unit','total_harga','adult','children','kode_booking','status_menginap'];
+    protected $fillable = ['id_user','nama','email','checkin','checkout','id_unit','total_harga','adult','children','kode_booking','status'];
     protected $primaryKey = 'id';
 
     public function unit() {

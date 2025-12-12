@@ -9,6 +9,8 @@ use Midtrans\Config;
 use Midtrans\Notification;
 use Midtrans\Snap;
 
+use function Symfony\Component\Clock\now;
+
 class PaymentController extends Controller
 {
     public function paymentMidtrans($id)
@@ -52,27 +54,49 @@ class PaymentController extends Controller
 
     public function notification(Request $request)
     {
+        // Midtrans Config
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$isProduction = false; // sandbox
+
         $notif = new Notification();
-        $payment = Payment::where('order_id', $notif->order_id)->first();
+        $transaction = $notif->transaction_status;
+        $fraud = $notif->fraud_status;
+        $type = $notif->payment_type;
+        $orderId = $notif->order_id;
 
-        if (!$payment) return;
+        $payment = Payment::where('order_id', $orderId)->first();
 
-        $status = $notif->transaction_status;
+        if (!$payment) {
+            return response()->json(['error' => 'Payment not found'], 404);
+        }
 
-        if ($status == 'settlement') {
-            $payment->update([
-                'status_pembayaran' => 'paid',
-                'transaction_id' => $notif->transaction_id,
-                'metode_pembayaran' => $notif->payment_type
-            ]);
-        } elseif ($status == 'pending') {
-            $payment->update(['status_pembayaran' => 'pending']);
-        } elseif ($status == 'expire') {
-            $payment->update(['status_pembayaran' => 'expired']);
-        } else {
-            $payment->update(['status_pembayaran' => 'failed']);
+        // Set data umum
+        $payment->transaction_id      = $notif->transaction_id;
+        $payment->metode_pembayaran   = $type;
+        $payment->gross_amount        = $notif->gross_amount;
+
+        if ($transaction == 'capture') {
+            if ($fraud == 'accept') {
+                $this->updatePaymentStatus($payment, 'paid', $notif);
+            } 
+        } else if ($transaction == 'cancel') {
+            $this->updatePaymentStatus($payment, 'canceled', $notif);
+        } else if ($transaction == 'deny') {
+            $this->updatePaymentStatus($payment, 'failed', $notif);
+        } else if ($transaction == 'settlement') {
+            $this->updatePaymentStatus($payment, 'paid', $notif);
         }
     }
 
+    protected function updatePaymentStatus(payment $payment, string $status, $notif) {
+        $payment->status_pembayaran = $status;
+        $payment->save();
+
+        if ($status == 'paid') {
+            $payment->booking->update([
+                'status' => 'paid'
+            ]);
+        }
+    }
 
 }
