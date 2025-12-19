@@ -17,22 +17,23 @@ class UnitFactory extends Factory
         ];
     }
 
-    public function unit1() 
+    public function unit1()
     { 
         return $this->state([ 
             'nama_unit' => 'Unit 1',
             'gambar' => 'unit/unit 1.jpeg',
-            'deskripsi' => 'Unit homestay yang rapi, nyaman, dan tertata dengan baik, dilengkapi fasilitas yang mendukung kenyamanan tamu selama menginap.',
+            'deskripsi' => "Unit homestay yang rapi dan nyaman, dilengkapi fasilitas dasar seperti:\nTempat tidur\nKamar mandi dalam\nTelevisi standar\nKipas angin\nAkses Wi-Fi dengan kecepatan terbatas.",
             'harga' => 350000
         ]); 
-    } 
+    }
+
 
     public function unit2() 
     { 
         return $this->state([ 
             'nama_unit' => 'Unit 2',
             'gambar' => 'unit/unit 2.jpeg',
-            'deskripsi' => 'Unit homestay yang rapi, nyaman, dan tertata dengan baik, dilengkapi fasilitas yang mendukung kenyamanan tamu selama menginap.',
+            'deskripsi' => "Unit homestay yang rapi dan nyaman, dilengkapi fasilitas dasar seperti:\nTempat tidur\nKamar mandi dalam\nTelevisi standar\nKipas angin\nAkses Wi-Fi dengan kecepatan terbatas.",
             'harga' => 350000
         ]); 
     } 
@@ -42,7 +43,7 @@ class UnitFactory extends Factory
         return $this->state([ 
             'nama_unit' => 'Unit 3',
             'gambar' => 'unit/unit 3.jpeg',
-            'deskripsi' => 'Unit homestay yang rapi, nyaman, dan tertata dengan baik, dilengkapi fasilitas yang mendukung kenyamanan tamu selama menginap.',
+            'deskripsi' => "Unit homestay yang rapi dan nyaman, dilengkapi fasilitas dasar seperti:\nTempat tidur\nKamar mandi dalam\nTelevisi standar\nKipas angin\nAkses Wi-Fi dengan kecepatan terbatas.",
             'harga' => 450000
         ]); 
     } 
@@ -52,7 +53,7 @@ class UnitFactory extends Factory
         return $this->state([ 
             'nama_unit' => 'Unit Villa Kelarisan Blitar',
             'gambar' => 'unit/unit4.jpg',
-            'deskripsi' => 'Unit homestay yang rapi, nyaman, dan tertata dengan baik, dilengkapi fasilitas yang mendukung kenyamanan tamu selama menginap.',
+            'deskripsi' => "Unit homestay yang rapi dan nyaman, dilengkapi fasilitas dasar seperti:\nTempat tidur\nKamar mandi dalam\nTelevisi standar\nKipas angin\nAkses Wi-Fi dengan kecepatan terbatas.",
             'harga' => 350000
         ]); 
     } 

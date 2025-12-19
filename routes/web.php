@@ -96,6 +96,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/booking', [BookingController::class, 'admin'])->name('booking.admin');
         Route::get('/admin/booking/data', [BookingController::class, 'data'])->name('booking.data');
         Route::get('/admin/booking/export/pdf', [BookingController::class, 'exportPdfAdmin'])->name('laporan.booking.pdf');
+        Route::put('/admin/booking/{id}/update_waktu', [BookingController::class, 'updatePesanan'])->name('booking.updatePesanan');
 
     });
 
@@ -117,7 +118,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/admin/booking/{id}/status', [BookingController::class, 'updateStatus'])->name('booking.updateStatus');
     Route::get('/booking/{id}', [BookingController::class, 'exportPdf'])->name('booking.pdf');
     Route::get('/booking/history', [BookingController::class, 'history'])->name('riwayat.booking');
-    Route::put('/admin/booking/{id}/status_pemesanan', [BookingController::class, 'updatePesanan'])->name('booking.updatePesanan');
 
     // payment
     Route::get('/pay/{id}', [BookingController::class,'paymentMidtrans'])->name('pay');

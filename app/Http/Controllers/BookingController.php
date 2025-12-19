@@ -344,16 +344,16 @@ class BookingController extends Controller
     {
         $booking = Booking::findOrFail($id);
 
-        $booking->checkin = $request->checkin_time;
-        $booking->checkout = $request->checkout_time;
+        // Jika check-in diubah
+        if ($request->filled('checkin_time')) {
+            $booking->checkin = $request->checkin_time;
+            $booking->status = 'ongoing';
+        }
 
-        // Status otomatis
-        if ($request->checkin_time && !$request->checkout_time) {
-            $booking->status = "ongoing";
-        } elseif ($request->checkin_time && $request->checkout_time) {
-            $booking->status = "completed";
-        } else {
-            $booking->status = "pending";
+        // Jika check-out diisi
+        if ($request->filled('checkout_time')) {
+            $booking->checkout = $request->checkout_time;
+            $booking->status = 'completed';
         }
 
         $booking->save();

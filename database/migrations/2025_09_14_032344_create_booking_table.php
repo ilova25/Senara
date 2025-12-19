@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('email');
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->dateTime('checkin');
-            $table->dateTime('checkout');
+            $table->dateTime('checkout')->nullable();
             $table->decimal('total_harga', 12, 2)->nullable();
             $table->unsignedBigInteger('id_unit');
             $table->foreign('id_unit')->references('id_unit')->on('unit')->onDelete('cascade');

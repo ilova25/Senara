@@ -161,16 +161,24 @@
     .room-desc {
         font-size: 14px;
         color: #5f4a3b;
-        line-height: 1.5;
-        max-height: 80px;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        line-height: 1.6;
     }
 
-    .room-desc-more {
-        font-size: 12px;
-        color: #b07a4a;
+    /* Paragraf pembuka */
+    .room-desc p {
+        margin-bottom: 6px;
     }
+
+    /* List fasilitas */
+    .room-desc ul {
+        padding-left: 18px;
+        margin: 0;
+    }
+
+    .room-desc li {
+        list-style-type: disc;
+    }
+
 
     .room-meta {
         display: flex;
@@ -315,11 +323,22 @@
 
                 <div class="room-info">
                     <div>
+                        
                         <h2 class="room-info-title">{{ $item->nama_unit }}</h2>
-                        <p class="room-desc">
-                            {{ \Illuminate\Support\Str::limit(strip_tags($item->deskripsi), 160) }}
-                        </p>
-                        <span class="room-desc-more">See detail for full description.</span>
+                        <div class="room-desc">
+                            @php
+                                $lines = explode("\n", $item->deskripsi);
+                            @endphp
+                            <p>{{ $lines[0] }}</p>
+
+                            @if(count($lines) > 1)
+                                <ul>
+                                    @foreach(array_slice($lines, 1) as $fasilitas)
+                                        <li>{{ $fasilitas }}</li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </div>
                     </div>
 
                     <div class="room-meta">
