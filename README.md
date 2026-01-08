@@ -90,7 +90,6 @@ web_senara/
 ## ⚙️ Cara Menjalankan Project
 
 **1️⃣ Clone Repository**
-```bash
 git clone https://github.com/username/web_senara.git
 cd web_senara
 **2️⃣ Install Dependency**
@@ -112,4 +111,3 @@ php artisan serve
 http://127.0.0.1:8000
 
 ---
-
