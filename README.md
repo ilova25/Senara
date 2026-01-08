@@ -92,21 +92,42 @@ web_senara/
 **1️⃣ Clone Repository**
 git clone https://github.com/username/web_senara.git
 cd web_senara
-**2️⃣ Install Dependency**
+
+---
+
+**2️ Install Dependency**
 composer install
+
+---
+
 **3️⃣ Copy File Environment**
 cp .env.example .env
+
+---
+
 **4️⃣ Generate App Key**
 php artisan key:generate
+
+---
+
 **5️⃣ Konfigurasi Database**
 Edit file .env:
 DB_DATABASE=nama_database
 DB_USERNAME=root
 DB_PASSWORD=
+
+---
+
 **6️⃣ Migrasi & Seeder Database**
 php artisan migrate --seed
+
+---
+
 **7️⃣ Jalankan Server**
 php artisan serve
+
+---
+
 **Akses website melalui:**
 http://127.0.0.1:8000
 
