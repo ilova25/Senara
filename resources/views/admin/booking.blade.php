@@ -85,12 +85,12 @@
         </div>
 
         <div class="modal-body">
-            <div class="mb-3">
+            <div class="mb-3" id="group-checkin">
                 <label>Check In</label>
                 <input type="datetime-local" name="checkin_time" class="form-control">
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3" id="group-checkout">
                 <label>Check Out</label>
                 <input type="datetime-local" name="checkout_time" class="form-control">
             </div>
@@ -193,7 +193,8 @@ $(document).ready(function () {
                             <button class="btn btn-sm btn-link text-brown btn-edit-status"
                                 data-id="${item.id}"
                                 data-checkin="${item.checkin ?? ''}"
-                                data-checkout="${item.checkout ?? ''}">
+                                data-checkout="${item.checkout ?? ''}"
+                                data-status="${item.status}">
                                 <i class="bx bxs-pen"></i>
                             </button>
                         </td>
@@ -211,11 +212,33 @@ $(document).ready(function () {
         const id = $(this).data("id");
         const checkin = $(this).data("checkin");
         const checkout = $(this).data("checkout");
+        const status = $(this).data("status");
 
         $("#formEditStatus").attr("action", `/admin/booking/${id}/update_waktu`);
 
-        $("input[name='checkin_time']").val(formatDateTime(checkin));
-        $("input[name='checkout_time']").val(formatDateTime(checkout));
+        // Reset
+        $("#group-checkin, #group-checkout").show();
+        $("input[name='checkin_time'], input[name='checkout_time']")
+        .prop("readonly", false)
+        .val('');
+
+        // Atur visibilitas input berdasarkan status
+        if (status === 'pending') {
+            // Tampilkan checkin, sembunyikan checkout
+            $("#group-checkout").hide();
+            $("input[name='checkin_time']").val(formatDateTime(checkin));
+        } else if (status === 'ongoing') {
+            // Sembunyikan input check-in
+            $("input[name='checkin_time']")
+                .prop("readonly", true)
+                .val(formatDateTime(checkin));
+
+            $("input[name='checkout_time']")
+                .val('');
+        } else if (status === 'completed') {
+            // Sembunyikan kedua input
+            $("#group-checkin, #group-checkout").hide();
+        }
 
         modal.show();
     });
