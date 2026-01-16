@@ -14,12 +14,12 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $email = $request->input('email');
+        $username = $request->input('username');
         $password = $request->input('password');
 
         // Contoh login manual (hardcoded)
-        if ($email === 'admin' && $password === '12345') {
-            Session::put('user', $email);
+        if ($username === 'admin' && $password === '12345') {
+            Session::put('user', $username);
             return redirect()->route('home'); // Arahkan ke home setelah login
         } else {
             return redirect()->route('login')->with('error', 'Email atau password salah');

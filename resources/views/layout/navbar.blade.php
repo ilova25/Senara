@@ -89,6 +89,7 @@
         <li><a href="{{ route('tata.cara') }}">Tata Cara Pesan</a></li> <!-- DIGANTI DARI RESERVASI -->
 
         @if (Auth::check())
+          <li><a href="{{ route('booking.create') }}">Reservasi</a></li>
           <!-- Dropdown User -->
           <li class="nav-item dropdown">
             <a class="nav-link p-0 dropdown-toggle" href="#" id="userDropdown" role="button"

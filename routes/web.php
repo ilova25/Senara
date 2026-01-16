@@ -121,7 +121,7 @@ Route::middleware('auth')->group(function () {
 
     // payment
     Route::get('/pay/{id}', [BookingController::class,'paymentMidtrans'])->name('pay');
-    Route::post('/payment/callback', [PaymentController::class, 'notification'])->name('payment.callback');
+    Route::post('/payment/callback', [PaymentController::class, 'notification'])->name('payment.callback')->withoutMiddleware(['csrf']);
 
     // masukan
         Route::get('/ulasan/{booking}', [MasukanController::class, 'create'])->name('ulasan.create');    

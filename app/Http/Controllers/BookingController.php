@@ -143,9 +143,25 @@ class BookingController extends Controller
         Config::$isSanitized = true;
         Config::$is3ds = true;
 
+        $orderId = 'ORDER-' . $booking->id . '-' . time();
+
+        $payment = Payment::updateOrCreate(
+            ['booking_id' => $booking->id],
+            [
+                'transaction_details' => [
+                    'order_id' => $orderId,
+                    'gross_amount' => $booking->total_harga,
+                ],
+                'customer_details' => [
+                    'first_name' => $booking->nama,
+                    'email' => $booking->email,
+                ]
+            ]
+        );
+
         $params = [
             'transaction_details' => [
-                'order_id' => 'ORDER-' . $booking->id . '-' . time(),
+                'order_id' => $orderId,
                 'gross_amount' => $booking->total_harga,
             ],
             'customer_details' => [
@@ -155,6 +171,9 @@ class BookingController extends Controller
         ];
 
         $snapToken = Snap::getSnapToken($params);
+
+        // simpan token
+        $payment->update(['snap_token' => $snapToken]);
 
         return response()->json(['token' => $snapToken]);
     }
