@@ -32,20 +32,17 @@ Route::get('/booking/detail', function(){
 })->name('detail_booking');
 
 // Halaman tambahan (footer link)
-Route::view('/privacy', 'privacy')->name('privacy');
-Route::view('/terms', 'terms')->name('terms');
-Route::view('/faq', 'faq')->name('faq');
-Route::view('/cancellation', 'cancellation')->name('cancellation');
+// Route::view('/privacy', 'privacy')->name('privacy');
+// Route::view('/terms', 'terms')->name('terms');
+// Route::view('/faq', 'faq')->name('faq');
+// Route::view('/cancellation', 'cancellation')->name('cancellation');
 
-// // Newsletter subscribe
-// Route::post('/newsletter/subscribe', function (\Illuminate\Http\Request $request) {
-//     $request->validate(['email' => 'required|email']);
-//     // TODO: simpan ke database atau kirim notifikasi
-//     return back()->with('newsletter_success', 'Terima kasih sudah berlangganan!');
-// })->name('newsletter.subscribe');
+// Route untuk halaman Tata Cara Pesan
+Route::get('/tata-cara-pesan', function () {
+    return view('tata-cara');
+})->name('tata.cara');
 
-
-    Route::get('/unit/detail/{id}', [UnitController::class, 'detailUser'])->name('detail.unit');
+Route::get('/unit/detail/{id}', [UnitController::class, 'detailUser'])->name('detail.unit');
 
 // Login & Register (hanya untuk guest)
 Route::middleware('guest')->group(function () {
@@ -121,7 +118,6 @@ Route::middleware('auth')->group(function () {
 
     // payment
     Route::get('/pay/{id}', [BookingController::class,'paymentMidtrans'])->name('pay');
-    Route::post('/payment/callback', [PaymentController::class, 'notification'])->name('payment.callback')->withoutMiddleware(['csrf']);
 
     // masukan
         Route::get('/ulasan/{booking}', [MasukanController::class, 'create'])->name('ulasan.create');    
@@ -136,29 +132,3 @@ Route::middleware('auth')->group(function () {
     // Logout
     Route::post('/logout', [SesiController::class, 'logout'])->name('logout');
 });
-
-// Route untuk halaman Tata Cara Pesan
-Route::get('/tata-cara-pesan', function () {
-    return view('tata-cara');
-})->name('tata.cara');
-
-// Booking dan Payment (user & admin)
-    Route::get('/booking', [BookingController::class, 'create'])->name('booking.create'); // untuk form booking
-    Route::post('/booking', [BookingController::class, 'store'])->name('booking.store'); // untuk submit booking
-
-    
-    Route::get('/booking/{id}/payment', [BookingController::class, 'paymentPage'])->name('booking.payment');
-    Route::get('/payment/{id}', [BookingController::class, 'payment'])->name('payment');
-    Route::get('/detail_booking/{id}', [BookingController::class, 'detail'])->name('detil');
-    Route::get('/check-availability', [BookingController::class, 'checkAvailability'])->name('check.availability');
-    Route::put('/admin/booking/{id}/status', [BookingController::class, 'updateStatus'])->name('booking.updateStatus');
-    Route::get('/booking/{id}', [BookingController::class, 'exportPdf'])->name('booking.pdf');
-    Route::get('/booking/history', [BookingController::class, 'history'])->name('riwayat.booking');
-    Route::put('/admin/booking/{id}/status_pemesanan', [BookingController::class, 'updatePesanan'])->name('booking.updatePesanan');
-    Route::put('/admin/booking/{id}/update_waktu', [BookingController::class, 'updateWaktu'])->name('booking.update_waktu');
-
-
-    // payment
-    Route::get('/pay/{id}', [BookingController::class,'paymentMidtrans'])->name('pay');
-    Route::post('/payment/callback', [PaymentController::class, 'notification'])->name('payment.callback');
-// end booking

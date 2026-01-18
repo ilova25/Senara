@@ -159,8 +159,8 @@
       <p>Rp{{ number_format($booking->total_harga, 0, ',', '.') }}</p>
 
       <small>Status</small>
-      <p class="status {{ strtolower($booking->payment->status_pembayaran ?? 'pending') }}">
-        {{ strtoupper($booking->payment->status_pembayaran ?? 'pending') }}
+      <p class="status {{ strtolower($booking->status) }}">
+        {{ strtoupper($booking->status) }}
       </p>
       
        @if ($booking->payment)
@@ -178,12 +178,17 @@
 <!-- PAYMENT SECTION -->
 
 <div class="upload-section">
-  @if ($booking->payment )
-    <a href="{{ route('booking.pdf', $booking->id)}}" class="upload-btn">Unduh PDF</a>
-  @elseif (!$booking->payment)
-    <button id="pay-button" class="upload-btn">Bayar Sekarang</button>
+  @if ($booking->status === 'paid')
+    <a href="{{ route('booking.pdf', $booking->id) }}" class="upload-btn">
+      Unduh PDF
+    </a>
+  @else
+    <button id="pay-button" class="upload-btn">
+      Bayar Sekarang
+    </button>
   @endif
 </div>
+
 
 @endsection
 

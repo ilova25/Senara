@@ -148,14 +148,10 @@ class BookingController extends Controller
         $payment = Payment::updateOrCreate(
             ['booking_id' => $booking->id],
             [
-                'transaction_details' => [
-                    'order_id' => $orderId,
-                    'gross_amount' => $booking->total_harga,
-                ],
-                'customer_details' => [
-                    'first_name' => $booking->nama,
-                    'email' => $booking->email,
-                ]
+                'order_id' => $orderId,
+                'status_pembayaran' => 'pending',
+                'batas_pembayaran' => now()->addDay(),
+                'gross_amount' => $booking->total_harga,
             ]
         );
 
@@ -186,7 +182,6 @@ class BookingController extends Controller
         if ($booking->payment && $booking->payment->snap_token) {
             $snapToken = $booking->payment->snap_token;
         } else {
-
             // Midtrans Config
             Config::$serverKey = config('midtrans.server_key');
             Config::$clientKey = config('midtrans.client_key');
@@ -198,7 +193,7 @@ class BookingController extends Controller
 
             $params = [
                 'transaction_details' => [
-                    'order_id' => 'ORDER-' . $orderId,
+                    'order_id' => $orderId,
                     'gross_amount' => $booking->total_harga
                 ],
                 'customer_details' => [
@@ -210,10 +205,15 @@ class BookingController extends Controller
             $snapToken = Snap::getSnapToken($params);
 
             // Simpan token & order id ke payment
-            $booking->payment()->update([
-                'snap_token' => $snapToken,
-                'order_id'   => $params['transaction_details']['order_id']
-            ]);
+            $booking->payment()->updateOrCreate(
+                ['booking_id' => $booking->id],
+                [
+                    'order_id' => $orderId,
+                    'snap_token' => $snapToken,
+                    'status_pembayaran' => 'pending',
+                    'gross_amount' => $booking->total_harga,
+                ]
+            );
         }
 
         return view('detil', compact('booking', 'snapToken'));
