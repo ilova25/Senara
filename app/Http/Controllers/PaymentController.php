@@ -2,14 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Payment;
+use App\Mail\BookingPaidMail;
+use App\Models\payment;
+use App\Services\PdfService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Midtrans\Config;
 use Midtrans\Notification;
 
 class PaymentController extends Controller
 {
+    protected $pdfService;
+
+    public function __construct(PdfService $services)
+    {
+        $this->pdfService = $services;
+
+        // Midtrans config
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$isProduction = false;
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+    }
+
     public function notification(Request $request)
     {
         try {
@@ -72,6 +88,9 @@ class PaymentController extends Controller
 
                 case 'settlement':
                     $this->updatePaymentStatus($payment, 'paid');
+
+                    // Kirim email notifikasi pembayaran berhasil
+                    $this->sendBookingEmail($payment);
                     break;
 
                 case 'pending':
@@ -152,5 +171,81 @@ class PaymentController extends Controller
                 'order_id' => $payment->order_id
             ]);
         }
+    }
+
+    protected function sendBookingEmail(payment $payment): void
+    {
+       try {
+        //Load relasi booking
+        $booking = $payment->booking;
+
+        if (!$booking) {
+            Log::warning('Booking not found for payment', [
+                'payment_id' => $payment->id
+            ]);
+            return;
+        }
+
+        // Validasi email customer
+        if (empty($booking->customer_email)) {
+            Log::warning('Customer email is empty', [
+                'booking_id' => $booking->id
+            ]);
+            return;
+        }
+
+        // Generate PDF bukti booking dan pembayaran
+        Log::info('Generating PDF files', [
+            'booking_id' => $booking->id,
+            'order_id' => $payment->order_id
+        ]);
+
+        // Generate PDF bukti booking
+        $bookingProofPath = $this->pdfService->generateBookingProof($booking);
+
+        // Generate PDF bukti pembayaran
+        $paymentProofPath = $this->pdfService->generatePaymentProof($booking, $payment);
+
+        Log::info('PDF files generated', [
+            'booking_proof' => $bookingProofPath,
+            'payment_proof' => $paymentProofPath
+        ]);
+
+        // Kirim email notifikasi pembayaran berhasil
+        Mail::to($booking->user)->send(
+            new BookingPaidMail(
+                $booking, 
+                $payment, 
+                $bookingProofPath, 
+                $paymentProofPath
+            )
+        );
+
+        Log::info('Email sent successfully', [
+            'booking_number' => $booking->booking_number,
+            'email' => $booking->customer_email,
+            'order_id' => $payment->order_id
+        ]);
+
+        // Hapus file temporary setelah email terkirim
+        if (file_exists($bookingProofPath)) {
+            // unlink($bookingProofPath);
+            Log::info('Booking proof PDF deleted', ['path' => $bookingProofPath]);
+        }
+
+        if (file_exists($paymentProofPath)) {
+            // unlink($paymentProofPath);
+            Log::info('Payment proof PDF deleted', ['path' => $paymentProofPath]);
+        }
+
+       } catch (\Exception $e) {
+            Log::error('Failed to send booking email', [
+                'payment_id' => $payment->id,
+                'order_id' => $payment->order_id,
+                'error' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+       }     
     }
 }

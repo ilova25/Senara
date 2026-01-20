@@ -10,6 +10,9 @@ use App\Http\Controllers\SesiController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfilController;
+use App\Models\payment;
+use App\Services\PdfService;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 // Redirect root ke home
@@ -131,4 +134,48 @@ Route::middleware('auth')->group(function () {
 
     // Logout
     Route::post('/logout', [SesiController::class, 'logout'])->name('logout');
+});
+
+Route::get('/test-email-dummy', function() {
+    // Ambil payment pertama yang paid
+    $payment = payment::where('status_pembayaran', 'paid')
+        ->with('booking')
+        ->first();
+    
+    if (!$payment) {
+        return response()->json(['error' => 'No paid payment found'], 404);
+    }
+    
+    $booking = $payment->booking;
+    
+    try {
+        $pdfService = new PdfService();
+        $bookingProof = $pdfService->generateBookingProof($booking);
+        $paymentProof = $pdfService->generatePaymentProof($booking, $payment);
+        
+        Mail::to($booking->user->email)->send(
+            new \App\Mail\BookingPaidMail($booking, $payment, $bookingProof, $paymentProof)
+        );
+        
+        // Cleanup
+        if (file_exists($bookingProof)) unlink($bookingProof);
+        if (file_exists($paymentProof)) unlink($paymentProof);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Email sent! Check Mailtrap.',
+            'booking_number' => $booking->booking_number,
+            'email' => $booking->customer_email
+        ]);
+        
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+});
+
+Route::get('/debug-pdf', function (\App\Services\PdfService $pdf) {
+    $booking = \App\Models\Booking::with(['user','unit'])->first();
+    return response()->download(
+        $pdf->generateBookingProof($booking)
+    );
 });
